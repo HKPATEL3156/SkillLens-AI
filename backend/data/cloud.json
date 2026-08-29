@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "A developer needs to deploy a Dockerized application to AWS ECS. Which of the following AWS services are essential for this deployment, assuming a Fargate launch type and public internet access?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Amazon S3 for container image storage",
+      "B": "Amazon ECR for container image registry",
+      "C": "Amazon ECS for orchestration",
+      "D": "AWS Fargate for serverless compute"
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 2,
+    "text": "Consider a Kubernetes deployment for a web application. The application needs to scale based on HTTP request latency. Which Kubernetes resource and metric configuration would best achieve this?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Horizontal Pod Autoscaler (HPA) with CPU utilization metric",
+      "B": "Horizontal Pod Autoscaler (HPA) with custom metrics from an external monitoring system",
+      "C": "Vertical Pod Autoscaler (VPA) to adjust resource requests",
+      "D": "Cluster Autoscaler to add more nodes"
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 3,
+    "text": "A serverless function (AWS Lambda) processes sensitive customer data. Which practices are crucial to ensure data security and compliance within the function's execution environment?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Granting the Lambda execution role `AdministratorAccess` for convenience.",
+      "B": "Storing sensitive configuration data directly in environment variables.",
+      "C": "Implementing least privilege for the Lambda execution role.",
+      "D": "Encrypting data at rest and in transit using AWS KMS and TLS."
+    },
+    "correct": ["C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 4,
+    "text": "You are designing a CI/CD pipeline for a microservice. Which of the following stages are typically included in a robust CI/CD pipeline for deploying to Kubernetes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Code compilation and unit testing",
+      "B": "Container image build and push to registry",
+      "C": "Manual approval for every deployment to production",
+      "D": "Kubernetes manifest application and health checks"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "When defining infrastructure using Terraform, a team wants to ensure an S3 bucket is private by default and only accessible via specific IAM roles. Which Terraform configurations are necessary?",      
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Setting `acl = \"public-read\"` on the S3 bucket resource.",
+      "B": "Attaching a bucket policy that denies public access and allows specific IAM roles.",
+      "C": "Enabling `block_public_acls` and `restrict_public_buckets` for the S3 bucket.",
+      "D": "Configuring an IAM policy for the roles allowing `s3:GetObject` on the bucket."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "A Dockerfile includes the following layers. Which ordering is generally preferred to optimize build times by leveraging Docker's layer caching mechanism in a CI pipeline?",
+    "code": "FROM node:16-alpine\nCOPY . .\nRUN npm install\nEXPOSE 3000\nCMD [\"npm\", \"start\"]",       
+    "type": "MSQ",
+    "options": {
+      "A": "FROM node:16-alpine\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nCMD [\"npm\", \"start\"]",
+      "B": "FROM node:16-alpine\nCOPY . .\nRUN npm install\nCMD [\"npm\", \"start\"]",
+      "C": "FROM node:16-alpine\nRUN npm install\nCOPY . .\nCMD [\"npm\", \"start\"]",
+      "D": "FROM node:16-alpine\nEXPOSE 3000\nCOPY . .\nRUN npm install\nCMD [\"npm\", \"start\"]"
+    },
+    "correct": ["A"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 7,
+    "text": "An application running on Kubernetes needs to connect to an AWS RDS database. What are the recommended secure practices for managing the database credentials within Kubernetes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Hardcoding credentials directly into the application's source code.",
+      "B": "Storing credentials as plain text in Kubernetes ConfigMaps.",
+      "C": "Using Kubernetes Secrets encrypted at rest and mounted as environment variables or files.",    
+      "D": "Integrating with an external secrets management service like AWS Secrets Manager or HashiCorp Vault."
+    },
+    "correct": ["C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "You are setting up monitoring for an application deployed on AWS EC2 instances. Which metrics are crucial for identifying potential scaling needs and performance bottlenecks?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "CPU Utilization",
+      "B": "Disk I/O operations",
+      "C": "Network In/Out bytes",
+      "D": "Number of active users on the website"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "A team is migrating an on-premises application to AWS. The application uses a relational database. Which AWS database services offer high availability and automatic failover capabilities?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Amazon RDS Multi-AZ deployments",
+      "B": "Amazon DynamoDB",
+      "C": "Amazon Aurora with multiple reader instances",
+      "D": "Amazon Redshift"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "text": "When designing for high availability in AWS, a common strategy is to distribute resources across multiple Availability Zones (AZs). Which AWS services inherently support or require multi-AZ deployment for HA?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Single EC2 instance",
+      "B": "Application Load Balancer (ALB)",
+      "C": "Amazon RDS Multi-AZ",
+      "D": "Amazon S3"
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "A Kubernetes Pod is stuck in `ImagePullBackOff` status. Which of the following could be potential causes for this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Incorrect image name or tag in the Pod definition.",
+      "B": "Lack of network connectivity from the node to the container registry.",
+      "C": "Insufficient CPU resources allocated to the Pod.",
+      "D": "Missing or incorrect image pull secret for a private registry."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "text": "You are implementing a blue/green deployment strategy using a CI/CD pipeline for a web application. Which of the following are key characteristics or requirements for this strategy?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Maintaining two identical production environments (blue and green).",
+      "B": "Gradually shifting traffic from the old version to the new version.",
+      "C": "The ability to quickly roll back to the previous stable version.",
+      "D": "Requires downtime during the deployment process."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "An AWS Lambda function is experiencing high cold start times. Which factors are known to contribute significantly to Lambda cold starts?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using a large deployment package size.",
+      "B": "Choosing a compiled language like Java or C# over Node.js or Python.",
+      "C": "Having a high memory allocation for the function.",
+      "D": "Infrequent invocations of the function."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "text": "When designing network security for an application hosted on AWS EC2, what are the primary differences between Security Groups and Network Access Control Lists (NACLs)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Security Groups operate at the instance level; NACLs operate at the subnet level.",
+      "B": "Security Groups are stateful; NACLs are stateless.",
+      "C": "Security Groups support allow rules only; NACLs support both allow and deny rules.",
+      "D": "Security Groups process rules in order; NACLs process all rules simultaneously."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "A company wants to implement GitOps for their Kubernetes deployments. Which of the following principles are fundamental to a GitOps workflow?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "All infrastructure and application configurations are stored in Git.",
+      "B": "Changes are applied manually by developers directly to the cluster.",
+      "C": "An automated agent synchronizes the cluster state with the Git repository.",
+      "D": "Rollbacks are performed by reverting Git commits."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "You are troubleshooting a Kubernetes service that is intermittently unreachable from outside the cluster. Which of the following could be potential causes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Incorrect `selector` in the Service definition not matching Pod labels.",
+      "B": "Insufficient CPU/memory allocated to the Pods.",
+      "C": "Firewall rules (e.g., NetworkPolicy, Security Group) blocking traffic.",
+      "D": "The Ingress controller is not running or misconfigured."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "text": "An organization is using AWS CloudFormation for Infrastructure as Code. Which of the following are valid strategies for managing sensitive parameters like database passwords within CloudFormation templates?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Hardcoding passwords directly into the CloudFormation template.",
+      "B": "Using AWS Systems Manager Parameter Store to store and retrieve parameters.",
+      "C": "Passing passwords as plain text parameters during stack creation.",
+      "D": "Referencing AWS Secrets Manager secrets within the template."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 18,
+    "text": "When building a Docker image, which of the following practices help reduce the final image size and improve security?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using a minimal base image (e.g., Alpine).",
+      "B": "Installing unnecessary packages and dependencies.",
+      "C": "Leveraging multi-stage builds to discard build-time dependencies.",
+      "D": "Removing temporary files and caches after installation."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "A serverless API Gateway endpoint is experiencing high latency. Which of the following could contribute to increased latency for an API Gateway + Lambda setup?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Lambda function cold starts.",
+      "B": "High network latency between the client and API Gateway region.",
+      "C": "Inefficient database queries within the Lambda function.",
+      "D": "Using API Gateway caching with a short TTL."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "text": "You are responsible for monitoring a production Kubernetes cluster. Which types of metrics and logs are essential for effective observability and troubleshooting?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Pod CPU/memory utilization and resource requests/limits.",
+      "B": "Application-specific logs (e.g., HTTP access logs, error logs).",
+      "C": "Node-level metrics (e.g., disk usage, network I/O).",
+      "D": "User login credentials for all applications."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "An AWS S3 bucket is configured to host a static website. Which of the following security measures should be implemented to protect the website content and ensure secure access?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Enabling S3 bucket versioning.",
+      "B": "Configuring a bucket policy to allow public read access for `s3:GetObject`.",
+      "C": "Using CloudFront with an Origin Access Control (OAC) to restrict direct S3 access.",
+      "D": "Enabling S3 server-side encryption (SSE-S3)."
+    },
+    "correct": ["C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "A CI/CD pipeline needs to deploy changes to a Kubernetes cluster. Which authentication methods are commonly used and recommended for the CI/CD agent to interact with the Kubernetes API server securely?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using a Kubernetes Service Account with appropriate RBAC permissions.",
+      "B": "Embedding a user's `kubeconfig` file directly in the CI/CD script.",
+      "C": "Using a long-lived static token with cluster-admin privileges.",
+      "D": "Leveraging cloud provider IAM roles (e.g., AWS EKS IAM roles for service accounts)."
+    },
+    "correct": ["A", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "Consider an application running on AWS EC2 instances behind an Application Load Balancer (ALB). For effective auto-scaling, which metrics are typically used to trigger scaling policies?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Target Group RequestCountPerTarget",
+      "B": "EC2 Instance CPU Utilization",
+      "C": "ALB HealthyHostCount",
+      "D": "DynamoDB ConsumedReadCapacityUnits"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 24,
+    "text": "You are designing a multi-region disaster recovery strategy for an application using AWS. Which of the following approaches provide active-passive or active-active capabilities across regions?",       
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "AWS Route 53 with failover routing policies.",
+      "B": "Deploying a single EC2 instance in one region.",
+      "C": "AWS Global Accelerator to direct traffic to the nearest healthy endpoint.",
+      "D": "Amazon Aurora Global Database for cross-region replication."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 25,
+    "text": "A developer needs to create a custom Docker network to isolate containers of a multi-service application. Which command correctly creates a bridge network named `my-app-network`?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`docker network create --driver host my-app-network`",
+      "B": "`docker network create --driver bridge my-app-network`",
+      "C": "`docker network connect my-app-network`",
+      "D": "`docker create network my-app-network`"
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  }
+]

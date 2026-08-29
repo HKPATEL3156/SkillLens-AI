@@ -1,0 +1,353 @@
+
+[
+  {
+    "id": 1,
+    "text": "Consider the Python function below. What will be the output of `f(1)` followed by `f(2)`?",
+    "code": "def f(x, data=[]):\n    data.append(x)\n    return data",
+    "type": "MSQ",
+    "options": [
+      "A) [1] then [2]",
+      "B) [1] then [1, 2]",
+      "C) [1] then [2, 1]",
+      "D) [1] then [2, 2]"
+    ],
+    "answers": ["B"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 2,
+    "text": "Which of the following SQL queries would correctly retrieve all employees and their department names, including employees without a department and departments without any employees?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) SELECT E.name, D.dept_name FROM Employees E JOIN Departments D ON E.dept_id = D.id;",
+      "B) SELECT E.name, D.dept_name FROM Employees E LEFT JOIN Departments D ON E.dept_id = D.id;",
+      "C) SELECT E.name, D.dept_name FROM Employees E RIGHT JOIN Departments D ON E.dept_id = D.id;",
+      "D) SELECT E.name, D.dept_name FROM Employees E FULL OUTER JOIN Departments D ON E.dept_id = D.id;"
+    ],
+    "answers": ["D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 3,
+    "text": "Given a Pandas DataFrame `df` with columns 'Category' and 'Value', which code snippets correctly calculate the mean 'Value' for each 'Category'?",
+    "code": "import pandas as pd\ndata = {'Category': ['A', 'B', 'A', 'C', 'B'], 'Value': [10, 20, 15, 25, 30]}\ndf = pd.DataFrame(data)",
+    "type": "MSQ",
+    "options": [
+      "A) df.groupby('Category')['Value'].mean()",
+      "B) df.pivot_table(index='Category', values='Value', aggfunc='mean')",
+      "C) df.groupby('Category').agg({'Value': 'mean'})",
+      "D) df['Value'].groupby(df['Category']).mean()"
+    ],
+    "answers": ["A", "B", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 4,
+    "text": "In a machine learning context, which of the following are common indicators or consequences of an overfitting model?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) High training accuracy, low test accuracy",
+      "B) High bias, low variance",
+      "C) Model performs well on unseen data",
+      "D) Model is too complex for the underlying data pattern"
+    ],
+    "answers": ["A", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 5,
+    "text": "Which of the following Python approaches is generally considered most memory-efficient for processing a very large dataset iteratively?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) Loading the entire dataset into a list and iterating.",
+      "B) Using a generator expression to yield data points one by one.",
+      "C) Reading the data into a Pandas DataFrame.",
+      "D) Storing data in a dictionary for quick lookups."
+    ],
+    "answers": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 6,
+    "text": "Consider a `users` table with columns `id`, `name`, `email`. Which of the following SQL statements would benefit significantly from an index on the `email` column?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) SELECT name FROM users WHERE id = 123;",
+      "B) SELECT * FROM users WHERE email LIKE '%@example.com%';",
+      "C) SELECT id, name FROM users WHERE email = 'test@example.com';",
+      "D) SELECT COUNT(*) FROM users;"
+    ],
+    "answers": ["C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 7,
+    "text": "When working with Pandas DataFrames, which of the following operations are generally more performant than using `df.apply()` with a custom function for row-wise or element-wise transformations?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Using NumPy vectorized operations.",
+      "B) Using built-in Pandas vectorized methods (e.g., `str.lower()`, arithmetic operations).",
+      "C) Iterating through rows using `df.iterrows()`.",
+      "D) Using `df.transform()` with a suitable aggregation function."
+    ],
+    "answers": ["A", "B"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 8,
+    "text": "What is the primary advantage of using Python generators over lists when dealing with sequences of data?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) Generators are always faster to create.",
+      "B) Generators consume less memory as they produce items on demand.",
+      "C) Generators allow random access to elements.",
+      "D) Generators can be iterated multiple times without re-creation."
+    ],
+    "answers": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 9,
+    "text": "Which of the following statements about feature scaling (e.g., Standardization, Normalization) in Machine Learning are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) It is crucial for algorithms that calculate distances, like K-Nearest Neighbors (KNN).",
+      "B) It helps in speeding up the convergence of gradient-descent based algorithms.",
+      "C) It is generally not required for tree-based algorithms like Decision Trees or Random Forests.",
+      "D) It should always be applied before splitting data into training and test sets to maintain consistency."
+    ],
+    "answers": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 10,
+    "text": "In SQL, when joining two tables, `JOIN` operations are generally preferred over subqueries in the `WHERE` clause for performance reasons. What is the main reason for this preference?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) Subqueries always result in full table scans.",
+      "B) JOINs allow the database optimizer to execute queries more efficiently.",
+      "C) Subqueries cannot use indexes.",
+      "D) JOINs are syntactically simpler for complex queries."
+    ],
+    "answers": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 11,
+    "text": "Consider the Python code using a decorator. What will be the output when `my_function()` is called?",
+    "code": "def my_decorator(func):\n    def wrapper():\n        print('Something is happening before the function is called.')\n        func()\n        print('Something is happening after the function is called.')\n    return wrapper\n\n@my_decorator\ndef my_function():\n    print('The function is being called.')\n\nmy_function()",
+    "type": "MSQ",
+    "options": [
+      "A) Something is happening before the function is called.",
+      "B) The function is being called.",
+      "C) Something is happening after the function is called.",
+      "D) An error will occur because `my_function` is redefined."
+    ],
+    "answers": ["A", "B", "C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 12,
+    "text": "When dealing with missing values in a dataset for machine learning, which of the following imputation strategies are generally considered appropriate?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Removing rows or columns with missing values if the proportion is small.",
+      "B) Imputing with the mean or median for numerical features.",
+      "C) Imputing with the mode for categorical features.",
+      "D) Using a predictive model (e.g., K-Nearest Neighbors) to estimate missing values."
+    ],
+    "answers": ["A", "B", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 13,
+    "text": "What is the primary purpose of using K-Fold Cross-Validation in machine learning model evaluation?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) To train the model on all available data.",
+      "B) To prevent the model from overfitting to the training data.",
+      "C) To get a more robust estimate of model performance on unseen data.",
+      "D) To simplify the model by reducing the number of features."
+    ],
+    "answers": ["C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 14,
+    "text": "Which of the following statements correctly describe properties of database transactions, adhering to the ACID principles?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Atomicity ensures that a transaction is treated as a single, indivisible unit of work.",
+      "B) Consistency guarantees that a transaction brings the database from one valid state to another.",
+      "C) Isolation ensures that concurrent transactions do not interfere with each other.",
+      "D) Durability means that once a transaction is committed, its changes are permanent and survive system failures."
+    ],
+    "answers": ["A", "B", "C", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 15,
+    "text": "What is the main benefit of using a `with` statement (context manager) in Python, especially when dealing with file I/O or database connections?",    
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) It automatically handles error logging.",
+      "B) It ensures resources are properly acquired and released, even if errors occur.",
+      "C) It makes the code run faster due to optimized resource handling.",
+      "D) It allows for dynamic creation of variables within its scope."
+    ],
+    "answers": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 16,
+    "text": "Given a Pandas DataFrame `df`, which of the following are valid ways to select rows where the 'Age' column is greater than 30 and the 'City' column is 'New York'?",
+    "code": "import pandas as pd\ndata = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],\n        'Age': [25, 35, 30, 40],\n        'City': ['London', 'New York', 'Paris', 'New York']}\ndf = pd.DataFrame(data)",
+    "type": "MSQ",
+    "options": [
+      "A) df[(df['Age'] > 30) & (df['City'] == 'New York')]",
+      "B) df.loc[(df['Age'] > 30) & (df['City'] == 'New York')]",
+      "C) df.query(\"Age > 30 and City == 'New York'\")",
+      "D) df.iloc[(df['Age'] > 30) & (df['City'] == 'New York')]"
+    ],
+    "answers": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 17,
+    "text": "Regarding the Bias-Variance Trade-off in Machine Learning, which statements are generally true?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) High bias models are typically underfitting.",
+      "B) High variance models are typically overfitting.",
+      "C) Increasing model complexity generally decreases bias but increases variance.",
+      "D) A good model aims to minimize both bias and variance simultaneously."
+    ],
+    "answers": ["A", "B", "C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 18,
+    "text": "In SQL, which of the following tasks can be efficiently accomplished using window functions?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Calculating a running total of sales over time.",
+      "B) Finding the Nth highest salary within each department.",
+      "C) Deleting duplicate rows from a table.",
+      "D) Calculating the moving average of a stock price."
+    ],
+    "answers": ["A", "B", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 19,
+    "text": "What is the primary implication of the Global Interpreter Lock (GIL) in CPython for multi-threaded Python applications?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) It prevents Python programs from using multiple CPU cores.",
+      "B) It ensures thread safety for all data structures automatically.",
+      "C) It limits the performance of CPU-bound multi-threaded programs.",
+      "D) It only affects I/O-bound operations, not CPU-bound ones."
+    ],
+    "answers": ["C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 20,
+    "text": "Which of the following scenarios describe data leakage in a machine learning pipeline?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Using future information (e.g., target variable) to create features.",
+      "B) Applying feature scaling to the entire dataset before splitting into train/test sets.",
+      "C) Including a unique identifier column (like user ID) as a feature in the model.",
+      "D) Using a model trained on one dataset to predict on a completely different dataset."
+    ],
+    "answers": ["A", "B", "C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 21,
+    "text": "Which of the following are examples of ensemble learning methods in Machine Learning?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Support Vector Machines (SVM)",
+      "B) Random Forest",
+      "C) Gradient Boosting Machines (GBM)",
+      "D) K-Means Clustering"
+    ],
+    "answers": ["B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 22,
+    "text": "In Python, how does the garbage collector primarily identify and reclaim memory that is no longer in use?",
+    "code": null,
+    "type": "MCQ",
+    "options": [
+      "A) By tracking explicit `delete` calls from the programmer.",
+      "B) By using a reference counting mechanism.",
+      "C) By periodically scanning for objects not referenced by any variable.",
+      "D) By relying on the operating system to free memory when a program exits."
+    ],
+    "answers": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 23,
+    "text": "Which of the following are potential benefits of using stored procedures in MySQL compared to executing raw SQL queries directly from an application?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Improved performance due to reduced network traffic and pre-compilation.",
+      "B) Enhanced security by abstracting direct table access and controlling permissions.",
+      "C) Easier debugging and logging of database operations.",
+      "D) Better code reusability and maintainability for complex logic."
+    ],
+    "answers": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 24,
+    "text": "You have two Pandas DataFrames, `df1` with columns `['ID', 'Name']` and `df2` with `['User_ID', 'Age']`. Which methods can correctly merge these DataFrames based on `ID` and `User_ID`?",
+    "code": "import pandas as pd\ndf1 = pd.DataFrame({'ID': [1, 2, 3], 'Name': ['A', 'B', 'C']})\ndf2 = pd.DataFrame({'User_ID': [2, 3, 4], 'Age': [25, 30, 35]})",
+    "type": "MSQ",
+    "options": [
+      "A) pd.merge(df1, df2, left_on='ID', right_on='User_ID')",
+      "B) df1.merge(df2, left_on='ID', right_on='User_ID')",
+      "C) pd.concat([df1, df2], axis=1)",
+      "D) df1.join(df2, on='ID')"
+    ],
+    "answers": ["A", "B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 25,
+    "text": "Which of the following are common techniques used for regularization in machine learning models to prevent overfitting?",
+    "code": null,
+    "type": "MSQ",
+    "options": [
+      "A) Adding a penalty term to the loss function (e.g., L1 or L2 regularization).",
+      "B) Increasing the number of features in the dataset.",
+      "C) Early stopping during iterative training.",
+      "D) Using dropout layers in neural networks."
+    ],
+    "answers": ["A", "C", "D"],
+    "difficulty": "Hard"
+  }
+]

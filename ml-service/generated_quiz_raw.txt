@@ -1,0 +1,707 @@
+```json
+[
+  {
+    "id": 1,
+    "text": "You are styling a webpage. Which CSS property would you use to make text bold without affecting its semantic meaning?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "font-weight: bold;",
+      "B": "text-decoration: bold;",
+      "C": "font-style: bold;",
+      "D": "text-transform: uppercase;"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "Consider the following HTML snippet. Which CSS selectors would correctly target the 'Hello World' text?",
+    "code": "<div><p class=\"message\">Hello World</p></div>",
+    "type": "MSQ",
+    "options": {
+      "A": ".message",
+      "B": "div p",
+      "C": "#message",
+      "D": "p.message"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "text": "You are working on a React component. What is the primary purpose of the `useState` hook?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To perform side effects in functional components.",
+      "B": "To manage state within functional components.",
+      "C": "To access the DOM directly.",
+      "D": "To optimize component rendering."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "A junior developer committed code directly to the `main` branch. Which Git command(s) could help revert this specific commit without affecting subsequent commits?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "git reset --hard <commit-hash>",
+      "B": "git revert <commit-hash>",
+      "C": "git checkout <commit-hash>",
+      "D": "git push --force"
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "You're building a Node.js API. Which of the following are common practices for handling asynchronous operations?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using callbacks",
+      "B": "Using Promises",
+      "C": "Using `async/await`",
+      "D": "Blocking the event loop with `while` loops"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "Consider the following Python code snippet. What will be the output?",
+    "code": "def process_data(data):\n    if 'value' in data:\n        return data['value'] * 2\n    return 0\n\nprint(process_data({'value': 5}))\nprint(process_data({}))",
+    "type": "MCQ",
+    "options": {
+      "A": "10\n0",
+      "B": "5\n0",
+      "C": "Error\n0",
+      "D": "10\nNone"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 7,
+    "text": "You are designing a database schema for a blog. Which of the following SQL commands would create a table for blog posts with a primary key and a foreign key referencing a 'users' table?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "CREATE TABLE posts (id INT PRIMARY KEY, title VARCHAR(255), content TEXT, user_id INT, FOREIGN KEY (user_id) REFERENCES users(id));",
+      "B": "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), content TEXT, user_id INT, CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id));",
+      "C": "ALTER TABLE posts ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id);",
+      "D": "CREATE TABLE posts (id INT, title VARCHAR(255), content TEXT, user_id INT, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id));"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "A React component uses `useEffect` to fetch data. What is the purpose of the dependency array in `useEffect`?",
+    "code": "useEffect(() => {\n  fetchData();\n}, [dependency1, dependency2]);",
+    "type": "MSQ",
+    "options": {
+      "A": "To specify when the effect should run.",
+      "B": "To declare variables used inside the effect.",
+      "C": "To prevent the effect from running on every render.",
+      "D": "To define cleanup logic for the effect."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "You're debugging a TypeScript application. What is the main benefit of using TypeScript over plain JavaScript?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It makes the code run faster in the browser.",
+      "B": "It provides static type checking, catching errors at compile time.",
+      "C": "It automatically optimizes database queries.",
+      "D": "It completely eliminates the need for testing."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 10,
+    "text": "A web application is experiencing slow load times. Which of the following could be potential causes related to the frontend (HTML, CSS, JS)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Large unoptimized images.",
+      "B": "Too many HTTP requests for assets.",
+      "C": "Inefficient database queries.",
+      "D": "Render-blocking JavaScript and CSS."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You are working with Pandas to analyze a CSV file. Which code snippet correctly loads a CSV and displays the first 5 rows?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "import pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.head())",
+      "B": "import pandas as pd\ndf = pd.load_csv('data.csv')\nprint(df.top(5))",
+      "C": "import pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.iloc[:5])",
+      "D": "import pandas as pd\ndf = pd.csv_read('data.csv')\nprint(df.first(5))"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 12,
+    "text": "Consider a Laravel application. A user reports that after submitting a form, they see a '419 Page Expired' error. What is the most likely cause?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Incorrect database credentials.",
+      "B": "Missing CSRF token in the form.",
+      "C": "The server is out of memory.",
+      "D": "A JavaScript error on the page."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "You are using Tailwind CSS. How would you apply a responsive padding of `p-4` on small screens and `p-8` on medium screens and up?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "class=\"p-4 md:p-8\"",
+      "B": "class=\"p-8 sm:p-4\"",
+      "C": "class=\"p-4 p-8-md\"",
+      "D": "class=\"p-sm-4 p-md-8\""
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 14,
+    "text": "Which of the following statements about Docker containers are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Containers are lightweight and portable.",
+      "B": "Containers virtualize the entire operating system.",
+      "C": "Containers ensure consistent environments across development and production.",
+      "D": "Containers share the host OS kernel."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "text": "A Python script needs to perform a complex mathematical operation on large arrays efficiently. Which library is best suited for this task?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Matplotlib",
+      "B": "NumPy",
+      "C": "Requests",
+      "D": "Flask"
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 16,
+    "text": "You are building a data pipeline. Which of the following are common stages in an ETL process?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Extracting data from source systems.",
+      "B": "Transforming data into a desired format.",
+      "C": "Loading data into a target data warehouse.",
+      "D": "Executing machine learning models."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "text": "A Node.js server is experiencing high CPU usage. Upon investigation, you find a function performing heavy synchronous computation. Which of the following strategies could help mitigate this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Move the heavy computation to a separate worker thread.",
+      "B": "Implement caching for the results of the computation.",
+      "C": "Rewrite the function in a compiled language and call it.",
+      "D": "Increase the server's RAM."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "text": "You are designing a user authentication system. Which of the following are good practices for storing user passwords in a database?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Store passwords as plain text for easy recovery.",
+      "B": "Hash passwords using a strong, slow hashing algorithm (e.g., bcrypt).",
+      "C": "Salt passwords before hashing them.",
+      "D": "Encrypt passwords with a reversible encryption algorithm."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "Consider a React component that fetches data from an API. Which of these scenarios could lead to an infinite loop of API calls?",
+    "code": "function MyComponent() {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    fetch('/api/data').then(res => res.json()).then(setData);\n  }, []);\n  return <div>{data ? data.message : 'Loading...'}</div>;\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "If `setData` is called inside `useEffect` without a dependency array.",
+      "B": "If the dependency array `[]` is omitted.",
+      "C": "If `setData` is called inside `useEffect` with an empty dependency array.",
+      "D": "If the API returns an error."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 20,
+    "text": "You are tasked with integrating a new AI model into an existing Python application. Which of the following libraries/frameworks are commonly used for building and deploying machine learning models?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Scikit-learn",
+      "B": "TensorFlow",
+      "C": "PyTorch",
+      "D": "Requests"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "A web application uses Redis for caching. A user reports seeing outdated data. Which of the following could be the cause?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The cache entry's Time-To-Live (TTL) is too long.",
+      "B": "The application is not invalidating the cache after data updates.",
+      "C": "Redis server is down, causing direct database access.",
+      "D": "The database transaction failed to commit."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "text": "You are writing a SQL query to retrieve users who have placed more than 5 orders. Which SQL clauses would you primarily use?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "SELECT, FROM, JOIN",
+      "B": "GROUP BY, HAVING",
+      "C": "WHERE, ORDER BY",
+      "D": "LIMIT, OFFSET"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 23,
+    "text": "A junior developer wrote the following PHP code in a Laravel controller. What is a potential security vulnerability or bad practice?",
+    "code": "public function show(Request $request, $id)\n{\n    $user = DB::select(\"SELECT * FROM users WHERE id = $id\");\n    return view('user.profile', ['user' => $user]);\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "It's using `DB::select` instead of Eloquent.",
+      "B": "It's vulnerable to SQL injection.",
+      "C": "The view name is incorrect.",
+      "D": "It doesn't validate the `$id` parameter."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 24,
+    "text": "You are deploying a web application to AWS. Which of the following AWS services are commonly used for hosting static frontend assets (HTML, CSS, JS, images)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Amazon S3",
+      "B": "Amazon EC2",
+      "C": "Amazon CloudFront",
+      "D": "Amazon RDS"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 25,
+    "text": "Consider the following JavaScript code. What will be logged to the console, and why?",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}\nfor (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(j), 100);\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "3, 3, 3, then 0, 1, 2",
+      "B": "0, 1, 2, then 0, 1, 2",
+      "C": "3, 3, 3, then 3, 3, 3",
+      "D": "0, 1, 2, then 3, 3, 3"
+    },
+    "correct": ["A"],
+    "difficulty": "hard"
+  }
+]
+``````json
+[
+  {
+    "id": 1,
+    "text": "You are styling a webpage. Which CSS property would you use to make text bold without affecting its semantic meaning?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "font-weight: bold;",
+      "B": "text-decoration: bold;",
+      "C": "font-style: bold;",
+      "D": "text-transform: uppercase;"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "Consider the following HTML snippet. Which CSS selectors would correctly target the 'Hello World' text?",
+    "code": "<div><p class=\"message\">Hello World</p></div>",
+    "type": "MSQ",
+    "options": {
+      "A": ".message",
+      "B": "div p",
+      "C": "#message",
+      "D": "p.message"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "text": "You are working on a React component. What is the primary purpose of the `useState` hook?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To perform side effects in functional components.",
+      "B": "To manage state within functional components.",
+      "C": "To access the DOM directly.",
+      "D": "To optimize component rendering."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "A junior developer committed code directly to the `main` branch. Which Git command(s) could help revert this specific commit without affecting subsequent commits?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "git reset --hard <commit-hash>",
+      "B": "git revert <commit-hash>",
+      "C": "git checkout <commit-hash>",
+      "D": "git push --force"
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "You're building a Node.js API. Which of the following are common practices for handling asynchronous operations?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using callbacks",
+      "B": "Using Promises",
+      "C": "Using `async/await`",
+      "D": "Blocking the event loop with `while` loops"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "Consider the following Python code snippet. What will be the output?",
+    "code": "def process_data(data):\n    if 'value' in data:\n        return data['value'] * 2\n    return 0\n\nprint(process_data({'value': 5}))\nprint(process_data({}))",
+    "type": "MCQ",
+    "options": {
+      "A": "10\n0",
+      "B": "5\n0",
+      "C": "Error\n0",
+      "D": "10\nNone"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 7,
+    "text": "You are designing a database schema for a blog. Which of the following SQL commands would create a table for blog posts with a primary key and a foreign key referencing a 'users' table?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "CREATE TABLE posts (id INT PRIMARY KEY, title VARCHAR(255), content TEXT, user_id INT, FOREIGN KEY (user_id) REFERENCES users(id));",
+      "B": "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), content TEXT, user_id INT, CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id));",
+      "C": "ALTER TABLE posts ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id);",
+      "D": "CREATE TABLE posts (id INT, title VARCHAR(255), content TEXT, user_id INT, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id));"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "A React component uses `useEffect` to fetch data. What is the purpose of the dependency array in `useEffect`?",
+    "code": "useEffect(() => {\n  fetchData();\n}, [dependency1, dependency2]);",
+    "type": "MSQ",
+    "options": {
+      "A": "To specify when the effect should run.",
+      "B": "To declare variables used inside the effect.",
+      "C": "To prevent the effect from running on every render.",
+      "D": "To define cleanup logic for the effect."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "You're debugging a TypeScript application. What is the main benefit of using TypeScript over plain JavaScript?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It makes the code run faster in the browser.",
+      "B": "It provides static type checking, catching errors at compile time.",
+      "C": "It automatically optimizes database queries.",
+      "D": "It completely eliminates the need for testing."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 10,
+    "text": "A web application is experiencing slow load times. Which of the following could be potential causes related to the frontend (HTML, CSS, JS)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Large unoptimized images.",
+      "B": "Too many HTTP requests for assets.",
+      "C": "Inefficient database queries.",
+      "D": "Render-blocking JavaScript and CSS."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You are working with Pandas to analyze a CSV file. Which code snippet correctly loads a CSV and displays the first 5 rows?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "import pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.head())",
+      "B": "import pandas as pd\ndf = pd.load_csv('data.csv')\nprint(df.top(5))",
+      "C": "import pandas as pd\ndf = pd.read_csv('data.csv')\nprint(df.iloc[:5])",
+      "D": "import pandas as pd\ndf = pd.csv_read('data.csv')\nprint(df.first(5))"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 12,
+    "text": "Consider a Laravel application. A user reports that after submitting a form, they see a '419 Page Expired' error. What is the most likely cause?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Incorrect database credentials.",
+      "B": "Missing CSRF token in the form.",
+      "C": "The server is out of memory.",
+      "D": "A JavaScript error on the page."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "You are using Tailwind CSS. How would you apply a responsive padding of `p-4` on small screens and `p-8` on medium screens and up?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "class=\"p-4 md:p-8\"",
+      "B": "class=\"p-8 sm:p-4\"",
+      "C": "class=\"p-4 p-8-md\"",
+      "D": "class=\"p-sm-4 p-md-8\""
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 14,
+    "text": "Which of the following statements about Docker containers are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Containers are lightweight and portable.",
+      "B": "Containers virtualize the entire operating system.",
+      "C": "Containers ensure consistent environments across development and production.",
+      "D": "Containers share the host OS kernel."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "text": "A Python script needs to perform a complex mathematical operation on large arrays efficiently. Which library is best suited for this task?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Matplotlib",
+      "B": "NumPy",
+      "C": "Requests",
+      "D": "Flask"
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 16,
+    "text": "You are building a data pipeline. Which of the following are common stages in an ETL process?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Extracting data from source systems.",
+      "B": "Transforming data into a desired format.",
+      "C": "Loading data into a target data warehouse.",
+      "D": "Executing machine learning models."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "text": "A Node.js server is experiencing high CPU usage. Upon investigation, you find a function performing heavy synchronous computation. Which of the following strategies could help mitigate this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Move the heavy computation to a separate worker thread.",
+      "B": "Implement caching for the results of the computation.",
+      "C": "Rewrite the function in a compiled language and call it.",
+      "D": "Increase the server's RAM."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "text": "You are designing a user authentication system. Which of the following are good practices for storing user passwords in a database?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Store passwords as plain text for easy recovery.",
+      "B": "Hash passwords using a strong, slow hashing algorithm (e.g., bcrypt).",
+      "C": "Salt passwords before hashing them.",
+      "D": "Encrypt passwords with a reversible encryption algorithm."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "Consider a React component that fetches data from an API. Which of these scenarios could lead to an infinite loop of API calls?",
+    "code": "function MyComponent() {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    fetch('/api/data').then(res => res.json()).then(setData);\n  }, []);\n  return <div>{data ? data.message : 'Loading...'}</div>;\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "If `setData` is called inside `useEffect` without a dependency array.",
+      "B": "If the dependency array `[]` is omitted.",
+      "C": "If `setData` is called inside `useEffect` with an empty dependency array.",
+      "D": "If the API returns an error."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 20,
+    "text": "You are tasked with integrating a new AI model into an existing Python application. Which of the following libraries/frameworks are commonly used for building and deploying machine learning models?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Scikit-learn",
+      "B": "TensorFlow",
+      "C": "PyTorch",
+      "D": "Requests"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "A web application uses Redis for caching. A user reports seeing outdated data. Which of the following could be the cause?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The cache entry's Time-To-Live (TTL) is too long.",
+      "B": "The application is not invalidating the cache after data updates.",
+      "C": "Redis server is down, causing direct database access.",
+      "D": "The database transaction failed to commit."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "text": "You are writing a SQL query to retrieve users who have placed more than 5 orders. Which SQL clauses would you primarily use?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "SELECT, FROM, JOIN",
+      "B": "GROUP BY, HAVING",
+      "C": "WHERE, ORDER BY",
+      "D": "LIMIT, OFFSET"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 23,
+    "text": "A junior developer wrote the following PHP code in a Laravel controller. What is a potential security vulnerability or bad practice?",
+    "code": "public function show(Request $request, $id)\n{\n    $user = DB::select(\"SELECT * FROM users WHERE id = $id\");\n    return view('user.profile', ['user' => $user]);\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "It's using `DB::select` instead of Eloquent.",
+      "B": "It's vulnerable to SQL injection.",
+      "C": "The view name is incorrect.",
+      "D": "It doesn't validate the `$id` parameter."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 24,
+    "text": "You are deploying a web application to AWS. Which of the following AWS services are commonly used for hosting static frontend assets (HTML, CSS, JS, images)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Amazon S3",
+      "B": "Amazon EC2",
+      "C": "Amazon CloudFront",
+      "D": "Amazon RDS"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 25,
+    "text": "Consider the following JavaScript code. What will be logged to the console, and why?",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}\nfor (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(j), 100);\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "3, 3, 3, then 0, 1, 2",
+      "B": "0, 1, 2, then 0, 1, 2",
+      "C": "3, 3, 3, then 3, 3, 3",
+      "D": "0, 1, 2, then 3, 3, 3"
+    },
+    "correct": ["A"],
+    "difficulty": "hard"
+  }
+]
+```

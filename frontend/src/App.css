@@ -1,0 +1,166 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Profile page improvements */
+.profile-section {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+.profile-section h2 {
+  margin: 0;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.profile-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: .5rem .6rem;
+  transition: box-shadow .15s, border-color .15s;
+}
+
+.profile-field input:focus,
+.profile-field textarea:focus,
+.profile-field select:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.08);
+}
+
+.section-border {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.section-collapsible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.required-star {
+  color: #e11d48;
+  margin-left: 6px;
+}
+
+.account-grid>div {
+  min-width: 160px;
+}
+
+.profile-aside {
+  width: 290px;
+}
+
+.profile-aside .sticky {
+  position: sticky;
+  top: 1.5rem;
+}
+
+.avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-wrap img {
+  border-radius: 9999px;
+  border: 3px solid rgba(0, 0, 0, 0.06);
+}
+
+.avatar-caption {
+  text-align: center;
+  margin-top: 0.6rem;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.experience-item {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+
+.experience-dates {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.experience-dates .profile-field {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* make inputs and tags a little more consistent */
+.tag {
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (min-width: 1024px) {
+  .profile-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}

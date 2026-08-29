@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "Consider the React component below. Which statements accurately describe the state updates?",
+    "code": "import React, { useState } from 'react';\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  const handleClick = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  };\n  return <button onClick={handleClick}>{count}</button>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "Clicking the button will always increment count by 2.",
+      "B": "The `count` value inside the `handleClick` closure is fixed at the render time.",
+      "C": "Using `setCount(prevCount => prevCount + 1)` would ensure increment by 2.",
+      "D": "The component will re-render only once after `handleClick` completes."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "Which Tailwind CSS utility classes would you use to create a button with a blue background, white text, padding, and rounded corners?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "bg-blue-500 text-white p-4 rounded-lg",
+      "B": "background-blue text-white padding-4 border-radius",
+      "C": "bg-blue-500 color-white p-4 rounded",
+      "D": "blue-bg white-text p-4 rounded-corners"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "text": "Given the Node.js code, what will be the output order in the console?",
+    "code": "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+    "type": "MSQ",
+    "options": {
+      "A": "A, D, C, B",
+      "B": "A, B, C, D",
+      "C": "A, D, B, C",
+      "D": "The order of B and C is non-deterministic."
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "Which statement best describes a key difference between MongoDB and traditional relational databases?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "MongoDB uses SQL for querying, while relational databases use NoSQL.",
+      "B": "MongoDB stores data in flexible JSON-like documents, relational databases use rigid tables.",
+      "C": "MongoDB requires a predefined schema for all collections, relational databases are schemaless.",
+      "D": "MongoDB supports ACID transactions, relational databases do not."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 5,
+    "text": "A React component fetches data when `userId` changes. What's the correct way to ensure the fetch re-runs only when `userId` changes?",
+    "code": "import React, { useState, useEffect } from 'react';\nfunction UserProfile({ userId }) {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    // Simulate data fetch\n    fetch(`/api/users/${userId}`).then(res => res.json()).then(setData);\n    return () => { /* cleanup */ };\n  }, [/* dependency array */]);\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "Leave the dependency array empty (`[]`) to run once.",
+      "B": "Include `userId` in the dependency array (`[userId]`).",
+      "C": "Omit the dependency array to run on every render.",
+      "D": "Include `data` in the dependency array (`[userId, data]`)."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "You have an Express.js application with several middleware functions. In what order should they generally be placed?",
+    "code": "const express = require('express');\nconst app = express();\n// Middleware A\n// Middleware B\n// Middleware C\napp.get('/', (req, res) => res.send('Hello'));",
+    "type": "MCQ",
+    "options": {
+      "A": "Error handling -> Logging -> Authentication -> Route handlers",
+      "B": "Logging -> Authentication -> Route handlers -> Error handling",
+      "C": "Authentication -> Error handling -> Logging -> Route handlers",
+      "D": "Route handlers -> Logging -> Authentication -> Error handling"
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 7,
+    "text": "Consider the Node.js code. If `doHeavyComputation()` is CPU-bound, which statements are true regarding its impact?",
+    "code": "const http = require('http');\nfunction doHeavyComputation() { /* long running sync task */ }\nhttp.createServer((req, res) => {\n  if (req.url === '/compute') {\n    doHeavyComputation();\n    res.end('Computed!');\n  } else {\n    res.end('Hello');\n  }\n}).listen(3000);",
+    "type": "MSQ",
+    "options": {
+      "A": "Requests to `/compute` will block other incoming requests.",
+      "B": "The server will crash due to an unhandled promise rejection.",
+      "C": "Requests to `/` will also be delayed while `/compute` is running.",
+      "D": "Using `worker_threads` could mitigate the blocking issue."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 8,
+    "text": "You need to find all products from a MongoDB collection `products` that are in stock (quantity > 0) and cost less than $50. Which queries are correct?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "db.products.find({ quantity: { $gt: 0 }, price: { $lt: 50 } })",
+      "B": "db.products.find({ $and: [{ quantity: { $gt: 0 } }, { price: { $lt: 50 } }] })",
+      "C": "db.products.find({ quantity > 0, price < 50 })",
+      "D": "db.products.find({ $or: [{ quantity: { $gt: 0 } }, { price: { $lt: 50 } }] })"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "What will be logged to the console when the `Parent` component renders for the first time?",
+    "code": "import React, { useState } from 'react';\nfunction Child({ value }) {\n  console.log('Child rendered');\n  return <div>{value}</div>;\n}\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n      <Child value={count} />\n    </div>\n  );\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "Nothing, because `Child` is a functional component.",
+      "B": "'Child rendered' once.",
+      "C": "'Child rendered' twice.",
+      "D": "An error, because `Child` is not memoized."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "text": "You want to hide an element on small screens and display it as a flex container on medium screens and larger. Which Tailwind CSS classes achieve this?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "hidden md:flex",
+      "B": "display-none md:display-flex",
+      "C": "sm:hidden md:flex",
+      "D": "hidden lg:flex"
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "An Express.js route needs to extract a user ID from the URL path. Which options correctly define the route and access the ID?",
+    "code": "const express = require('express');\nconst app = express();\n// Route definition here\n// Access ID here",
+    "type": "MSQ",
+    "options": {
+      "A": "app.get('/users/:id', (req, res) => { const userId = req.params.id; });",
+      "B": "app.get('/users?id=:id', (req, res) => { const userId = req.query.id; });",
+      "C": "app.get('/users/id', (req, res) => { const userId = req.params.id; });",
+      "D": "app.get('/users/:userId', (req, res) => { const userId = req.params.userId; });"
+    },
+    "correct": ["A", "D"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 12,
+    "text": "Consider the React component. Why might `handleSave` log an outdated `count` value if `count` changes between renders?",
+    "code": "import React, { useState, useEffect } from 'react';\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    const intervalId = setInterval(() => {\n      console.log('Interval count:', count);\n    }, 1000);\n    return () => clearInterval(intervalId);\n  }, []); // Empty dependency array\n  return <button onClick={() => setCount(count + 1)}>Increment</button>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "The `useEffect` hook creates a closure over the `count` from its initial render.",
+      "B": "The `setInterval` callback is not re-created when `count` changes.",
+      "C": "The component is not re-rendering when `count` updates.",
+      "D": "Adding `count` to the `useEffect` dependency array would fix this."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 13,
+    "text": "An Express.js endpoint receives user input. Which practices are crucial for preventing common security vulnerabilities?",
+    "code": "app.post('/register', (req, res) => {\n  const { username, password } = req.body;\n  // ... process input ...\n});",
+    "type": "MSQ",
+    "options": {
+      "A": "Sanitizing user input to prevent XSS attacks.",
+      "B": "Hashing passwords before storing them in the database.",
+      "C": "Using prepared statements or parameterized queries for database interactions.",
+      "D": "Returning detailed error messages to the client for debugging."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 14,
+    "text": "A MongoDB collection `orders` has millions of documents. Queries frequently filter by `customerId` and sort by `orderDate`. What's the best indexing strategy?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Create a single index on `customerId`.",
+      "B": "Create a single index on `orderDate`.",
+      "C": "Create a compound index on `{ customerId: 1, orderDate: -1 }`.",
+      "D": "Create two separate indexes: one on `customerId` and one on `orderDate`."
+    },
+    "correct": ["C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "You want to conditionally render a `WelcomeMessage` component only if `isLoggedIn` is true. Which React patterns achieve this correctly?",
+    "code": "import React from 'react';\nfunction WelcomeMessage() { return <p>Welcome back!</p>; }\nfunction App({ isLoggedIn }) {\n  // ... conditional rendering logic ...\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "{ isLoggedIn && <WelcomeMessage /> }",
+      "B": "{ isLoggedIn ? <WelcomeMessage /> : null }",
+      "C": "{ if (isLoggedIn) { return <WelcomeMessage />; } }",
+      "D": "{ isLoggedIn || <WelcomeMessage /> }"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "In an Express.js application, an async middleware throws an error. Which statements are true about handling this error correctly?",
+    "code": "app.get('/data', async (req, res, next) => {\n  const result = await someAsyncTaskThatMightFail();\n  res.json(result);\n});\napp.use((err, req, res, next) => {\n  console.error(err);\n  res.status(500).send('Something broke!');\n});",
+    "type": "MSQ",
+    "options": {
+      "A": "The error will automatically be caught by the error-handling middleware.",
+      "B": "You must wrap `someAsyncTaskThatMightFail()` in a `try...catch` block and call `next(error)`.",
+      "C": "Express 5.x automatically catches errors from async functions in routes/middleware.",
+      "D": "Using a package like `express-async-errors` can simplify error propagation."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "text": "Given the Node.js modules, what will be the output when `main.js` is executed?",
+    "code": "// module.js\nexports.a = 1;\nmodule.exports = { b: 2 };\n\n// main.js\nconst myModule = require('./module.js');\nconsole.log(myModule.a, myModule.b);",
+    "type": "MCQ",
+    "options": {
+      "A": "1 2",
+      "B": "undefined 2",
+      "C": "1 undefined",
+      "D": "An error will occur."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 18,
+    "text": "Which statements accurately describe the differences between `props` and `state` in React functional components?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`props` are immutable and passed from parent to child.",
+      "B": "`state` is mutable and managed within the component itself.",
+      "C": "Changes to `props` always trigger a re-render, but `state` changes do not.",
+      "D": "A child component can directly modify its parent's `props`."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 19,
+    "text": "You are designing a MongoDB schema for a `Book` collection. Each book has an `author`. When is it generally better to embed the author's details directly within the `Book` document?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "If author details are frequently accessed with the book and rarely change.",
+      "B": "If author details are very large and complex.",
+      "C": "If an author can write many books and their details are frequently updated.",
+      "D": "If you need to query authors independently of books."
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "text": "You want to add a custom `primary` color to your Tailwind CSS configuration. How would you correctly extend the default theme?",
+    "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      // Your custom color here\n    },\n  },\n  plugins: [],\n};",
+    "type": "MCQ",
+    "options": {
+      "A": "colors: { primary: '#FF0000' }",
+      "B": "extend: { colors: { primary: '#FF0000' } }",
+      "C": "theme: { colors: { primary: '#FF0000' } }",
+      "D": "extend: { theme: { colors: { primary: '#FF0000' } } }"
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 21,
+    "text": "A Node.js server needs to handle large file uploads efficiently. Which approach is generally preferred for performance and memory usage?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Reading the entire file into a buffer before processing.",
+      "B": "Using streams to process the file in chunks.",
+      "C": "Storing the file directly in memory as a string.",
+      "D": "Using synchronous file I/O operations."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "Given a React component that passes a callback to a child. When is using `useCallback` on the `handleClick` function beneficial for performance?",
+    "code": "import React, { useState, useCallback } from 'react';\nfunction ChildComponent({ onClick }) { /* ... */ }\nfunction ParentComponent() {\n  const [count, setCount] = useState(0);\n  const handleClick = () => setCount(count + 1);\n  return <ChildComponent onClick={handleClick} />;\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "Always, as it prevents unnecessary re-renders of the parent component.",
+      "B": "When `ChildComponent` is wrapped in `React.memo` and `handleClick` is passed as a prop.",
+      "C": "Only if `handleClick` performs a very expensive computation.",
+      "D": "Never, `useCallback` is only for memoizing values, not functions."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "What is the primary difference between `res.send()` and `res.json()` in Express.js?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`res.send()` can send any type of response, `res.json()` only sends JSON objects.",
+      "B": "`res.json()` automatically sets the `Content-Type` header to `application/json`.",
+      "C": "`res.send()` is synchronous, `res.json()` is asynchronous.",
+      "D": "There is no functional difference; they are aliases."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 24,
+    "text": "Which MongoDB operations would you use to add a new user and then update their `email` address?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "db.users.insert({ name: 'Alice' }); db.users.update({ name: 'Alice' }, { $set: { email: 'alice@example.com' } });",
+      "B": "db.users.insertOne({ name: 'Bob' }); db.users.updateOne({ name: 'Bob' }, { $set: { email: 'bob@example.com' } });",
+      "C": "db.users.create({ name: 'Charlie' }); db.users.modify({ name: 'Charlie' }, { email: 'charlie@example.com' });",
+      "D": "db.users.add({ name: 'David' }); db.users.edit({ name: 'David' }, { email: 'david@example.com' });"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 25,
+    "text": "You have a Node.js application that performs CPU-intensive image processing. How can you leverage multi-core CPUs to improve throughput without blocking the event loop?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Use the `cluster` module to spawn multiple Node.js processes.",
+      "B": "Implement `worker_threads` to offload the image processing.",
+      "C": "Increase the `max-old-space-size` flag in Node.js.",
+      "D": "Ensure all image processing operations are synchronous."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "hard"
+  }
+]

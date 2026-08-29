@@ -1,0 +1,353 @@
+
+[
+  {
+    "id": 1,
+    "text": "A user submits a form in React. What are the potential issues if the Express backend directly inserts the data into MongoDB without validation, and the React component doesn't handle loading states or errors?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "SQL injection vulnerability in MongoDB.",
+      "B": "Malformed data in MongoDB due to lack of server-side validation.",
+      "C": "Poor user experience due to lack of visual feedback on submission.",
+      "D": "Unhandled promise rejections in React leading to UI freeze."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 2,
+    "text": "Consider a React component that fetches data on mount. Which patterns help prevent unnecessary re-renders or infinite loops related to data fetching?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `useEffect` with an empty dependency array `[]` for initial fetch.",
+      "B": "Wrapping event handlers passed to child components with `useCallback`.",
+      "C": "Memoizing expensive calculations with `useMemo`.",
+      "D": "Placing the fetch logic directly inside the component body without `useEffect`."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 3,
+    "text": "An Express route handler uses `async/await` to fetch data from an external API. How should errors from the API call be properly handled to prevent the server from crashing and provide a meaningful response?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Wrap the `await` call in a `try...catch` block and pass the error to `next()`.",
+      "B": "Use a global `process.on('uncaughtException')` handler.",
+      "C": "Express automatically catches all async errors in route handlers.",
+      "D": "Return `res.status(500).send('Error')` directly without `try...catch`."
+    },
+    "correct": ["A"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 4,
+    "text": "You have a MongoDB collection `products` with fields `name`, `category`, `price`, `stock`. Which indexes would be most beneficial for queries frequently filtering by `category` and then sorting by `price`?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`{ category: 1 }`",
+      "B": "`{ price: 1 }`",
+      "C": "`{ category: 1, price: 1 }`",
+      "D": "`{ price: 1, category: 1 }`"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 5,
+    "text": "You need to apply a custom font size and line height that isn't in Tailwind's default scale, and you want to reuse this style across multiple components. How can you achieve this effectively?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Use arbitrary values like `text-[15px] leading-[22px]` directly in HTML.",
+      "B": "Extend Tailwind's theme configuration in `tailwind.config.js` to add custom font sizes.",
+      "C": "Define a custom CSS class using `@apply` for the specific `font-size` and `line-height`.",
+      "D": "Import a separate CSS file with the custom styles for each instance."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 6,
+    "text": "A React component displays a list of items. You want to style the first item differently and ensure responsiveness. Which Tailwind classes and React patterns are appropriate?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Use `first:bg-blue-200` directly on the list item element.",
+      "B": "Conditionally apply classes using template literals: `className={`item ${isFirst ? 'bg-blue-200' : ''}`}`.",
+      "C": "Define a custom utility class in `tailwind.config.js` for the first item's style.",
+      "D": "Use media queries directly in a separate CSS file for responsiveness."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 7,
+    "text": "An Express application uses JWT for authentication. Which practices enhance the security of the JWT implementation?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Storing JWTs in `localStorage` on the client-side.",
+      "B": "Setting JWTs as `HttpOnly` and `Secure` cookies.",
+      "C": "Implementing token revocation on the server-side for logout.",
+      "D": "Using a strong, randomly generated secret key for signing tokens."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 8,
+    "text": "You need to update a document in MongoDB, atomically incrementing a `viewCount` field and setting a `lastViewed` timestamp to the current date. Which operators are suitable for this single update operation?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`$set`",
+      "B": "`$inc`",
+      "C": "`$currentDate`",
+      "D": "`$push`"
+    },
+    "correct": ["B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 9,
+    "text": "A React component uses `useContext` to access a global theme object. What are potential performance implications or common pitfalls when the context value frequently changes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "All components consuming the context will re-render, even if they only use a small part of the context value.",
+      "B": "The context provider itself will re-render, causing its children to unmount and remount.",
+      "C": "Unnecessary re-renders can be mitigated by splitting context into smaller, more specific contexts.",
+      "D": "Using `React.memo` on child components consuming the context will always prevent re-renders."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 10,
+    "text": "An Express application needs to handle file uploads. Which approaches are generally recommended for secure and efficient file handling?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Storing uploaded files directly in the database as Base64 strings.",
+      "B": "Using a middleware like `multer` to process multipart/form-data.",
+      "C": "Validating file types and sizes on the server-side before saving.",
+      "D": "Storing files on a dedicated file storage service (e.g., S3) and saving references in MongoDB."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 11,
+    "text": "You've added a new color `brand-primary` to your `tailwind.config.js` and used it in a React component. After deploying to production, the color isn't applied. What is a likely reason?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "The `content` (or `purge`) configuration in `tailwind.config.js` is not correctly set to scan the files where `brand-primary` is used.",
+      "B": "Tailwind CSS only supports a fixed set of colors and cannot be extended.",
+      "C": "You forgot to include `@tailwind base; @tailwind components; @tailwind utilities;` in your main CSS file.",
+      "D": "The browser's cache is preventing the new styles from loading."
+    },
+    "correct": ["A"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 12,
+    "text": "An API endpoint `/users/:id` retrieves a user document from MongoDB via Express. What are important considerations for performance and security in the Express route and MongoDB query?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `lean()` in the Mongoose query for read-only operations to return plain JavaScript objects.",
+      "B": "Sanitizing the `id` parameter to prevent NoSQL injection.",
+      "C": "Projecting only necessary fields in the MongoDB query to reduce data transfer.",
+      "D": "Caching frequently accessed user data in Express using an in-memory cache."
+    },
+    "correct": ["A", "B", "C", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 13,
+    "text": "You are building a form in React. Which practices contribute to a better user experience and maintainability?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using controlled components where form input values are managed by React state.",
+      "B": "Implementing client-side validation for immediate feedback.",
+      "C": "Using `useRef` to directly manipulate DOM input values for all form fields.",
+      "D": "Debouncing input changes for search fields to reduce API calls."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 14,
+    "text": "Consider the following Node.js code snippet. What is the correct order of output?",
+    "code": "console.log('Start');\nsetTimeout(() => console.log('Timeout'), 0);\nPromise.resolve().then(() => console.log('Promise'));\nconsole.log('End');",
+    "type": "MCQ",
+    "options": {
+      "A": "Start, Timeout, Promise, End",
+      "B": "Start, End, Timeout, Promise",
+      "C": "Start, End, Promise, Timeout",
+      "D": "Promise, Start, End, Timeout"
+    },
+    "correct": ["C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 15,
+    "text": "You want to secure your Express application by adding common HTTP headers to mitigate common web vulnerabilities. Which middleware or practices are effective for this?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using the `helmet` middleware.",
+      "B": "Manually setting `res.setHeader('X-Frame-Options', 'DENY')` in every route.",
+      "C": "Implementing CORS middleware to restrict cross-origin requests.",
+      "D": "Disabling the `x-powered-by` header."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 16,
+    "text": "A `posts` collection has documents with `_id`, `title`, `authorId`, `tags` (array), and `createdAt`. You need to find the top 5 most recent posts by a specific author, containing a certain tag. Which aggregation pipeline stages are most relevant and in what logical order?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`$match` (for authorId and tag)",
+      "B": "`$sort` (by createdAt descending)",
+      "C": "`$limit` (to 5)",
+      "D": "`$group` (to count posts per author)"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 17,
+    "text": "A React frontend makes an API call to an Express backend. The backend responds with a 401 Unauthorized status. What are common reasons for this error and how should the frontend react?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The user's authentication token is missing or expired.",
+      "B": "The Express route handler is missing a `next()` call.",
+      "C": "The frontend should redirect the user to a login page.",
+      "D": "The backend's database connection failed."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 18,
+    "text": "You're using Tailwind CSS in a project and notice that some utility classes are not being generated in your production build, even though they are present in your development environment. What is the most probable cause?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "You are using a deprecated version of Tailwind CSS.",
+      "B": "The `content` (or `purge`) configuration in `tailwind.config.js` is not correctly pointing to all files that use Tailwind classes.",
+      "C": "Your browser's developer tools are caching the old CSS.",
+      "D": "You forgot to run `npm install` after adding new classes."
+    },
+    "correct": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 19,
+    "text": "A Node.js application processes a large CSV file using streams. Which statements are true regarding efficient and robust stream processing?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`pipe()` automatically handles backpressure to prevent memory overflow.",
+      "B": "Using `fs.readFile()` to load the entire file into memory is more efficient for large files.",
+      "C": "Custom transform streams can be used to modify data chunks as they flow.",
+      "D": "Error handling should be attached to each stream in the pipeline."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "Hard"
+  },
+  {
+    "id": 20,
+    "text": "When developing a reusable component in React, which practices promote flexibility and maintainability?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `props.children` to allow content injection.",
+      "B": "Accepting a `className` prop to allow external styling via Tailwind or custom CSS.",
+      "C": "Hardcoding all internal styles to ensure consistent appearance.",
+      "D": "Using `defaultProps` for optional props to provide sensible fallbacks."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 21,
+    "text": "You need to find MongoDB documents where the `tags` array field contains *at least one* of 'react' OR 'nodejs' AND also contains 'backend'. Which query operators are relevant for constructing this query?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`$in`",
+      "B": "`$and`",
+      "C": "`$or`",
+      "D": "`$all`"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 22,
+    "text": "An Express application needs to handle different API versions (e.g., `/api/v1/users`, `/api/v2/users`). Which approaches are effective for routing and managing these versions?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using separate `express.Router()` instances for each API version.",
+      "B": "Implementing conditional logic within a single route handler based on a query parameter `?version=v2`.",
+      "C": "Using sub-domains like `v1.api.example.com`.",
+      "D": "Placing version numbers directly in the URL path."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 23,
+    "text": "You want to create a button component in React that has a default set of Tailwind styles but can be easily overridden or extended by parent components. How would you best achieve this?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Define the default classes directly in the component's `className` and use `props.className` to merge.",
+      "B": "Use `!important` on all default Tailwind classes to prevent overrides.",
+      "C": "Only use inline styles for the button to ensure easy overriding.",
+      "D": "Create a separate CSS file for each button instance."
+    },
+    "correct": ["A"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 24,
+    "text": "When deploying a Node.js application to production, which considerations are crucial for stability, performance, and monitoring?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using a process manager like PM2 or forever to keep the application running.",
+      "B": "Running the application directly with `node app.js` in the background.",
+      "C": "Implementing robust logging and monitoring solutions.",
+      "D": "Ensuring all `console.log` statements are removed or replaced with a proper logger."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 25,
+    "text": "You are designing a schema for a social media application where users can have many posts, and posts can have many comments. What are good practices for modeling the relationship between `users`, `posts`, and `comments` in MongoDB?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Embedding comments directly within the `posts` document if comments are tightly coupled and limited in number.",
+      "B": "Referencing `authorId` in `posts` documents to link to the `users` collection.",
+      "C": "Embedding `posts` directly within the `users` document to avoid joins.",
+      "D": "Using a separate `comments` collection with `postId` and `userId` references."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Hard"
+  }
+]

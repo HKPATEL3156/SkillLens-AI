@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "Which of the following statements about React component state are true when using functional components?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "State updates are always synchronous.",
+      "B": "The useState hook returns an array with the current state value and a setter function.",
+      "C": "Multiple state updates within the same event loop tick are batched for performance.",
+      "D": "Directly modifying the state object is the recommended practice for complex state."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "What will be the output of the following Node.js code snippet?",
+    "code": "console.log('Start');\nPromise.resolve().then(() => console.log('Promise 1'));\nprocess.nextTick(() => console.log('Next Tick 1'));\nPromise.resolve().then(() => console.log('Promise 2'));\nprocess.nextTick(() => console.log('Next Tick 2'));\nconsole.log('End');",
+    "type": "MCQ",
+    "options": {
+      "A": "Start, End, Next Tick 1, Next Tick 2, Promise 1, Promise 2",
+      "B": "Start, Next Tick 1, Next Tick 2, Promise 1, Promise 2, End",
+      "C": "Start, End, Promise 1, Promise 2, Next Tick 1, Next Tick 2",
+      "D": "Start, Next Tick 1, Promise 1, Next Tick 2, Promise 2, End"
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 3,
+    "text": "A user reports that their request to /api/data sometimes hangs. You suspect an issue with middleware order or async operations. Which of the following could be potential causes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "A middleware function failed to call next() or send a response.",
+      "B": "An asynchronous operation within a middleware didn't await its completion before calling next().",
+      "C": "The route handler is defined before a necessary body-parsing middleware.",
+      "D": "The server is running out of memory due to too many concurrent requests."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 4,
+    "text": "Which of the following best describes the \"schema-less\" nature of MongoDB?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It means you don't need to define any data structure for your documents.",
+      "B": "It means documents in a collection can have different fields and structures.",
+      "C": "It means MongoDB automatically infers and enforces a schema based on the first inserted document.",
+      "D": "It means data validation is impossible in MongoDB."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 5,
+    "text": "Which of the following are core benefits of using a utility-first CSS framework like Tailwind CSS?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "It eliminates the need for any custom CSS.",
+      "B": "It promotes consistent design by using predefined scales and values.",
+      "C": "It makes styling components faster by composing classes directly in HTML.",
+      "D": "It automatically generates unique class names to avoid naming collisions."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 6,
+    "text": "Consider a React component that renders a list of items. Which techniques can help prevent unnecessary re-renders of individual list items when the parent component updates, but an item's props haven't changed?",
+    "code": "function ListItem({ item, onClick }) {\n  console.log('Rendering item:', item.id);\n  return <li onClick={() => onClick(item.id)}>{item.name}</li>;\n}\n\nfunction MyList({ items }) {\n  const handleClick = (id) => console.log('Clicked:', id);\n  return (\n    <ul>\n      {items.map(item => (\n        <ListItem key={item.id} item={item} onClick={handleClick} />\n      ))}\n    </ul>\n  );\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "Wrap the ListItem component with React.memo.",
+      "B": "Use the useCallback hook for the handleClick function.",
+      "C": "Ensure each ListItem has a unique and stable 'key' prop.",
+      "D": "Pass a new object for 'item' prop on every render."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 7,
+    "text": "What will be the potential issues or outputs when running the following Node.js code?",
+    "code": "let counter = 0;\nfunction increment() {\n  counter++;\n  console.log('Counter:', counter);\n}\n\nsetInterval(increment, 100);\nsetTimeout(() => {\n  while(true) {} // Blocking operation\n}, 500);",
+    "type": "MSQ",
+    "options": {
+      "A": "The 'Counter' will increment indefinitely every 100ms.",
+      "B": "The 'Counter' will stop incrementing after approximately 500ms.",
+      "C": "The Node.js process will eventually crash due to a stack overflow.",
+      "D": "The blocking operation will prevent any further 'Counter' logs after 500ms."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 8,
+    "text": "Your Express API handles user authentication. A security audit recommends preventing brute-force attacks on the login endpoint. Which Express middleware or technique is most suitable for this?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "helmet for setting security headers.",
+      "B": "cors for managing cross-origin requests.",
+      "C": "express-rate-limit to restrict repeated requests.",
+      "D": "body-parser for parsing incoming request bodies."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "You are designing a MongoDB schema for a blog platform. Each post has many comments. Which of the following data modeling approaches are generally good practices for this relationship, considering read performance for displaying comments with a post?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Embed all comments directly within the post document if comments are few and rarely updated.",
+      "B": "Use separate 'posts' and 'comments' collections, linking them with references (ObjectId).",
+      "C": "Store only the comment count in the post document and fetch comments separately.",
+      "D": "Duplicate the post title in each comment document to avoid joins."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "text": "Given the following Tailwind CSS classes, what will be the text alignment on a medium-sized screen (e.g., tablet)?",
+    "code": "<div class=\"text-left md:text-center lg:text-right\">\n  Hello World\n</div>",
+    "type": "MCQ",
+    "options": {
+      "A": "Text will be aligned to the left.",
+      "B": "Text will be aligned to the center.",
+      "C": "Text will be aligned to the right.",
+      "D": "Text alignment will depend on the browser's default."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "A component uses useEffect to fetch data. Why might the fetch request be triggered multiple times unexpectedly, and how can it be fixed?",
+    "code": "function MyComponent({ userId }) {\n  const [data, setData] = useState(null);\n  useEffect(() => {\n    fetchData(userId).then(setData);\n  }, []); // Empty dependency array\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "The component is unmounted and remounted, often in StrictMode or during hot reloading.",
+      "B": "The 'fetchData' function is being redefined on every render, causing a new function reference.",
+      "C": "The 'userId' prop is changing, but it's not in the dependency array.",
+      "D": "The empty dependency array `[]` means the effect runs after every render."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 12,
+    "text": "What is the correct way to handle an unhandled promise rejection in a Node.js application globally?",
+    "code": "// Assume some async operation that might reject\nasync function fetchData() {\n  throw new Error(\"Failed to fetch!\");\n}\n\nfetchData(); // Unhandled rejection",
+    "type": "MCQ",
+    "options": {
+      "A": "Using a try...catch block around the fetchData() call.",
+      "B": "Adding a .catch() handler directly to the promise returned by fetchData().",
+      "C": "Listening to the 'unhandledRejection' event on the process object.",
+      "D": "Listening to the 'uncaughtException' event on the process object."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "Which of the following are valid ways to define a route in Express.js that responds to HTTP GET requests for the path '/users'?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "app.get('/users', (req, res) => { ... });",
+      "B": "app.route('/users').get((req, res) => { ... });",
+      "C": "app.use('/users', (req, res) => { ... });",
+      "D": "app.post('/users', (req, res) => { ... });"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 14,
+    "text": "Your MongoDB query `db.products.find({ category: \"electronics\", price: { $gt: 100 } }).sort({ name: 1 })` is slow. Which indexing strategies could significantly improve its performance?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Create a single-field index on `category`.",
+      "B": "Create a compound index on `{ category: 1, price: 1 }`.",
+      "C": "Create a compound index on `{ category: 1, price: 1, name: 1 }`.",
+      "D": "Create a single-field index on `price`."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "You're building a large application with Tailwind CSS. What are common challenges or best practices to consider for maintaining performance and clean code?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Manually purging unused CSS classes to reduce bundle size.",
+      "B": "Using @apply for frequently repeated utility patterns to create semantic classes.",
+      "C": "Avoiding custom configurations to ensure maximum compatibility.",
+      "D": "Relying heavily on inline styles instead of Tailwind classes for dynamic styling."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 16,
+    "text": "What will be logged to the console when the following React component is rendered?",
+    "code": "function Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    console.log('Effect ran:', count);\n    return () => console.log('Cleanup for:', count);\n  }, [count]);\n  return <button onClick={() => setCount(count + 1)}>Increment</button>;\n}\n// Assume component is mounted, then button clicked once.",
+    "type": "MCQ",
+    "options": {
+      "A": "Effect ran: 0, Cleanup for: 0, Effect ran: 1",
+      "B": "Effect ran: 0, Effect ran: 1, Cleanup for: 0",
+      "C": "Effect ran: 0, Effect ran: 1",
+      "D": "Effect ran: 0, Cleanup for: 1, Effect ran: 1"
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "text": "Consider the following two files. What statements are true regarding their interaction?",
+    "code": "// file1.js\nlet count = 0;\nexports.increment = () => count++;\nexports.getCount = () => count;\n\n// file2.js\nconst mod1 = require('./file1');\nconst mod2 = require('./file1');\nmod1.increment();\nconsole.log(mod2.getCount());",
+    "type": "MSQ",
+    "options": {
+      "A": "The output will be 1.",
+      "B": "Each `require('./file1')` call creates a new, independent instance of `file1.js`.",
+      "C": "Node.js caches modules after the first `require`.",
+      "D": "The `count` variable is shared between `mod1` and `mod2`."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 18,
+    "text": "Your Express API uses `app.use(express.json())` and `app.use(express.urlencoded({ extended: true }))`. A client sends a POST request with `Content-Type: text/plain` and a JSON string in the body. What will happen?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The `req.body` will be an empty object `{}`.",
+      "B": "The `req.body` will contain the parsed JSON object.",
+      "C": "The request will result in a 400 Bad Request error.",
+      "D": "You would need a custom middleware to parse `text/plain` as JSON."
+    },
+    "correct": ["A", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 19,
+    "text": "Which MongoDB operation is used to add new documents to a collection?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "db.collection.find()",
+      "B": "db.collection.update()",
+      "C": "db.collection.insertMany()",
+      "D": "db.collection.deleteMany()"
+    },
+    "correct": ["C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 20,
+    "text": "You want to add a custom color 'brand-blue' to your Tailwind CSS configuration. Which of the following steps are necessary?",
+    "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      // ...\n    },\n  },\n  // ...\n};",
+    "type": "MSQ",
+    "options": {
+      "A": "Add 'brand-blue' directly to the `colors` object in `theme.extend`.",
+      "B": "Run `npx tailwindcss init` to regenerate the config file.",
+      "C": "Rebuild your CSS using `npx tailwindcss -i ./src/input.css -o ./dist/output.css`.",
+      "D": "Define the color in a separate CSS file and import it."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "You observe a React component re-rendering frequently, even when its props appear unchanged. The component receives a callback function and an object as props. What are common causes and solutions?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The callback function prop is being redefined on every parent render, breaking memoization.",
+      "B": "The object prop is being created as a new reference on every parent render.",
+      "C": "The component is not wrapped in `React.memo` or is a class component without `shouldComponentUpdate`.",
+      "D": "The component's internal state is changing rapidly, causing its own re-renders."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "text": "Which statement accurately describes the Node.js event loop?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It's a single-threaded, blocking mechanism that executes all I/O operations sequentially.",
+      "B": "It allows Node.js to perform non-blocking I/O operations despite being single-threaded.",
+      "C": "It's a multi-threaded pool that handles all asynchronous tasks concurrently.",
+      "D": "It's primarily responsible for garbage collection in Node.js."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 23,
+    "text": "You are building an Express API. Which of the following are good practices for structuring your routes and middleware?",
+    "code": "// app.js\nconst express = require('express');\nconst app = express();\nconst userRoutes = require('./routes/users');\n\napp.use(express.json());\napp.use('/api/users', userRoutes);\n\n// routes/users.js\nconst router = express.Router();\nrouter.get('/', (req, res) => res.send('All users'));\nmodule.exports = router;",
+    "type": "MSQ",
+    "options": {
+      "A": "Using `express.Router()` to modularize routes into separate files.",
+      "B": "Placing global middleware like `express.json()` before route definitions.",
+      "C": "Defining all route handlers directly in `app.js` for simplicity.",
+      "D": "Using `app.use()` with a path prefix to mount a router."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 24,
+    "text": "You need to transfer funds between two accounts in a MongoDB database, ensuring atomicity (either both updates succeed or both fail). Which statements are true regarding this scenario?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "MongoDB's single-document atomicity guarantees are sufficient for this operation.",
+      "B": "You must use multi-document transactions, which require a replica set deployment.",
+      "C": "If one update fails, you need to manually roll back the other successful update.",
+      "D": "Transactions ensure that other clients cannot see intermediate states of the data."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 25,
+    "text": "In React, what is the primary purpose of the 'key' prop when rendering lists of elements?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To provide a unique identifier for CSS styling.",
+      "B": "To help React efficiently identify which items have changed, are added, or are removed.",
+      "C": "To enable event delegation for list items.",
+      "D": "To pass data from parent to child components."
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  }
+]

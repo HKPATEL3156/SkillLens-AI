@@ -1,0 +1,171 @@
+{
+  "ats_score": 70,
+  "score_breakdown": {
+    "resume_completeness": 70,
+    "skills_and_keywords": 75,
+    "job_role_match": 70,
+    "content_quality": 70,
+    "experience": 65,
+    "projects": 80,
+    "education": 90,
+    "certifications_and_achievements": 40,
+    "ats_friendliness": 90
+  },
+  "resume_completeness": {
+    "percentage": 80,
+    "present_sections": [
+      "personal_information",
+      "summary",
+      "technical_skills",
+      "education",
+      "projects",
+      "internships",
+      "achievements",
+      "languages"
+    ],
+    "missing_sections": [
+      "soft_skills (empty)",
+      "certifications (empty)",
+      "portfolio (empty)",
+      "references (empty)"
+    ],
+    "analysis": "The resume includes most standard sections for a student. However, some sections like 'certifications' and 'soft_skills' are present but empty, reducing overall completeness."
+  },
+  "skills_analysis": {
+    "matched_skills": [
+      "Python",
+      "SQL",
+      "Pandas",
+      "NumPy",
+      "Scikit-learn",
+      "TensorFlow",
+      "MySQL",
+      "MongoDB",
+      "PostgreSQL",
+      "AWS (Basic)",
+      "Docker",
+      "Machine Learning",
+      "Deep Learning",
+      "NLP",
+      "Git",
+      "GitHub",
+      "Jupyter",
+      "ETL Pipelines",
+      "Data Processing",
+      "Data Warehousing"
+    ],
+    "missing_skills": [
+      "MLOps tools (e.g., MLflow, Airflow, Kubernetes)",
+      "Advanced cloud ML services (e.g., AWS SageMaker)",
+      "Distributed computing (e.g., Spark)",
+      "Model deployment frameworks (e.g., Flask, FastAPI)",
+      "Software engineering best practices for ML systems"
+    ],
+    "relevant_keywords": [
+      "Machine Learning",
+      "Deep Learning",
+      "NLP",
+      "predictive models",
+      "ETL pipelines",
+      "data processing",
+      "scalable systems"
+    ],
+    "missing_keywords": [
+      "model deployment",
+      "MLOps",
+      "production",
+      "scalability",
+      "optimization",
+      "API",
+      "real-time"
+    ],
+    "analysis": "The resume demonstrates a strong foundation in core ML, data processing, and relevant programming languages. However, it lacks specific skills and keywords related to MLOps, model deployment, and productionizing ML systems, which are crucial for an ML Engineer role."
+  },
+  "job_role_match": {
+    "match_percentage": 70,
+    "matching_areas": [
+      "Core Machine Learning knowledge (Scikit-learn, TensorFlow, NLP)",
+      "Strong Python and SQL skills",
+      "Experience with data processing and ETL pipelines",
+      "Exposure to cloud (AWS Basic) and containerization (Docker)",
+      "Relevant academic background"
+    ],
+    "missing_areas": [
+      "Practical experience in deploying and maintaining ML models in production",
+      "Knowledge of MLOps tools and practices",
+      "Advanced cloud ML services and infrastructure",
+      "Strong software engineering focus for scalable ML systems"
+    ],
+    "analysis": "The candidate is well-suited for an entry-level ML role focused on model development and data analysis. To fully align with an ML Engineer role, more emphasis on MLOps, deployment, and scalable system design is needed."
+  },
+  "content_quality": {
+    "score": 70,
+    "strengths": [
+      "Clear and concise summary highlighting key skills.",
+      "Specific technical skills are well-categorized.",
+      "Internship descriptions use action verbs and list relevant technologies."
+    ],
+    "weaknesses": [
+      "Project descriptions lack quantifiable results or impact.",
+      "Achievements are general and lack specific details or metrics.",
+      "The 'certifications' section is empty, despite an achievement mentioning them."
+    ],
+    "analysis": "The content is clear and professional but could be significantly enhanced by adding quantifiable achievements and specific outcomes for projects and internships. The empty certifications section is a missed opportunity."
+  },
+  "experience_analysis": {
+    "score": 65,
+    "strengths": [
+      "Two relevant internships (Data Science, Data Engineering) provide practical experience.",
+      "Internships demonstrate application of core ML and data processing skills (Pandas, NumPy, Scikit-learn, Python, SQL).",
+      "Responsibilities include building ML models and developing ETL pipelines."
+    ],
+    "weaknesses": [
+      "Internships are short-term (2 months each).",
+      "No full-time professional experience.",
+      "Descriptions could benefit from quantifiable results or impact achieved during the internships."
+    ],
+    "analysis": "For a student, the internships are valuable and directly relevant. They showcase hands-on experience in data science and data engineering, which are foundational for an ML Engineer. Quantifying achievements would make them more impactful."
+  },
+  "project_analysis": {
+    "score": 80,
+    "relevant_projects": [
+      "End-to-End Data Pipeline",
+      "AI-Based Prediction System",
+      "NLP Text Analyzer"
+    ],
+    "strengths": [
+      "Projects directly showcase core ML, NLP, and data engineering skills.",
+      "Cover different aspects of the ML lifecycle from data processing to model development.",
+      "Demonstrate practical application of Python, SQL, Scikit-learn, and NLP techniques."
+    ],
+    "weaknesses": [
+      "No GitHub links provided for projects, hindering verification and deeper review.",
+      "Project descriptions lack specific metrics, challenges, or quantifiable outcomes.",
+      "The 'scalable data storage system' claim lacks detail."
+    ],
+    "analysis": "The projects are highly relevant and demonstrate a good understanding of ML and data pipelines. Providing GitHub links and adding quantifiable results would significantly strengthen this section."
+  },
+  "strengths": [
+    "Strong academic background in Computer Science Engineering with excellent CGPA.",
+    "Relevant internships in Data Science and Data Engineering.",
+    "Solid foundational skills in Python, SQL, Machine Learning, Deep Learning, and NLP.",
+    "Relevant projects demonstrating practical application of ML and data processing.",
+    "Good understanding of ETL pipelines and data warehousing concepts."
+  ],
+  "weaknesses": [
+    "Lack of specific MLOps, model deployment, and production-level ML engineering skills.",
+    "Absence of quantifiable results in project and internship descriptions.",
+    "No GitHub links for projects.",
+    "Empty certifications section, despite mentioning certifications in achievements.",
+    "Achievements are generic and lack specific details."
+  ],
+  "improvement_suggestions": [
+    "Gain practical experience or complete projects focused on MLOps, model deployment, and scaling ML systems (e.g., using MLflow, Airflow, Kubernetes, Flask/FastAPI).",
+    "Quantify achievements in internships and projects with specific metrics (e.g., 'improved accuracy by X%', 'reduced processing time by Y%').",
+    "Provide GitHub links for all projects to allow recruiters to review code and contributions.",
+    "List specific certifications with their issuing bodies and dates in the 'certifications' section.",
+    "Explore advanced cloud ML services (e.g., AWS SageMaker) and add them to skills.",
+    "Develop a project that involves deploying an ML model as an API or web service."
+  ],
+  "overall_feedback": "Dipal has a strong academic foundation and relevant internships/projects for an entry-level role in Machine Learning, particularly in model development and data processing. To transition effectively into an ML Engineer role, the focus should be on acquiring and demonstrating skills in MLOps, model deployment, and building production-ready, scalable ML systems, while also quantifying past achievements."
+}

@@ -1,0 +1,167 @@
+{
+    "personal_information": {
+        "full_name": "Dipal Rana",
+        "current_role": null,
+        "email": "dipalrana@gmail.com",
+        "phone": "+91 9876543210",
+        "location": "India",
+        "linkedin": "linkedin.com/in/dipalrana",
+        "github": "github.com/dipalrana",
+        "portfolio": null,
+        "other_links": []
+    },
+    "summary": "Data-driven Computer Science student with strong skills in Python, Machine Learning, SQL, and Data Engineering. Experienced in building ETL pipelines, predictive models, and data-driven applications. Passionate about solving real-world problems using AI and scalable systems.",
+    "technical_skills": {
+        "programming_languages": [
+            "Python",
+            "SQL"
+        ],
+        "frontend": [],
+        "backend": [],
+        "frameworks": [],
+        "libraries": [
+            "Pandas",
+            "NumPy",
+            "Scikit-learn",
+            "TensorFlow"
+        ],
+        "databases": [
+            "MySQL",
+            "MongoDB",
+            "PostgreSQL"
+        ],
+        "cloud": [
+            "AWS (Basic)"
+        ],
+        "devops": [
+            "Docker"
+        ],
+        "ai_ml": [
+            "Machine Learning",
+            "Deep Learning",
+            "NLP"
+        ],
+        "tools": [
+            "Git",
+            "GitHub",
+            "Jupyter"
+        ],
+        "operating_systems": [],
+        "others": [
+            "ETL Pipelines",
+            "Data Processing",
+            "Data Warehousing"
+        ]
+    },
+    "soft_skills": [],
+    "education": [
+        {
+            "degree": "B.Tech",
+            "specialization": "Computer Science Engineering",
+            "institution": "DEPSTAR, CHARUSAT",
+            "cgpa": "9.22",
+            "percentage": null,
+            "start_date": "2023",
+            "end_date": "2027",
+            "status": null
+        },
+        {
+            "degree": "HSC",
+            "specialization": null,
+            "institution": "Gujarat Board",
+            "cgpa": null,
+            "percentage": "92%",
+            "start_date": "2021",
+            "end_date": "2023",
+            "status": null
+        },
+        {
+            "degree": "SSC",
+            "specialization": null,
+            "institution": "Gujarat Board",
+            "cgpa": null,
+            "percentage": "95%",
+            "start_date": "2019",
+            "end_date": "2021",
+            "status": null
+        }
+    ],
+    "experience": [],
+    "projects": [
+        {
+            "project_name": "End-to-End Data Pipeline",
+            "role": null,
+            "description": "Built pipeline to collect, transform, and store large datasets. Used Python and SQL for data processing. Designed scalable data storage system.",
+            "technologies": [
+                "Python",
+                "SQL"
+            ],
+            "github": null,
+            "live_demo": null
+        },
+        {
+            "project_name": "AI-Based Prediction System",
+            "role": null,
+            "description": "Developed ML model using real-world dataset. Applied feature engineering and model tuning. Achieved high accuracy using Scikit-learn.",
+            "technologies": [
+                "Machine Learning",
+                "Scikit-learn"
+            ],
+            "github": null,
+            "live_demo": null
+        },
+        {
+            "project_name": "NLP Text Analyzer",
+            "role": null,
+            "description": "Implemented NLP techniques for text classification. Extracted insights from unstructured text data.",
+            "technologies": [
+                "NLP"
+            ],
+            "github": null,
+            "live_demo": null
+        }
+    ],
+    "internships": [
+        {
+            "company": "ABC Tech Solutions",
+            "role": "Data Science Intern",
+            "duration": "2 Months",
+            "technologies": [
+                "Pandas",
+                "NumPy",
+                "Scikit-learn"
+            ],
+            "description": [
+                "Built ML models achieving high prediction accuracy.",
+                "Performed data cleaning, feature engineering, and visualization.",
+                "Used Pandas, NumPy, and Scikit-learn for analysis."
+            ]
+        },
+        {
+            "company": "DataWorks",
+            "role": "Data Engineering Intern",
+            "duration": "2 Months",
+            "technologies": [
+                "Python",
+                "SQL"
+            ],
+            "description": [
+                "Developed ETL pipelines for structured data processing.",
+                "Optimized SQL queries for faster performance.",
+                "Automated data workflows using Python."
+            ]
+        }
+    ],
+    "certifications": [],
+    "achievements": [
+        "Top academic performer with CGPA 9.22.",
+        "Completed certifications in Data Science and Machine Learning.",
+        "Built multiple real-world projects."
+    ],
+    "languages": [
+        "English",
+        "Hindi",
+        "Gujarati"
+    ],
+    "references": []
+}

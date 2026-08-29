@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "You are debugging a React component that re-renders frequently without obvious state changes. Which of the following could be potential causes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "A parent component re-renders, passing new (even if shallowly equal) props.",
+      "B": "The component is subscribed to a Context API, and the context value changes.",
+      "C": "An `onClick` handler is defined inline as `onClick={() => doSomething()}`.",
+      "D": "A `useEffect` hook with an empty dependency array is fetching data."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 2,
+    "text": "In an Express.js application, you're using `async/await` in route handlers. How can you effectively manage errors thrown by asynchronous operations without wrapping every `await` in a `try/catch` block?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Use a global error-handling middleware that catches errors passed via `next(err)`.",
+      "B": "Wrap each `async` route handler with a utility function like `catchAsync`.",
+      "C": "Configure Express to automatically handle unhandled promise rejections.",
+      "D": "Ensure all `async` functions return a Promise and attach a `.catch()` handler."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 3,
+    "text": "Consider a MongoDB collection `orders` with documents containing `userId`, `productId`, and `orderDate`. You frequently query for orders by a specific `userId` and sort them by `orderDate` in descending order. Which index would provide the best performance?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`{ userId: 1, orderDate: -1 }`",
+      "B": "`{ orderDate: -1, userId: 1 }`",
+      "C": "`{ userId: 1 }`",
+      "D": "`{ orderDate: -1 }`"
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 4,
+    "text": "You are building a REST API using Node.js and Express. To prevent Cross-Site Request Forgery (CSRF) attacks, which of the following measures are commonly employed?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using JWTs for authentication and storing them in `localStorage`.",
+      "B": "Implementing a CSRF token in forms and validating it on the server.",
+      "C": "Setting the `SameSite` attribute of session cookies to `Lax` or `Strict`.",
+      "D": "Enabling CORS for all origins (`*`) on your API."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "In a React application, you have a form input whose value is controlled by component state. The input value isn't updating as the user types. What are common reasons for this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The `value` prop of the input is not bound to the state variable.",
+      "B": "The `onChange` handler is missing or not updating the state correctly.",
+      "C": "The `e.preventDefault()` method is being called unnecessarily in the `onChange` handler.",     
+      "D": "The component is a pure functional component and cannot manage state."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "A Node.js server is experiencing high CPU usage when handling many concurrent requests. Which of these techniques could help mitigate this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Implementing a cluster module to utilize multiple CPU cores.",
+      "B": "Offloading CPU-intensive tasks to worker threads.",
+      "C": "Switching from synchronous file I/O to asynchronous operations.",
+      "D": "Increasing the `maxSockets` option for the HTTP agent."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 7,
+    "text": "When designing a Mongoose schema, you want to ensure that a `username` field is unique across all documents in the collection and automatically creates an index. Which option should you use?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`username: { type: String, required: true, index: true }`",
+      "B": "`username: { type: String, unique: true, index: true }`",
+      "C": "`username: { type: String, unique: true }`",
+      "D": "`username: { type: String, required: true, unique: true }`"
+    },
+    "correct": ["D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "You are implementing authentication using JWTs in a MERN stack application. Where is it generally considered most secure to store the JWT on the client-side after successful login?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "In `localStorage` to persist across browser sessions.",
+      "B": "In `sessionStorage` for session-based persistence.",
+      "C": "In an HTTP-only cookie.",
+      "D": "Directly in a React component's state."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "Consider the following React component lifecycle. When would `useEffect` with an empty dependency array (`[]`) run?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "After every render.",
+      "B": "Only once after the initial render.",
+      "C": "When the component mounts.",
+      "D": "When the component unmounts (if a cleanup function is returned)."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "text": "A MERN application is deployed, and users report that API requests from the frontend are failing with CORS errors. What are common misconfigurations that could lead to this?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The Express server is not sending `Access-Control-Allow-Origin` header.",
+      "B": "The frontend is making requests to a different origin (domain, port, protocol) than the backend.",
+      "C": "The backend is not handling HTTP `OPTIONS` preflight requests correctly.",
+      "D": "The JWT token is expired or invalid."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You need to perform a complex data aggregation in MongoDB, including filtering, grouping, and calculating averages. Which MongoDB feature is best suited for this task?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Using `find()` with multiple chained `.sort()` and `.limit()` methods.",
+      "B": "Writing a custom JavaScript function to iterate over documents.",
+      "C": "Using the Aggregation Pipeline.",
+      "D": "Performing multiple `findOne()` queries and processing data in Node.js."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "text": "In a Node.js application, what are the primary benefits of using `Streams` for handling large files or network data?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Reduced memory consumption by processing data in chunks.",
+      "B": "Improved performance for I/O operations by avoiding buffering entire data.",
+      "C": "Simplified error handling compared to traditional callback patterns.",
+      "D": "Automatic data compression and decompression."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "You're optimizing a React component that renders a list of items. The list items are complex and don't often change. Which techniques can help prevent unnecessary re-renders of individual list items?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `React.memo` for the list item component.",
+      "B": "Ensuring each list item has a stable and unique `key` prop.",
+      "C": "Wrapping event handlers passed to list items with `useCallback`.",
+      "D": "Moving the list item state to a global Redux store."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "text": "An Express.js API endpoint is designed to receive a JSON payload. If the client sends an invalid JSON body, how can you gracefully handle this error and send a meaningful response?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Express's built-in `json()` middleware automatically handles invalid JSON and calls `next(err)`.",
+      "B": "Implement a custom middleware to `try/catch` `JSON.parse()` on `req.body`.",
+      "C": "Use a third-party body parser library that includes robust error handling.",
+      "D": "The client should always send valid JSON, so no server-side handling is needed."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "text": "In a Mongoose schema, you define a `password` field. What is the recommended practice for storing passwords securely?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Store the plain text password directly in the database.",
+      "B": "Encrypt the password using a symmetric encryption algorithm.",
+      "C": "Hash the password using a strong, slow hashing algorithm like bcrypt before saving.",
+      "D": "Encode the password using Base64 before saving."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "You are developing a React application and notice that network requests are being made multiple times when a component mounts. What could be causing this issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The `useEffect` hook is missing a dependency array, causing it to run on every render.",       
+      "B": "Strict Mode is enabled, which intentionally double-invokes effects in development.",
+      "C": "The API call is placed directly in the component body, outside of `useEffect`.",
+      "D": "The component is unmounting and remounting rapidly due to a parent's re-render."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "text": "Consider the following Node.js code snippet. What will be the output order?",
+    "code": "setTimeout(() => console.log('A'), 0);\nPromise.resolve().then(() => console.log('B'));\nconsole.log('C');",
+    "type": "MCQ",
+    "options": {
+      "A": "A, B, C",
+      "B": "C, B, A",
+      "C": "C, A, B",
+      "D": "B, C, A"
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "text": "When building a MERN application, you need to implement role-based access control (RBAC). Which of the following are suitable approaches for enforcing authorization on the backend?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Storing user roles in the JWT payload and verifying them in middleware.",
+      "B": "Querying the database for the user's roles on every protected route request.",
+      "C": "Using client-side routing guards to hide/show UI elements based on roles.",
+      "D": "Implementing a custom Express middleware to check user permissions."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "You are tasked with optimizing the performance of a MongoDB query that frequently fetches documents based on a range of dates. Which index type would be most effective?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "A text index on the date field.",
+      "B": "A geospatial index on the date field.",
+      "C": "A single-field ascending or descending index on the date field.",
+      "D": "A unique index on the date field."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "text": "In React, what are the primary reasons to use `useContext`?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "To avoid prop drilling when passing data through many nested components.",
+      "B": "To manage local component state more efficiently than `useState`.",
+      "C": "To provide global data or functions that many components need to access.",
+      "D": "To perform side effects after renders, similar to `useEffect`."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "A Node.js application uses environment variables for sensitive configuration (e.g., database URI, API keys). What is the recommended way to manage these variables in development and production?",      
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Hardcode them directly into the application's source code.",
+      "B": "Use a `.env` file in development and system environment variables in production.",
+      "C": "Store them in a version-controlled configuration file like `config.json`.",
+      "D": "Pass them as command-line arguments when starting the Node.js process."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "You're building a feature in React where clicking a button should toggle a modal's visibility. What is the most idiomatic way to manage the modal's open/closed state?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Using a global variable to store the modal's state.",
+      "B": "Managing the state within the parent component using `useState` and passing it down as props.",
+      "C": "Directly manipulating the DOM element's `style.display` property using `useRef`.",
+      "D": "Storing the modal's state in `localStorage`."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 23,
+    "text": "When deploying a MERN application, what are key considerations for ensuring the security of your MongoDB database?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Enabling authentication with strong user credentials.",
+      "B": "Restricting network access to the database only from your application server.",
+      "C": "Using SSL/TLS for all connections to the database.",
+      "D": "Exposing the database port directly to the public internet for easier access."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 24,
+    "text": "An Express.js route handler needs to perform multiple asynchronous database operations sequentially. How should you structure the code to ensure proper execution order and error handling?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Nest callbacks for each operation, leading to callback hell.",
+      "B": "Use `async/await` to make asynchronous code appear synchronous and handle errors with `try/catch`.",
+      "C": "Chain Promises using `.then()` and `.catch()`.",
+      "D": "Execute all operations in parallel without waiting for previous ones to complete."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 25,
+    "text": "In a React application, you observe that a component's state update triggers a re-render, but the UI doesn't reflect the new state immediately. What could be a reason for this perceived delay?",       
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "React batches state updates, so the render might be scheduled for later.",
+      "B": "The browser's rendering engine is slow and cannot keep up with React.",
+      "C": "The state update function is asynchronous and returns a Promise.",
+      "D": "The component is using a `shouldComponentUpdate` lifecycle method that always returns `false`."
+    },
+    "correct": ["A"],
+    "difficulty": "hard"
+  }
+]

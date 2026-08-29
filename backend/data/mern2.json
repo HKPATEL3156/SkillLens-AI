@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "You are building a complex form in React with multiple interdependent fields. Which of the following approaches are suitable for managing the form's state efficiently?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using multiple `useState` hooks for each individual input field.",
+      "B": "Consolidating all form state into a single object managed by `useState`.",
+      "C": "Implementing `useReducer` to manage complex state transitions and logic.",
+      "D": "Storing form state directly in the DOM elements and accessing them via refs."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 2,
+    "text": "Consider the following Node.js code snippet. What will be the output order?",
+    "code": "console.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');",
+    "type": "MCQ",
+    "options": {
+      "A": "A, D, C, B",
+      "B": "A, C, D, B",
+      "C": "A, B, C, D",
+      "D": "A, D, B, C"
+    },
+    "correct": ["A"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 3,
+    "text": "You are developing an Express.js application. Which of the following statements about middleware execution order are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Middleware functions are executed in the order they are defined with `app.use()`.",
+      "B": "Route-specific middleware always executes before global middleware.",
+      "C": "Error-handling middleware must have four arguments (`err, req, res, next`).",
+      "D": "Middleware attached to a specific route path will only run for requests matching that path."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 4,
+    "text": "A MongoDB collection `users` has fields `email`, `isActive`, and `lastLogin`. You frequently query for active users who logged in recently, and also perform full-text searches on `email`. Which indexing strategies would be most beneficial?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Create a compound index on `{ isActive: 1, lastLogin: -1 }`.",
+      "B": "Create a text index on `{ email: 'text' }`.",
+      "C": "Create a single field index on `{ _id: 1 }`.",
+      "D": "Create a partial index on `{ lastLogin: -1 }` where `isActive: true`."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 5,
+    "text": "You want to add a custom color `brand-purple` to your Tailwind CSS configuration. Where would you define this?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "In `src/styles.css` using `@apply`.",
+      "B": "In `tailwind.config.js` within the `theme.extend.colors` object.",
+      "C": "Directly in your HTML as an inline style.",
+      "D": "In a separate `custom-colors.js` file."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "Consider a React component using `useEffect`. Which of the following statements about its dependency array are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "An empty dependency array `[]` means the effect runs only once after the initial render.",
+      "B": "Omitting the dependency array means the effect runs after every render.",
+      "C": "Including a function from props in the dependency array can cause infinite re-renders if not memoized.",
+      "D": "If a dependency array contains an object, changes to its properties are automatically detected."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 7,
+    "text": "In Node.js, what is the primary purpose of `async/await`?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To enable synchronous execution of asynchronous code.",
+      "B": "To make asynchronous code look and behave more like synchronous code, improving readability.",
+      "C": "To replace callback functions entirely for all asynchronous operations.",
+      "D": "To provide a new way of defining event emitters."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "You're building an Express.js API and want to implement robust error handling. Which practices are recommended?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using a single global error-handling middleware at the end of your middleware stack.",
+      "B": "Wrapping every route handler in a `try-catch` block.",
+      "C": "Using an `async-handler` utility to catch errors from async route handlers and pass them to `next()`.",
+      "D": "Sending a generic 'Something went wrong!' message for all errors to the client."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "You have a MongoDB collection `orders` with documents like `{ _id: 1, customerId: 'A', total: 100, items: [{productId: 'X', qty: 1}] }`. You need to find the total revenue for each customer. Which aggregation pipeline stage would you use after `$match`?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`$lookup`",
+      "B": "`$unwind`",
+      "C": "`$group`",
+      "D": "`$project`"
+    },
+    "correct": ["C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 10,
+    "text": "When designing a responsive layout with Tailwind CSS, which of the following are valid approaches?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using utility classes with prefixes like `sm:`, `md:`, `lg:` to apply styles at specific breakpoints.",
+      "B": "Writing custom media queries directly in your CSS files.",
+      "C": "Using the `container` class to set a fixed maximum width for content.",
+      "D": "Defining all responsive styles using JavaScript based on `window.innerWidth`."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You need to manage application-wide state in a React application. When might you prefer using React's Context API over a state management library like Redux?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "When the state changes frequently and requires complex asynchronous logic.",
+      "B": "For simpler, less frequently updated state that needs to be accessible by many components.",
+      "C": "When you need a predictable state container with time-travel debugging capabilities.",
+      "D": "For passing down props to deeply nested components to avoid prop drilling."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "text": "Which of the following statements accurately describe Node.js Streams?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Streams are instances of `EventEmitter`.",
+      "B": "Piping streams (`source.pipe(destination)`) automatically handles backpressure.",
+      "C": "There are four fundamental stream types: Readable, Writable, Duplex, and Transform.",
+      "D": "Streams are primarily used for processing small chunks of data in memory."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 13,
+    "text": "To enhance the security of an Express.js application by setting various HTTP headers, which popular middleware package would you typically use?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Passport.js",
+      "B": "Helmet",
+      "C": "CORS",
+      "D": "Express-Validator"
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "text": "You are performing a multi-document operation in MongoDB that requires atomicity across several collections. Which conditions must be met to use transactions effectively?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The MongoDB deployment must be a replica set or a sharded cluster.",
+      "B": "All operations within the transaction must be on the same database.",
+      "C": "Transactions guarantee atomicity, consistency, isolation, and durability (ACID).",
+      "D": "Transactions are supported only on standalone MongoDB instances."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "Which tool is primarily responsible for compiling your Tailwind CSS utility classes into actual CSS rules during the build process?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Webpack",
+      "B": "Babel",
+      "C": "PostCSS",
+      "D": "ESLint"
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "To optimize the performance of a React component, which of the following techniques can be employed?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `React.memo` for functional components to prevent unnecessary re-renders.",
+      "B": "Wrapping event handlers passed as props with `useCallback`.",
+      "C": "Moving all state management to a global context provider.",
+      "D": "Memoizing expensive calculations within a component using `useMemo`."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "text": "What is the primary difference between `require()` and `import` (ES Modules) in Node.js?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`require()` is synchronous, while `import` is asynchronous.",
+      "B": "`require()` is used for client-side JavaScript, `import` for server-side.",
+      "C": "`require()` is for CommonJS modules, `import` is for ES Modules.",
+      "D": "`require()` supports named exports, `import` only default exports."
+    },
+    "correct": ["C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 18,
+    "text": "You are organizing routes in a large Express.js application. Which of the following are good practices for modular routing?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Defining all routes in a single `app.js` file for simplicity.",
+      "B": "Using `express.Router()` to create modular, mountable route handlers.",
+      "C": "Separating routes into different files based on resource (e.g., `users.js`, `products.js`).",
+      "D": "Passing the `app` object directly to route files for them to define routes."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "You are designing a MongoDB schema for a `blog` with `posts` and `comments`. Each post can have many comments, and comments are rarely accessed without their parent post. Which schema design approach would be most appropriate?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Embedding comments directly within the `posts` document.",
+      "B": "Storing comments in a separate `comments` collection and referencing the `postId`.",
+      "C": "Using a two-way referencing approach where `posts` reference `commentIds` and `comments` reference `postId`.",
+      "D": "Embedding comments if their number is relatively small and they don't grow indefinitely."
+    },
+    "correct": ["A", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 20,
+    "text": "What is the primary benefit of Tailwind CSS's utility-first approach regarding CSS file size?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It generates a massive CSS file containing all possible utility combinations.",
+      "B": "It allows for purging unused CSS, resulting in very small production CSS bundles.",
+      "C": "It eliminates the need for any CSS files whatsoever.",
+      "D": "It automatically compresses images referenced in CSS."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "You are building a React application and find yourself repeating similar stateful logic across multiple components. Which of the following are valid solutions to abstract and reuse this logic?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Creating a higher-order component (HOC) to wrap components with shared logic.",
+      "B": "Developing a custom Hook to encapsulate the stateful logic.",
+      "C": "Using a render prop pattern to share logic via a function prop.",
+      "D": "Copy-pasting the logic into each component that needs it."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "Which of the following statements about Node.js `Buffer` objects are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Buffers are used to handle binary data directly.",
+      "B": "Buffers are global objects and do not need to be imported.",
+      "C": "Buffers are fixed-size allocations in memory.",
+      "D": "Buffers are instances of JavaScript's `Array` class."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "You are implementing user authentication in an Express.js application. Which of the following are common and secure practices?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Storing user passwords directly in the database as plain text.",
+      "B": "Using `bcrypt` to hash passwords before storing them.",
+      "C": "Implementing JWT (JSON Web Tokens) for stateless authentication in APIs.",
+      "D": "Using server-side sessions to manage user login state."
+    },
+    "correct": ["B", "C", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 24,
+    "text": "What is the primary purpose of MongoDB Change Streams?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To perform real-time data analysis and aggregation.",
+      "B": "To enable real-time applications to react to data changes in a collection or database.",
+      "C": "To migrate data between different MongoDB instances.",
+      "D": "To track schema changes in a collection."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 25,
+    "text": "In React, what is an Error Boundary and how does it function?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "A component that catches JavaScript errors anywhere in its child component tree, logs those errors, and displays a fallback UI.",
+      "B": "A special type of component that prevents errors from occurring in its children.",
+      "C": "A utility function that helps debug errors in production.",
+      "D": "A component that only catches errors thrown by asynchronous operations."
+    },
+    "correct": ["A"],
+    "difficulty": "medium"
+  }
+]

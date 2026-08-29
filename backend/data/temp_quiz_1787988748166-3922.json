@@ -1,0 +1,434 @@
+[
+  {
+    "id": 1,
+    "text": "A junior developer wants to center a div horizontally and vertically within its parent using Flexbox. Which CSS properties are essential?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "display: flex;",
+      "B": "justify-content: center;",
+      "C": "align-items: center;",
+      "D": "margin: auto;"
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "Consider the following TypeScript code. What will be the output when `greetUser()` is called?",
+    "code": "function greetUser(name: string | undefined) {\n  return `Hello, ${name ?? 'Guest'}!`;\n}\nconsole.log(greetUser(undefined));",
+    "type": "MCQ",
+    "options": {
+      "A": "Hello, undefined!",
+      "B": "Hello, Guest!",
+      "C": "Hello, !",
+      "D": "Compilation Error"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "text": "You are developing a simple static landing page. Which of the following HTML5 semantic elements would you use to structure the main content area?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "<section>",
+      "B": "<main>",
+      "C": "<div>",
+      "D": "<article>"
+    },
+    "correct": [
+      "B",
+      "A",
+      "D"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "A team member pushed a feature branch to GitHub, but it has merge conflicts with `main`. What are common steps to resolve this?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Fetch and rebase the feature branch on `main`.",
+      "B": "Merge `main` into the feature branch locally and resolve conflicts.",
+      "C": "Delete the feature branch and recreate it.",
+      "D": "Force push the feature branch to overwrite `main`."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "A user reports slow loading times on a React component that fetches data. Which practices could improve its initial render performance?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using `React.memo` for functional components.",
+      "B": "Implementing lazy loading for components not immediately visible.",
+      "C": "Fetching all data upfront regardless of need.",
+      "D": "Debouncing or throttling event handlers."
+    },
+    "correct": [
+      "A",
+      "B",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "You need to store frequently accessed, non-relational session data for a Node.js application. Which database technology is best suited for this caching purpose?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "PostgreSQL",
+      "B": "MongoDB",
+      "C": "Redis",
+      "D": "MySQL"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 7,
+    "text": "A Laravel application needs to retrieve all 'active' users and eager load their 'posts'. Which Eloquent query is correct and efficient?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "User::where('status', 'active')->get()->load('posts');",
+      "B": "User::with('posts')->where('status', 'active')->get();",
+      "C": "User::all()->where('status', 'active')->load('posts');",
+      "D": "User::whereStatus('active')->with('posts')->get();"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "A developer is using Tailwind CSS and wants to apply responsive styling. Which utility classes correctly apply a different text size on medium screens and above?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "text-base md:text-lg",
+      "B": "text-lg sm:text-base",
+      "C": "md:text-xl text-sm",
+      "D": "text-xl md:text-base"
+    },
+    "correct": [
+      "A",
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 9,
+    "text": "Consider a Node.js Express route handling a POST request. Which common security vulnerabilities should a junior developer be aware of when processing user input?",
+    "code": "app.post('/submit', (req, res) => {\n  const userInput = req.body.data;\n  // ... process userInput ...\n  res.send('Received');\n});",
+    "type": "MSQ",
+    "options": {
+      "A": "SQL Injection (if `userInput` is used in a raw SQL query).",
+      "B": "Cross-Site Scripting (XSS) (if `userInput` is rendered directly in HTML without sanitization).",
+      "C": "Cross-Site Request Forgery (CSRF) (if no CSRF token is used for state-changing requests).",
+      "D": "Denial of Service (DoS) (if `userInput` is excessively large without limits)."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 10,
+    "text": "You are integrating a Gemini AI model to generate text summaries. What are crucial considerations for designing effective prompts?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Providing clear instructions and context.",
+      "B": "Specifying the desired output format (e.g., JSON, bullet points).",
+      "C": "Including examples of desired input/output (few-shot prompting).",
+      "D": "Keeping prompts as vague as possible to allow creativity."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "A React component uses `useState` to manage a counter. What will be the value of `count` after the button click?",
+    "code": "import React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  const handleClick = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  };\n\n  return <button onClick={handleClick}>{count}</button>;\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "2",
+      "D": "Depends on React's batching behavior"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "text": "A developer needs to query a PostgreSQL database to find all users who registered in the last 30 days. Which SQL query is correct?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "SELECT * FROM users WHERE registration_date >= NOW() - INTERVAL '30 days';",
+      "B": "SELECT * FROM users WHERE registration_date >= DATE_SUB(NOW(), INTERVAL 30 DAY);",
+      "C": "SELECT * FROM users WHERE registration_date >= CURRENT_DATE - 30;",
+      "D": "SELECT * FROM users WHERE registration_date BETWEEN NOW() - INTERVAL '30 days' AND NOW();"
+    },
+    "correct": [
+      "A"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "You are building a responsive navigation bar using Bootstrap 5. Which classes are essential for making it collapse on smaller screens?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "navbar",
+      "B": "navbar-expand-lg",
+      "C": "navbar-toggler",
+      "D": "collapse navbar-collapse"
+    },
+    "correct": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 14,
+    "text": "A junior developer wrote the following PHP code. What potential issues or bad practices does it contain?",
+    "code": "<?php\n$userId = $_GET['id'];\n$conn = new mysqli('localhost', 'user', 'pass', 'db');\n$result = $conn->query(\"SELECT * FROM users WHERE id = $userId\");\n$user = $result->fetch_assoc();\necho \"Welcome, \" . $user['name'] . \"!\";\n?>",
+    "type": "MSQ",
+    "options": {
+      "A": "SQL Injection vulnerability.",
+      "B": "Lack of error handling for database connection or query.",
+      "C": "Cross-Site Scripting (XSS) vulnerability.",
+      "D": "Using `mysqli` instead of PDO."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "In TypeScript, what is the key difference between an `interface` and a `type` alias when defining object shapes?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Interfaces can be implemented by classes, type aliases cannot.",
+      "B": "Interfaces can be extended, type aliases can be intersected.",
+      "C": "Type aliases can define union or intersection types, interfaces cannot.",
+      "D": "Interfaces are primarily for compile-time checks, type aliases are for runtime."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "You are debugging a Node.js application that occasionally crashes with an 'Unhandled Promise Rejection'. What are common causes and solutions?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Forgetting to `catch` errors in Promises.",
+      "B": "Not using `async/await` for asynchronous operations.",
+      "C": "Using `try...catch` blocks around `async` function calls.",
+      "D": "Adding a global `process.on('unhandledRejection', ...)` handler."
+    },
+    "correct": [
+      "A",
+      "C",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "text": "A junior developer is trying to make a `div` take up the full height of the viewport. Which CSS properties should be applied?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "height: 100%;",
+      "B": "min-height: 100vh;",
+      "C": "height: 100vh;",
+      "D": "position: absolute; top: 0; bottom: 0;"
+    },
+    "correct": [
+      "B",
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 18,
+    "text": "Consider the following JavaScript code. What will be logged to the console?",
+    "code": "const data = { a: 1, b: 2 };\nconst { a, c = 3 } = data;\nconsole.log(a, c);",
+    "type": "MCQ",
+    "options": {
+      "A": "1 undefined",
+      "B": "1 3",
+      "C": "1 null",
+      "D": "Error: c is not defined"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 19,
+    "text": "A web application stores user profiles in a MongoDB collection. You need to find all users from 'New York' who are 'active' and sort them by their 'last_login' date in descending order.",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "db.users.find({ city: 'New York', status: 'active' }).sort({ last_login: -1 });",
+      "B": "db.users.find({ city: 'New York' }).where({ status: 'active' }).sort({ last_login: 'desc' });",
+      "C": "db.users.find({ $and: [{ city: 'New York' }, { status: 'active' }] }).sort({ last_login: -1 });",
+      "D": "db.users.filter({ city: 'New York', status: 'active' }).orderBy('last_login', 'desc');"
+    },
+    "correct": [
+      "A"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 20,
+    "text": "You are optimizing a database query in MySQL that joins two large tables. Which strategies can help improve query performance?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Adding appropriate indexes to columns used in JOIN conditions and WHERE clauses.",
+      "B": "Selecting only the necessary columns instead of `SELECT *`.",
+      "C": "Using `HAVING` clause instead of `WHERE` for filtering rows before aggregation.",
+      "D": "Normalizing the database schema if denormalization is causing redundancy."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "A React component fetches data with `useEffect` and cleans up resources. Which code snippet correctly handles data fetching and cleanup?",
+    "code": "import React, { useEffect, useState } from 'react';\n\nfunction MyComponent() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    const fetchData = async () => {\n      const response = await fetch('/api/data');\n      const result = await response.json();\n      setData(result);\n    };\n    fetchData();\n    return () => { /* cleanup logic */ };\n  }, []);\n\n  return <div>{data ? data.message : 'Loading...'}</div>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "The `useEffect` hook with an empty dependency array ensures it runs once.",
+      "B": "The `return` function inside `useEffect` is correctly used for cleanup.",
+      "C": "The `fetchData` function is defined and called inside `useEffect` to avoid stale closures.",
+      "D": "The `useState` hook is used correctly to manage component state."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "text": "A junior developer is styling a button using CSS3. Which properties can be used to add a subtle shadow and rounded corners?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "box-shadow",
+      "B": "border-radius",
+      "C": "text-shadow",
+      "D": "outline"
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 23,
+    "text": "You are building a PHP API endpoint that receives JSON data. How can you securely access the JSON payload and ensure it's properly parsed?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "$data = json_decode(file_get_contents('php://input'), true);",
+      "B": "$data = $_POST['json_data'];",
+      "C": "Check `json_last_error()` after `json_decode()` for parsing errors.",
+      "D": "Validate the structure and types of the decoded data."
+    },
+    "correct": [
+      "A",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 24,
+    "text": "A developer needs to implement a feature where a user can upload an image, and an AI model (like Gemini) processes it. What are key steps in this integration?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Client-side image validation (size, type) before upload.",
+      "B": "Sending the image data (e.g., base64 encoded) to a backend API.",
+      "C": "Backend API sending the image data to the Gemini API.",
+      "D": "Directly sending image data from the browser to the Gemini API (bypassing backend)."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 25,
+    "text": "What does the following TypeScript code output to the console?",
+    "code": "enum Status { Active = 1, Inactive = 2, Pending };\nlet currentStatus: Status = Status.Pending;\nconsole.log(currentStatus);",
+    "type": "MCQ",
+    "options": {
+      "A": "Pending",
+      "B": "2",
+      "C": "3",
+      "D": "Error"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "hard"
+  }
+]

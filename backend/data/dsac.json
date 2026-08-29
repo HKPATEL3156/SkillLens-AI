@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "Consider a `std::vector<int> vec;` and a loop adding 1000 elements. Which statements about its capacity and performance are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The vector's capacity will grow linearly, increasing by a fixed amount each time.",
+      "B": "Reallocations can invalidate iterators pointing to elements within the vector.",
+      "C": "Using `vec.reserve(1000)` before adding elements can improve performance by reducing reallocations.",
+      "D": "After adding 1000 elements, `vec.capacity()` will always be exactly 1000."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 2,
+    "text": "You are implementing a singly linked list. Which code snippets correctly handle the deletion of a node `current` where `prev` is its preceding node?",
+    "code": "struct Node { int data; Node* next; };",
+    "type": "MSQ",
+    "options": {
+      "A": "if (prev) { prev->next = current->next; delete current; } else { /* handle head deletion */ }",
+      "B": "Node* temp = current; current = current->next; delete temp;",
+      "C": "if (current->next) { current->data = current->next->data; Node* temp = current->next; current->next = current->next->next; delete temp; } else { /* handle tail deletion */ }",
+      "D": "delete current; current = nullptr;"
+    },
+    "correct": ["A", "C"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 3,
+    "text": "When choosing between `std::map<Key, Value>` and `std::unordered_map<Key, Value>` in C++, which considerations are generally true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`std::map` offers guaranteed O(log N) complexity for insertions, deletions, and lookups.",     
+      "B": "`std::unordered_map` typically provides faster average-case O(1) operations but can degrade to O(N) in worst-case scenarios.",
+      "C": "Keys in `std::map` must be hashable, while keys in `std::unordered_map` must be sortable.",    
+      "D": "`std::map` stores elements in a sorted order based on keys, while `std::unordered_map` does not guarantee any specific order."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 4,
+    "text": "Consider a `std::vector<int> v = {1, 2, 3, 4, 5};`. Which operations can potentially invalidate iterators pointing to elements within `v`?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`v.push_back(6);`",
+      "B": "`v.erase(v.begin() + 2);`",
+      "C": "`v.at(0) = 10;`",
+      "D": "`v.clear();`"
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 5,
+    "text": "You need to store custom objects in a `std::set` based on a specific ordering. Which statements are true regarding custom comparators for `std::set`?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "A custom comparison function or functor must define a strict weak ordering.",
+      "B": "The comparator can be passed as a template argument to `std::set`.",
+      "C": "The comparator must be a member function of the custom object class.",
+      "D": "If `operator<` is overloaded for the custom object, a separate comparator is not needed."      
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 6,
+    "text": "Given a binary search tree, which traversal order would always print the elements in ascending order?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Pre-order traversal",
+      "B": "In-order traversal",
+      "C": "Post-order traversal",
+      "D": "Level-order traversal"
+    },
+    "correct": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 7,
+    "text": "Regarding Breadth-First Search (BFS) and Depth-First Search (DFS) on a graph, which statements are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "BFS uses a queue to explore vertices level by level.",
+      "B": "DFS uses a stack (or recursion) to explore as far as possible along each branch before backtracking.",
+      "C": "BFS is generally preferred for finding the shortest path in an unweighted graph.",
+      "D": "DFS can detect cycles in a directed graph by checking for back edges."
+    },
+    "correct": ["A", "B", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 8,
+    "text": "Consider a simple custom linked list class. Which scenario is most likely to lead to a memory leak?",
+    "code": "class LinkedList { Node* head; public: LinkedList() : head(nullptr) {} ~LinkedList() { /* destructor */ } void add(int val) { /* ... */ } };",
+    "type": "MCQ",
+    "options": {
+      "A": "The `add` method allocates a new `Node` but doesn't link it.",
+      "B": "The destructor `~LinkedList()` only sets `head = nullptr;` without deallocating nodes.",       
+      "C": "A `Node` pointer is declared but not initialized.",
+      "D": "The `add` method uses `new` but `delete` is called immediately after."
+    },
+    "correct": ["B"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 9,
+    "text": "You are designing a binary tree node. Which smart pointer usage is appropriate for managing child nodes to prevent memory leaks and ensure proper ownership?",
+    "code": "struct Node { int data; /* Smart pointer for left child */ /* Smart pointer for right child */ };",
+    "type": "MSQ",
+    "options": {
+      "A": "`std::unique_ptr<Node> left;` and `std::unique_ptr<Node> right;` for a standard tree.",        
+      "B": "`std::shared_ptr<Node> left;` and `std::shared_ptr<Node> right;` if multiple parents can share children.",
+      "C": "`std::weak_ptr<Node> parent;` in conjunction with `std::shared_ptr` for children to break circular references.",
+      "D": "Raw pointers `Node* left;` and `Node* right;` for simplicity, relying on manual deletion."     
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 10,
+    "text": "Analyze the time complexity of the following code snippet, assuming `N` is the size of `vec`.",
+    "code": "std::vector<int> vec; // populated with N elements\nstd::map<int, int> counts;\nfor (int x : vec) {\n    counts[x]++;\n}\nfor (auto const& [key, val] : counts) {\n    if (val > 1) {\n        // do something O(1)\n    }\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "O(N)",
+      "B": "O(N log N)",
+      "C": "O(N^2)",
+      "D": "O(N + M log M) where M is number of unique elements"
+    },
+    "correct": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 11,
+    "text": "Regarding `std::priority_queue` in C++, which statements are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "By default, it implements a max-heap, meaning `top()` returns the largest element.",
+      "B": "It can be customized to be a min-heap by providing a custom comparator (e.g., `std::greater<T>`).",
+      "C": "Elements can be efficiently removed from the middle of the queue.",
+      "D": "Its underlying container can be specified, with `std::vector` being the default."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 12,
+    "text": "Which of the following code snippets demonstrates a dangling pointer issue?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "int* p = nullptr; *p = 5;",
+      "B": "int* p = new int(10); delete p; *p = 20;",
+      "C": "int x = 5; int* p = &x; x = 10;",
+      "D": "int* p; p = new int[5]; delete[] p;"
+    },
+    "correct": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 13,
+    "text": "You need to sort a collection of custom objects. Which statements about sorting in C++ are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`std::sort` typically has an average time complexity of O(N log N).",
+      "B": "For custom objects, `std::sort` requires an overloaded `operator<` or a custom comparison function/functor.",
+      "C": "`std::stable_sort` is guaranteed to preserve the relative order of equivalent elements.",      
+      "D": "For small collections (e.g., N < 16), insertion sort is often faster than `std::sort`."        
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 14,
+    "text": "In `std::unordered_map`, what are common strategies for resolving hash collisions?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Linear probing, where the next available slot is sought.",
+      "B": "Chaining, where a linked list stores multiple elements at the same hash index.",
+      "C": "Quadratic probing, which uses a quadratic function to find the next slot.",
+      "D": "Rehashing, which rebuilds the hash table with a larger number of buckets."
+    },
+    "correct": ["A", "B", "C", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 15,
+    "text": "Which `std::deque` operations are suitable for implementing a queue (FIFO) data structure?",  
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`push_back()` for enqueueing elements.",
+      "B": "`pop_front()` for dequeueing elements.",
+      "C": "`push_front()` for enqueueing elements.",
+      "D": "`front()` to inspect the next element to be dequeued."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 16,
+    "text": "Consider a `const` member function in a data structure class. Which actions are generally permissible within such a function?",
+    "code": "class MyList { int* data; size_t size; public: /* ... */ void print() const; };",
+    "type": "MSQ",
+    "options": {
+      "A": "Modifying a non-`mutable` member variable of the class.",
+      "B": "Calling other `const` member functions of the same class.",
+      "C": "Returning a non-`const` reference to a member variable.",
+      "D": "Accessing (reading) non-`mutable` member variables."
+    },
+    "correct": ["B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 17,
+    "text": "You have `std::vector<std::string> source = {\"a\", \"b\"};` and `std::vector<std::string> dest;`. What is the effect of `dest = std::move(source);`?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The contents of `source` are copied to `dest`, and `source` remains unchanged.",
+      "B": "`dest` will contain {\"a\", \"b\"}.",
+      "C": "`source` will be in a valid but unspecified state, typically empty.",
+      "D": "This operation performs a deep copy of all string data."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 18,
+    "text": "Which properties are characteristic of a valid Binary Search Tree (BST)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "For every node, all keys in its left subtree are less than the node's key.",
+      "B": "For every node, all keys in its right subtree are greater than the node's key.",
+      "C": "All leaf nodes are at the same depth.",
+      "D": "Duplicate keys are typically not allowed, or handled with specific rules."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 19,
+    "text": "When performing a Depth-First Search (DFS) on a graph, how can cycles be detected?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "In an undirected graph, if DFS encounters an already visited node that is not its immediate parent.",
+      "B": "In a directed graph, if DFS encounters a node that is currently in the recursion stack (i.e., being visited).",
+      "C": "By checking if the number of edges is greater than (number of vertices - 1).",
+      "D": "By using a queue to track visited nodes and their parents."
+    },
+    "correct": ["A", "B"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 20,
+    "text": "For keys in `std::map<Key, Value>`, which type is generally more efficient and safer to use?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`char*` pointers, as they are lightweight.",
+      "B": "`std::string`, as it handles memory management and comparison correctly.",
+      "C": "`const char*` literals, as they are stored in read-only memory.",
+      "D": "Custom struct with raw `char[]` and manual comparison."
+    },
+    "correct": ["B"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 21,
+    "text": "You are implementing a generic `Node` for a linked list that can store any data type. Which C++ feature is most appropriate?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Inheritance with a base `Node` class and derived `IntNode`, `StringNode` classes.",
+      "B": "Using `void*` to store data and `reinterpret_cast` when accessing.",
+      "C": "Class templates, e.g., `template <typename T> class Node { T data; Node<T>* next; };`",        
+      "D": "Macros to generate different `Node` types for each data type."
+    },
+    "correct": ["C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 22,
+    "text": "How does Resource Acquisition Is Initialization (RAII) apply to custom data structures in C++?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "It ensures that resources (like dynamically allocated memory) are acquired in the constructor.",
+      "B": "It guarantees that acquired resources are automatically released in the destructor.",
+      "C": "It is primarily used for file handles and mutexes, not memory management in data structures.", 
+      "D": "It helps prevent memory leaks and ensures exception safety when managing resources."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 23,
+    "text": "Consider a `std::vector<int> v;`. Which operations could lead to undefined behavior or logical errors if not handled carefully?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "`v[0]` when `v` is empty.",
+      "B": "`v.at(v.size())` when `v` is not empty.",
+      "C": "`v.pop_back()` when `v` is empty.",
+      "D": "`v.reserve(10); v.resize(5);`"
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "Medium"
+  },
+  {
+    "id": 24,
+    "text": "A recursive DFS algorithm is implemented on a very deep graph. What is the most likely issue if the graph has millions of nodes and a long path?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Heap overflow due to excessive memory allocation for visited nodes.",
+      "B": "Stack overflow due to deep recursion.",
+      "C": "Integer overflow if node IDs are used as counters.",
+      "D": "Cache miss penalties due to non-local memory access."
+    },
+    "correct": ["B"],
+    "difficulty": "Medium-Hard"
+  },
+  {
+    "id": 25,
+    "text": "When defining a struct for a tree node, how might the order of member variables affect memory usage or performance?",
+    "code": "struct Node { char c; int i; bool b; Node* next; };",
+    "type": "MCQ",
+    "options": {
+      "A": "The order of members has no impact on memory usage, only on readability.",
+      "B": "Padding bytes might be inserted by the compiler for alignment, increasing total size.",        
+      "C": "Reordering members can reduce the total size of the struct by minimizing padding.",
+      "D": "Accessing misaligned data is always slower on all architectures."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "Hard"
+  }
+]

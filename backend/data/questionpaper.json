@@ -1,0 +1,427 @@
+[
+  {
+    "id": 1,
+    "text": "You're styling a button. Which of these CSS properties are part of the CSS Box Model?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "margin",
+      "B": "padding",
+      "C": "color",
+      "D": "border"
+    },
+    "correct": [
+      "A",
+      "B",
+      "D"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "Consider the following JavaScript code snippet. What will be logged to the console?",
+    "code": "const a = 10;\nfunction foo() {\n  console.log(a);\n  const a = 20;\n}\nfoo();",
+    "type": "MCQ",
+    "options": {
+      "A": "10",
+      "B": "20",
+      "C": "ReferenceError",
+      "D": "undefined"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 3,
+    "text": "You need to store user session data that expires after a short period and needs fast read/write access. Which database/storage solution is most suitable?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "MySQL",
+      "B": "MongoDB",
+      "C": "Redis",
+      "D": "PostgreSQL"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "Which of the following are valid ways to declare a constant variable in TypeScript?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "let myVar = 'value';",
+      "B": "const myVar: string = 'value';",
+      "C": "var myVar = 'value';",
+      "D": "const myVar = 'value';"
+    },
+    "correct": [
+      "B",
+      "D"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 5,
+    "text": "You're building a React component that fetches data from an API. Which lifecycle hook or hook equivalent would you use to perform this fetch only once after the component mounts?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "componentDidUpdate",
+      "B": "useEffect(() => {}, [])",
+      "C": "useState",
+      "D": "useCallback"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "Consider the following PHP code. What will be the output?",
+    "code": "<?php\n$arr = [1, 2, 3];\nforeach ($arr as &$value) {\n  $value *= 2;\n}\nprint_r($arr);",
+    "type": "MCQ",
+    "options": {
+      "A": "Array ( [0] => 1 [1] => 2 [2] => 3 )",
+      "B": "Array ( [0] => 2 [1] => 4 [2] => 6 )",
+      "C": "Error",
+      "D": "Array ( [0] => 2 [1] => 2 [2] => 2 )"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 7,
+    "text": "You've made changes to your local Git repository and want to save them to your remote repository. What sequence of Git commands would you typically use?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "git commit -m 'message'",
+      "B": "git push origin main",
+      "C": "git add .",
+      "D": "git pull origin main"
+    },
+    "correct": [
+      "C",
+      "A",
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 8,
+    "text": "Which of the following are benefits of using TypeScript over plain JavaScript for a large project?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Runtime type checking",
+      "B": "Improved code readability and maintainability",
+      "C": "Better tooling support (autocompletion, refactoring)",
+      "D": "Enables static type checking during development"
+    },
+    "correct": [
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "You are designing a database for an e-commerce platform. Which of these SQL queries would correctly retrieve all products with a price greater than 50 and less than 100?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "SELECT * FROM products WHERE price > 50 AND price < 100;",
+      "B": "SELECT * FROM products WHERE price BETWEEN 50 AND 100;",
+      "C": "SELECT * FROM products WHERE price > 50 OR price < 100;",
+      "D": "SELECT * FROM products WHERE price > 50, price < 100;"
+    },
+    "correct": [
+      "A"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 10,
+    "text": "A Node.js application uses `fs.readFile` to read a file. If the file doesn't exist, what is the expected behavior?",
+    "code": "const fs = require('fs');\nfs.readFile('nonexistent.txt', 'utf8', (err, data) => {\n  if (err) {\n    console.error('Error:', err.message);\n  } else {\n    console.log('Data:', data);\n  }\n});",
+    "type": "MCQ",
+    "options": {
+      "A": "The application will crash.",
+      "B": "The `data` variable will be an empty string.",
+      "C": "The `err` object will contain an error, and 'Error: ...' will be logged.",
+      "D": "It will wait indefinitely for the file to appear."
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You're using Tailwind CSS for styling. Which class would you use to make an element's text bold and center-aligned?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "font-bold",
+      "B": "text-align-center",
+      "C": "text-center",
+      "D": "font-weight-bold"
+    },
+    "correct": [
+      "A",
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 12,
+    "text": "In Laravel, which of the following are common ways to retrieve data from a database using Eloquent ORM?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "User::all();",
+      "B": "DB::table('users')->get();",
+      "C": "User::find(1);",
+      "D": "SELECT * FROM users;"
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "You are integrating a third-party AI model (like Gemini) into your application. Which of these are common challenges or considerations?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Handling API rate limits and authentication.",
+      "B": "Managing large input/output data sizes.",
+      "C": "Ensuring data privacy and security for user inputs.",
+      "D": "The AI model will always provide correct and unbiased responses."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 14,
+    "text": "Consider this React component. What will be the output when the button is clicked?",
+    "code": "import React, { useState } from 'react';\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  const handleClick = () => {\n    setCount(count + 1);\n    setCount(count + 1);\n  };\n  return <button onClick={handleClick}>{count}</button>;\n}\n// Initial render shows 0",
+    "type": "MCQ",
+    "options": {
+      "A": "0",
+      "B": "1",
+      "C": "2",
+      "D": "Error"
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 15,
+    "text": "You are debugging a CSS layout issue where an element is overflowing its parent. Which of these CSS properties could help resolve the issue?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "overflow: hidden;",
+      "B": "box-sizing: border-box;",
+      "C": "display: flex;",
+      "D": "z-index: 1;"
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "Which of the following are true about `async/await` in JavaScript/TypeScript?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "It makes asynchronous code look synchronous.",
+      "B": "It eliminates the need for Promises.",
+      "C": "An `async` function always returns a Promise.",
+      "D": "`await` can only be used inside an `async` function."
+    },
+    "correct": [
+      "A",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 17,
+    "text": "A junior developer wrote this SQL query for a PostgreSQL database. What is a potential issue or best practice violation?",
+    "code": "SELECT * FROM users WHERE user_email = 'test@example.com';",
+    "type": "MSQ",
+    "options": {
+      "A": "It's vulnerable to SQL injection if 'test@example.com' comes from user input.",
+      "B": "It's inefficient because it uses `SELECT *` instead of specific columns.",
+      "C": "PostgreSQL does not support `WHERE` clauses.",
+      "D": "It's fine, no issues."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "text": "You're building a REST API with Node.js and Express. Which HTTP methods are typically used for updating an existing resource completely and partially, respectively?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "PUT and PATCH",
+      "B": "POST and PUT",
+      "C": "PATCH and PUT",
+      "D": "UPDATE and MODIFY"
+    },
+    "correct": [
+      "A"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 19,
+    "text": "What is the primary purpose of `npm install` or `yarn install` in a Node.js project?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "To start the application server.",
+      "B": "To compile TypeScript files to JavaScript.",
+      "C": "To download and install project dependencies listed in `package.json`.",
+      "D": "To create a new project."
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 20,
+    "text": "Consider the following TypeScript interface and class. Which of these statements about `myObject` are true?",
+    "code": "interface MyInterface {\n  id: number;\n  name: string;\n}\nclass MyClass implements MyInterface {\n  id: number;\n  name: string;\n  constructor(id: number, name: string) {\n    this.id = id;\n    this.name = name;\n  }\n}\nconst myObject: MyInterface = new MyClass(1, 'Test');",
+    "type": "MSQ",
+    "options": {
+      "A": "`myObject` can only have properties `id` and `name`.",
+      "B": "`myObject` is an instance of `MyClass`.",
+      "C": "You can add a new property `age` to `myObject` after its creation.",
+      "D": "The `id` property of `myObject` must be a number."
+    },
+    "correct": [
+      "A",
+      "B",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 21,
+    "text": "You are developing a web application and need to ensure it looks good on various screen sizes. Which of these approaches are effective for responsive design?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Using fixed pixel widths for all elements.",
+      "B": "Implementing CSS Media Queries.",
+      "C": "Utilizing a responsive framework like Bootstrap or Tailwind CSS.",
+      "D": "Using relative units like percentages, `em`, or `rem`."
+    },
+    "correct": [
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "A junior developer is trying to store sensitive user data in a MongoDB database. Which of these practices should be followed for basic security?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Store passwords as plain text for easy retrieval.",
+      "B": "Hash passwords before storing them.",
+      "C": "Use environment variables for database connection strings.",
+      "D": "Implement input validation to prevent injection attacks."
+    },
+    "correct": [
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "What is the purpose of the `composer.json` file in a Laravel/PHP project?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It defines the database schema.",
+      "B": "It lists project dependencies and metadata for Composer.",
+      "C": "It configures web server settings.",
+      "D": "It stores user session data."
+    },
+    "correct": [
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 24,
+    "text": "You have a `users` table and a `posts` table, with `posts.user_id` referencing `users.id`. Which query correctly lists all users who have posted more than 5 posts?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "SELECT u.name FROM users u JOIN posts p ON u.id = p.user_id GROUP BY u.id HAVING COUNT(p.id) > 5;",
+      "B": "SELECT u.name FROM users u WHERE (SELECT COUNT(*) FROM posts WHERE user_id = u.id) > 5;",
+      "C": "SELECT u.name FROM users u, posts p WHERE u.id = p.user_id AND COUNT(p.id) > 5;",
+      "D": "SELECT u.name FROM users u LEFT JOIN posts p ON u.id = p.user_id WHERE COUNT(p.id) > 5 GROUP BY u.id;"
+    },
+    "correct": [
+      "A"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 25,
+    "text": "A React component receives a prop `data` which is an array. You want to display a message if the array is empty. Which code snippet correctly handles this?",
+    "code": "function MyComponent({ data }) {\n  // ...\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "{data.length === 0 && <p>No data available.</p>}",
+      "B": "{data ? data.map(...) : <p>No data available.</p>}",
+      "C": "{!data || data.length === 0 ? <p>No data available.</p> : data.map(...)}",
+      "D": "{data && data.length === 0 && <p>No data available.</p>}"
+    },
+    "correct": [
+      "A",
+      "C",
+      "D"
+    ],
+    "difficulty": "medium"
+  }
+]

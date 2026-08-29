@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "text": "Consider the following React component. What will be logged to the console after 1 second if the button is clicked once?",
+    "code": "import React, { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  const handleClick = () => {\n    setCount(count + 1);\n    setTimeout(() => {\n      console.log('Count:', count); // What is logged here?\n    }, 1000);\n  };\n\n  return <button onClick={handleClick}>Increment</button>;\n}",
+    "type": "MCQ",
+    "options": {
+      "A": "The updated count (e.g., 1 if clicked once)",
+      "B": "The count value at the time of the click event (e.g., 0 if clicked once from initial state)",
+      "C": "undefined",
+      "D": "A Promise object"
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "You have deeply nested React components requiring a user object. Passing it via props through every component is cumbersome. Which patterns are suitable to avoid 'prop drilling'?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "React Context API",
+      "B": "Redux or Zustand (state management libraries)",
+      "C": "Passing a callback function down to update parent state",
+      "D": "Using `useRef` to directly access child component props"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 3,
+    "text": "Given this Express setup, what will be the output in the console if a GET request hits `/test`?",
+    "code": "const express = require('express');\nconst app = express();\n\napp.use((req, res, next) => {\n  console.log('Middleware 1');\n  next();\n});\n\napp.get('/test', (req, res, next) => {\n  console.log('Route Handler');\n  res.send('Hello');\n});\n\napp.use((req, res, next) => {\n  console.log('Middleware 2');\n  res.status(404).send('Not Found');\n});\n\napp.listen(3000);\n",
+    "type": "MCQ",
+    "options": {
+      "A": "Middleware 1, Route Handler, Middleware 2",
+      "B": "Middleware 1, Route Handler",
+      "C": "Route Handler, Middleware 1",
+      "D": "Middleware 2, Route Handler"
+    },
+    "correct": ["B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "Consider these two Express responses. Which statements correctly describe their behavior or best practices?",
+    "code": "app.get('/data1', (req, res) => {\n  res.send({ message: 'Hello' });\n});\n\napp.get('/data2', (req, res) => {\n  res.json({ message: 'Hello' });\n});\n",
+    "type": "MSQ",
+    "options": {
+      "A": "`res.json()` automatically sets the `Content-Type` header to `application/json`.",
+      "B": "`res.send()` can infer the `Content-Type` based on the body type.",
+      "C": "For sending JSON data, `res.send()` is generally preferred for performance.",
+      "D": "`res.json()` is a wrapper around `res.send()` that adds JSON-specific features."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 5,
+    "text": "Which MongoDB query will find all documents in the 'products' collection where the 'category' is 'Electronics' AND the 'price' is greater than 100?",
+    "code": "db.products.find(QUERY_HERE)",
+    "type": "MCQ",
+    "options": {
+      "A": "{ category: 'Electronics', price: { $gt: 100 } }",
+      "B": "{ category: 'Electronics' AND price: { $gt: 100 } }",
+      "C": "{ category: 'Electronics' || price: { $gt: 100 } }",
+      "D": "{ $and: [ { category: 'Electronics' }, { price: { $gt: 100 } } ] }"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 6,
+    "text": "You want a button to be full width on small screens but half width on medium screens and larger. Which Tailwind CSS classes achieve this?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "w-full md:w-1/2",
+      "B": "w-full lg:w-1/2",
+      "C": "sm:w-full md:w-1/2",
+      "D": "w-1/2 md:w-full"
+    },
+    "correct": ["A"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 7,
+    "text": "Consider this React component. What are the potential issues or correct dependency array usages for the `useEffect` hook?",
+    "code": "import React, { useState, useEffect } from 'react';\n\nfunction DataFetcher({ userId }) {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(setData);\n    // Missing dependency array or incorrect usage\n  }, [/* dependencies here */]);\n\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "An empty dependency array `[]` would cause an infinite loop if `userId` changes.",
+      "B": "Omitting the dependency array would fetch data on every render.",
+      "C": "Including `userId` in the dependency array `[userId]` ensures data refetches when `userId` changes.",
+      "D": "Including `setData` in the dependency array `[setData]` is necessary to prevent stale closures."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "You're using React Context for a theme. If you update the theme value frequently in the provider, what is a common performance pitfall for consumers?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Only the component directly consuming the context will re-render.",
+      "B": "All components in the provider's subtree will re-render, regardless of whether they use the context value.",
+      "C": "React will automatically memoize context consumers to prevent unnecessary re-renders.",
+      "D": "The context update will only trigger a re-render if the new value is deeply different from the old one."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 9,
+    "text": "Consider a `Parent` component rendering a `MemoizedChild`. Which actions would cause `MemoizedChild` to re-render?",
+    "code": "import React, { useState, memo } from 'react';\n\nconst MemoizedChild = memo(({ data, onClick }) => {\n  console.log('Child re-rendered');\n  return <button onClick={onClick}>{data.value}</button>;\n});\n\nfunction Parent() {\n  const [count, setCount] = useState(0);\n  const [obj, setObj] = useState({ value: 1 });\n  const handleClick = () => {};\n\n  return (\n    <div>\n      <button onClick={() => setCount(count + 1)}>Parent Count: {count}</button>\n      <MemoizedChild data={obj} onClick={handleClick} />\n    </div>\n  );\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "Updating the `count` state in `Parent`.",
+      "B": "Updating the `obj` state in `Parent` with a new object reference, e.g., `setObj({ value: 2 })`.",
+      "C": "Passing a new inline function for `onClick` prop on every `Parent` render.",
+      "D": "Wrapping `handleClick` with `useCallback` and `obj` with `useMemo`."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 10,
+    "text": "Given this Express route, what will happen if `someAsyncOperation()` throws an error?",
+    "code": "const express = require('express');\nconst app = express();\n\napp.get('/async-data', async (req, res, next) => {\n  try {\n    const data = await someAsyncOperation();\n    res.json(data);\n  } catch (error) {\n    next(error); // How does this work?\n  }\n});\n\napp.use((err, req, res, next) => {\n  console.error(err.stack);\n  res.status(500).send('Something broke!');\n});\n",
+    "type": "MSQ",
+    "options": {
+      "A": "The error will be caught by the `catch` block and passed to the error-handling middleware.",
+      "B": "The server will crash if `someAsyncOperation()` throws an unhandled promise rejection.",
+      "C": "The client will receive a 500 status code with 'Something broke!'.",
+      "D": "The `next(error)` call ensures that the error is properly propagated down the middleware chain."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 11,
+    "text": "You're building an API with Express. Which practices are crucial for implementing a robust authentication middleware?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Ensure the middleware runs *before* any routes it protects.",
+      "B": "Store sensitive user data (like passwords) directly in `req.user` after authentication.",
+      "C": "Always call `next()` if authentication fails to allow subsequent middleware to handle it.",
+      "D": "Verify token signatures and expiration dates for JWTs."
+    },
+    "correct": ["A", "D"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 12,
+    "text": "A client sends a POST request with `Content-Type: application/json` and a JSON body. Which Express middleware is needed to access `req.body`?",
+    "code": "const express = require('express');\nconst app = express();\n\n// Middleware setup here\n\napp.post('/submit', (req, res) => {\n  console.log(req.body); // Should be the JSON object\n  res.send('Received');\n});\n\napp.listen(3000);\n",
+    "type": "MCQ",
+    "options": {
+      "A": "`app.use(express.urlencoded({ extended: true }))`",
+      "B": "`app.use(express.json())`",
+      "C": "`app.use(bodyParser.text())`",
+      "D": "No middleware is needed; Express handles JSON bodies by default."
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 13,
+    "text": "Your MongoDB query `db.users.find({ email: 'test@example.com' })` is performing slowly on a large collection. What actions could improve its performance?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Create an index on the `email` field.",
+      "B": "Increase the server's RAM to cache more data.",
+      "C": "Use a compound index if `email` is often queried with other fields.",
+      "D": "Switch from `find()` to `findOne()` for better performance."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 14,
+    "text": "Which aggregation pipeline stage in MongoDB is used to filter documents based on specified conditions, similar to the `find()` method?",
+    "code": "db.orders.aggregate([\n  // Stage here\n  { $group: { _id: '$customerId', totalOrders: { $sum: 1 } } }\n])",
+    "type": "MCQ",
+    "options": {
+      "A": "$project",
+      "B": "$match",
+      "C": "$lookup",
+      "D": "$sort"
+    },
+    "correct": ["B"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 15,
+    "text": "You need to add a custom color 'brand-blue' and a new font size 'text-xxl' to your Tailwind CSS project. How would you achieve this?",
+    "code": "// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      // Your customizations here\n    },\n  },\n  plugins: [],\n};",
+    "type": "MSQ",
+    "options": {
+      "A": "Add `colors: { 'brand-blue': '#007bff' }` directly under `theme: {}`.",
+      "B": "Add `fontSize: { 'xxl': '2.5rem' }` under `theme: { extend: {} }`.",
+      "C": "Add `colors: { 'brand-blue': '#007bff' }` under `theme: { extend: {} }`.",
+      "D": "Create a new CSS file and define custom classes like `.brand-blue`."
+    },
+    "correct": ["B", "C"],
+    "difficulty": "medium"
+  },
+  {
+    "id": 16,
+    "text": "Consider this component. If `count` is updated rapidly, what are the implications of the `useEffect` behavior with an empty dependency array?",
+    "code": "import React, { useState, useEffect } from 'react';\n\nfunction Timer() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const intervalId = setInterval(() => {\n      console.log('Current count:', count); // What count is logged?\n      setCount(count + 1);\n    }, 1000);\n    return () => clearInterval(intervalId);\n  }, []); // Empty dependency array\n\n  return <div>Count: {count}</div>;\n}",
+    "type": "MSQ",
+    "options": {
+      "A": "The `console.log` will always show 'Current count: 0'.",
+      "B": "The `setCount` call will always increment from 0, leading to `count` stuck at 1.",
+      "C": "This is a classic 'stale closure' problem because `count` is captured from the initial render.",
+      "D": "To fix this, `count` should be added to the dependency array, or `setCount(prevCount => prevCount + 1)` should be used."
+    },
+    "correct": ["A", "C", "D"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 17,
+    "text": "You are building a complex UI with many interactive elements. What are the benefits of adopting React's Concurrent Features (e.g., `useTransition`, `useDeferredValue`)?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "It allows React to interrupt and resume rendering tasks, improving responsiveness.",
+      "B": "It guarantees that all state updates are synchronous, simplifying debugging.",
+      "C": "It helps prioritize urgent updates (like typing) over less urgent ones (like data fetching).",
+      "D": "It eliminates the need for `React.memo` and `useCallback` for performance optimization."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 18,
+    "text": "A React component throws an error inside an `onClick` handler. If this component is wrapped in an Error Boundary, what will be the expected behavior?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "The Error Boundary will catch the error and display its fallback UI.",
+      "B": "The error will propagate up the component tree and crash the application.",
+      "C": "React will automatically recover from the error without any visible impact.",
+      "D": "The error will be silently ignored by React."
+    },
+    "correct": ["B"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 19,
+    "text": "Consider this Express route. What are the implications of `longRunningSyncTask()` on the Node.js server's performance and responsiveness?",
+    "code": "const express = require('express');\nconst app = express();\n\nfunction longRunningSyncTask() {\n  let i = 0;\n  while (i < 1e9) { i++; }\n  return 'Done';\n}\n\napp.get('/heavy', (req, res) => {\n  const result = longRunningSyncTask();\n  res.send(result);\n});\n\napp.listen(3000);\n",
+    "type": "MSQ",
+    "options": {
+      "A": "It will block the Node.js event loop, preventing other requests from being processed.",
+      "B": "Only the `/heavy` route will be affected; other routes will remain responsive.",
+      "C": "It can lead to increased latency for all concurrent requests.",
+      "D": "Node.js's asynchronous nature will automatically offload this task to a worker thread."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 20,
+    "text": "A frontend app on `http://localhost:3000` cannot access an Express API on `http://localhost:5000` due to a CORS error. What are common CORS misconfigurations or solutions?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The API server might not be sending `Access-Control-Allow-Origin` header.",
+      "B": "The frontend needs to include `withCredentials: true` in its fetch request.",
+      "C": "The API server should configure CORS middleware to allow `http://localhost:3000`.",
+      "D": "The browser is blocking the request due to a server-side error, not CORS."
+    },
+    "correct": ["A", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 21,
+    "text": "You are building a Node.js API to handle large file uploads (e.g., 1GB). What are the advantages of using streams over buffering the entire file in memory?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Reduced memory consumption, especially for very large files.",
+      "B": "Faster processing because data is available immediately as it arrives.",
+      "C": "Prevents the Node.js process from crashing due to out-of-memory errors.",
+      "D": "Simplifies error handling as streams abstract away network issues."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 22,
+    "text": "You need to transfer funds between two user accounts in MongoDB, ensuring atomicity. Which statements about MongoDB transactions are true?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Transactions ensure that all operations within them either succeed or fail together.",
+      "B": "Transactions are only available for replica sets and sharded clusters, not standalone instances.",
+      "C": "Operations within a transaction are isolated from operations outside the transaction until commit.",
+      "D": "Transactions are always the most performant way to handle related document updates."
+    },
+    "correct": ["A", "B", "C"],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "What is a primary advantage of using Tailwind CSS utility classes compared to writing custom CSS classes for every component?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "It eliminates the need for any CSS knowledge.",
+      "B": "It leads to smaller CSS bundle sizes by default without configuration.",
+      "C": "It encourages consistent design by constraining choices to a predefined system.",
+      "D": "It automatically generates unique class names to prevent naming collisions."
+    },
+    "correct": ["C"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 24,
+    "text": "Which of the following are valid and idiomatic ways to conditionally render a component or element in React?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "{ condition && <Component /> }",
+      "B": "{ condition ? <Component /> : null }",
+      "C": "{ if (condition) { return <Component />; } }",
+      "D": "{ condition || <Component /> }"
+    },
+    "correct": ["A", "B"],
+    "difficulty": "easy"
+  },
+  {
+    "id": 25,
+    "text": "Which statements are true regarding the `_id` field in MongoDB documents?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Every document in a MongoDB collection must have a unique `_id` field.",
+      "B": "If `_id` is not provided, MongoDB automatically generates an `ObjectId`.",
+      "C": "The `_id` field can be of any data type, including strings, numbers, or even arrays.",
+      "D": "The `_id` field is automatically indexed for faster lookups."
+    },
+    "correct": ["A", "B", "D"],
+    "difficulty": "medium"
+  }
+]
