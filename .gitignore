@@ -21,8 +21,10 @@ web_drivers/
 
 # Uploads and temporary data
 backend/uploads/
+backend/test/
 data/attempts/
 data/temp_quiz_*.json
+backend/test/updatedb.js
 
 # Python virtual environments and caches (ML service)
 ml-service/venv/
