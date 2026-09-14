@@ -9,6 +9,7 @@ import {
   FaCog,
   FaSignOutAlt,
   FaSearch,
+  FaClipboardList,
 } from "react-icons/fa";
 
 const Dsidebar = ({ isOpen }) => {
@@ -82,6 +83,17 @@ const Dsidebar = ({ isOpen }) => {
         >
           <FaSearch className="text-xl" />
           {isOpen && <span className="ml-4">Find Jobs</span>}
+        </NavLink>
+        <NavLink
+          to="/dashboard/applications"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded hover:bg-blue-700 ${
+              isActive ? "bg-blue-700" : ""
+            }`
+          }
+        >
+          <FaClipboardList className="text-xl" />
+          {isOpen && <span className="ml-4">My Applications</span>}
         </NavLink>
         <NavLink
           to="/dashboard/activity"

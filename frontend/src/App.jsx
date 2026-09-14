@@ -8,6 +8,7 @@ import CompanyRoutes from "./routes/CompanyRoutes";
 import QuizPage from "./pages/QuizPage";
 import Jobs from "./pages/Jobs";
 import JobDetail from "./pages/JobDetail";
+import MyApplications from "./pages/MyApplications";
 import DashboardLayout from "./layouts/Dashboardlayout";
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
         <Route path="/jobs" element={<DashboardLayout />}>
           <Route index element={<Jobs />} />
           <Route path=":id" element={<JobDetail />} />
+        </Route>
+        <Route path="/applications" element={<DashboardLayout />}>
+          <Route index element={<MyApplications />} />
         </Route>
         <Route path="/*" element={<DashboardRoutes />} />
       </Routes>

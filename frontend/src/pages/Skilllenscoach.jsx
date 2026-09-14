@@ -40,6 +40,7 @@ const SkillLensCoach = () => {
   const [attempts, setAttempts] = useState([]);
   const [career, setCareer] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [submittingReport, setSubmittingReport] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -191,11 +192,9 @@ const SkillLensCoach = () => {
     }
   };
 
-  // Helper: extract CGPAs from career profile (safe): looks for career.education array
-  // Helper: extract CGPAs from career profile (safe).
-  // Returns array of { level, cgpa, board } for each education entry that has a cgpa-like field.
+  // Helper: extract CGPAs and percentage equivalents from career and user profiles.
+  // Properly converts 10-point CGPA scales (<= 10, multiplied by 10) and handles raw percentages (> 10).
   function extractCgpas(careerProfile, userProfile) {
-    // Combine career document education (which may be minimal) with full user profile education
     const careerEdu = careerProfile && Array.isArray(careerProfile.education) ? careerProfile.education : [];
     const userEdu = userProfile && Array.isArray(userProfile.education) ? userProfile.education : [];
     const maxLen = Math.max(careerEdu.length, userEdu.length);
@@ -204,13 +203,12 @@ const SkillLensCoach = () => {
     for (let i = 0; i < maxLen; i++) {
       const c = careerEdu[i] || {};
       const u = userEdu[i] || {};
-      // merged view: user profile fields take precedence for cgpa details
       const merged = { ...c, ...u };
 
       // direct cgpa-like fields
       const direct = merged.cgpa ?? merged.CGPA ?? merged.gpa ?? merged.grade;
       let cgpaVal = null;
-      if (direct !== undefined && direct !== null) {
+      if (direct !== undefined && direct !== null && direct !== '') {
         const n = parseFloat(String(direct).replace(/[^0-9.]/g, ""));
         if (!Number.isNaN(n) && n > 0) cgpaVal = n;
       }
@@ -218,7 +216,7 @@ const SkillLensCoach = () => {
       // fallback: compute avg from semesterWise / semesterWise.sgpa
       if (cgpaVal === null && Array.isArray(merged.semesterWise) && merged.semesterWise.length) {
         const svals = merged.semesterWise
-          .map((s) => (s && typeof s === 'object' ? (s.sgpa ?? s.sgpa) : parseFloat(s) || 0))
+          .map((s) => (s && typeof s === 'object' ? (Number(s.sgpa) || 0) : parseFloat(s) || 0))
           .filter((n) => !Number.isNaN(n) && n > 0);
         if (svals.length) {
           const avg = svals.reduce((a, b) => a + b, 0) / svals.length;
@@ -227,49 +225,75 @@ const SkillLensCoach = () => {
       }
 
       if (cgpaVal !== null) {
-        out.push({ level: merged.level || merged.degree || merged.institution || `Education ${i + 1}`, cgpa: cgpaVal, board: merged.boardUniversity || merged.board || merged.institution || '' });
+        const isCgpaScale = cgpaVal <= 10;
+        const percentage = Math.min(100, Math.max(0, Number((isCgpaScale ? cgpaVal * 10 : cgpaVal).toFixed(2))));
+        out.push({
+          level: merged.level || merged.degree || merged.institution || `Education ${i + 1}`,
+          cgpa: cgpaVal,
+          percentage,
+          isCgpaScale,
+          board: merged.boardUniversity || merged.board || merged.institution || ''
+        });
       }
     }
 
     return out;
   }
 
+  // Calculate Academic Grade as arithmetic mean of converted percentages
+  const getAcademicGrade = (cgpaList) => {
+    if (!cgpaList || !cgpaList.length) return 0;
+    const sum = cgpaList.reduce((acc, item) => acc + (Number(item.percentage) || 0), 0);
+    return Math.min(100, Math.max(0, Number((sum / cgpaList.length).toFixed(2))));
+  };
+
   // Submit result report: posts academic and skill grades
   const submitResultReport = async () => {
-    // compute cgpas and grades (merge career and profile data)
+    if (submittingReport) return;
     const cgpas = extractCgpas(career, profileData);
-    const avgCgpa = cgpas.length ? (cgpas.reduce((a, b) => a + b.cgpa, 0) / cgpas.length) : 0;
-    const academicGrade = Math.min(100, Number((avgCgpa * 10).toFixed(2)));
-    // compute skill grade using average of qualified quiz marks (marks >= 70)
+    const academicGrade = getAcademicGrade(cgpas);
+
+    // compute skill grade: prefer latest submitted attempt percentage, fallback to avgSkillScore
     const submittedAttempts = attempts.filter(a => a.status === 'submitted');
-    const qualifiedMarks = [];
-    for (const a of submittedAttempts) {
-      const marks = a.obtainedMarks !== undefined ? Number(a.obtainedMarks) : (a.totalMarks !== undefined ? Number(a.totalMarks) : null);
-      if (marks !== null) {
-        const pct = a.totalMarks ? Math.round((marks / a.totalMarks) * 100) : marks;
-        if (pct >= 70) qualifiedMarks.push(pct);
-      }
+    let skillGrade = 0;
+    if (submittedAttempts.length > 0) {
+      const sorted = submittedAttempts.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const latest = sorted[0];
+      skillGrade = latest.percent !== undefined
+        ? Number(latest.percent)
+        : (latest.totalMarks ? Math.round((Number(latest.obtainedMarks || 0) / Number(latest.totalMarks)) * 100) : Number(latest.obtainedMarks || 0));
+    } else if (avgSkillScore) {
+      skillGrade = Number(avgSkillScore);
     }
-    const skillGrade = qualifiedMarks.length ? Math.round((qualifiedMarks.reduce((s, m) => s + m, 0) / qualifiedMarks.length) * 100) / 100 : 0;
-    const avgGrade = Number(((academicGrade + Number(skillGrade)) / 2).toFixed(2));
+
+    const avgGrade = Number(((academicGrade + skillGrade) / 2).toFixed(2));
 
     const payload = {
       academicGrade,
       skillGrade,
       avgGrade,
+      academic_score: academicGrade,
+      avg_skill_score: skillGrade,
       cgpas,
       qualified_skills: filteredSkills || [],
       submittedAt: new Date().toISOString(),
     };
 
     try {
-      // try to post to backend endpoint if exists
-      await api.post('/career/submit-result', payload).catch(() => { });
-      alert('Result report submitted');
-      // refresh attempts or state if needed
+      setSubmittingReport(true);
+      const res = await api.post('/career/submit-result', payload);
+      alert('Result report submitted successfully!');
+      if (res.data && res.data.career) {
+        setCareer(res.data.career);
+      } else {
+        const me = await api.get('/career/me');
+        setCareer(me.data || null);
+      }
     } catch (e) {
       console.error(e);
-      alert('Failed to submit report (frontend only)');
+      alert('Failed to submit report: ' + (e.response?.data?.message || e.message));
+    } finally {
+      setSubmittingReport(false);
     }
   };
 
@@ -349,8 +373,7 @@ const SkillLensCoach = () => {
         // fallback to local derivation if backend fails
         try {
           const cgpas = extractCgpas(career, profileData);
-          const avgCgpa = cgpas.length ? (cgpas.reduce((s, i) => s + (i.cgpa || 0), 0) / cgpas.length) : 0;
-          const academic = Math.min(100, Number((avgCgpa * 10).toFixed(2)));
+          const academic = getAcademicGrade(cgpas);
           setAcademicScore(academic);
           const submitted = attempts.filter((a) => a.status === 'submitted');
           const skillMax = {};
@@ -546,110 +569,231 @@ const SkillLensCoach = () => {
           </Step>
 
           <Step idx={3} title="Result Report" open={openStep === 3} onToggle={() => setOpenStep(openStep === 3 ? null : 3)} locked={step3Locked}>
-            <div className="text-sm text-gray-700 mb-4">Results combine academic scores and quiz marks. Review the computed grades below and click <span className="font-semibold text-indigo-700">Submit Result Report</span> to push the final report.</div>
+            <div className="text-sm text-gray-700 mb-4">Results combine normalized academic scores and quiz marks. Review the computed grades below and click <span className="font-semibold text-indigo-700">Submit Result Report</span> to push the final report.</div>
 
-            {/* Display education CGPAs */}
-            <div className="bg-white p-4 rounded shadow mb-4">
-              <div className="text-sm font-semibold mb-2">Academic CGPAs</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                {(() => {
-                  const cgpas = extractCgpas(career, profileData);
-                  if (!cgpas || cgpas.length === 0) return <div className="col-span-2 text-gray-500">No CGPA data available in profile.</div>;
-                  return cgpas.map((c, i) => {
-                    const pct = (c.cgpa || 0) <= 10 ? (c.cgpa || 0) * 10 : (c.cgpa || 0);
-                    const pctDisp = Math.min(100, Number((pct || 0).toFixed(2)));
-                    return (
-                      <div key={i} className="p-3 bg-slate-50 border rounded-lg">
-                        <div className="font-semibold text-sm">{c.level || `Education ${i + 1}`}{c.board ? ` • ${c.board}` : ''}</div>
-                        <div className="mt-2 flex items-center justify-between">
-                          <div className="text-lg font-bold text-indigo-600">{c.cgpa}</div>
-                          <div className="text-sm text-gray-500">{pctDisp}%</div>
-                        </div>
-                        <div className="w-full bg-gray-100 h-2 rounded mt-3 overflow-hidden">
-                          <div className="bg-indigo-600 h-2" style={{ width: `${pctDisp}%` }} />
-                        </div>
+            {(() => {
+              const cgpas = extractCgpas(career, profileData);
+              const computedAcademicGrade = getAcademicGrade(cgpas);
+
+              const subs = attempts.filter(a => a.status === 'submitted').slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              const latest = subs.length > 0 ? subs[0] : null;
+              const quizScoreVal = latest
+                ? (latest.percent !== undefined
+                    ? Number(latest.percent)
+                    : (latest.totalMarks ? Math.round((Number(latest.obtainedMarks || 0) / Number(latest.totalMarks)) * 100) : Number(latest.obtainedMarks || 0)))
+                : (avgSkillScore || 0);
+
+              const overallAvgVal = Number(((computedAcademicGrade + quizScoreVal) / 2).toFixed(2));
+
+              // Combine any submitted results from career.careerResults with submitted quiz attempts
+              const savedResults = Array.isArray(career?.careerResults) ? career.careerResults.filter(r => r && (r.academicGrade !== undefined || r.academic_score !== undefined || r.submittedAt)) : [];
+
+              return (
+                <div>
+                  {/* Display education CGPAs with normalized percentage conversion */}
+                  <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 pb-3 border-b border-slate-100">
+                      <div>
+                        <div className="text-base font-bold text-slate-800">Academic Records &amp; CGPAs</div>
+                        <div className="text-xs text-slate-500">Converted to standardized percentage (10-pt scale &times; 10)</div>
                       </div>
-                    );
-                  });
-                })()}
-              </div>
-            </div>
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-full self-start sm:self-auto">
+                        <span>Academic Avg:</span>
+                        <span className="text-indigo-900">{computedAcademicGrade}%</span>
+                      </div>
+                    </div>
 
-            {/* Latest quiz marks and grade boxes */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-              <div className="p-4 bg-white rounded shadow">
-                <div className="text-sm text-gray-500">Quiz Score</div>
-                <div className="text-2xl font-bold text-green-700">{(avgSkillScore !== null && avgSkillScore !== undefined) ? avgSkillScore : 'N/A'}</div>
-                <div className="text-xs text-gray-500 mt-1">Average of qualified skill scores (≥70)</div>
-              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 text-sm">
+                      {cgpas.length === 0 ? (
+                        <div className="col-span-full py-4 text-center text-gray-500">No CGPA or academic data available in profile.</div>
+                      ) : (
+                        cgpas.map((c, i) => (
+                          <div key={i} className="p-4 bg-gradient-to-br from-slate-50 to-indigo-50/20 border border-slate-200/70 rounded-xl flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="font-bold text-slate-800 text-sm">{c.level || `Education ${i + 1}`}</div>
+                                <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ${c.isCgpaScale ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                  {c.isCgpaScale ? '10-Pt CGPA' : 'Percentage'}
+                                </span>
+                              </div>
+                              {c.board && (
+                                <div className="text-xs text-slate-500 mt-1 line-clamp-1" title={c.board}>{c.board}</div>
+                              )}
+                            </div>
 
-              <div className="p-4 bg-white rounded shadow">
-                <div className="text-sm text-gray-500">Academic Grade (out of 100)</div>
-                <div className="text-2xl font-bold text-indigo-600">{(() => {
-                  const cgpas = extractCgpas(career, profileData);
-                  const avgCgpa = cgpas.length ? (cgpas.reduce((sum, item) => sum + (item.cgpa || 0), 0) / cgpas.length) : 0;
-                  return Math.min(100, Number((avgCgpa * 10).toFixed(2)));
-                })()}</div>
-              </div>
+                            <div className="mt-4">
+                              <div className="flex items-baseline justify-between">
+                                <div className="text-2xl font-black text-indigo-600">
+                                  {c.cgpa}
+                                  <span className="text-xs font-normal text-slate-500 ml-1">{c.isCgpaScale ? 'CGPA' : '%'}</span>
+                                </div>
+                                <div className="text-sm font-bold text-slate-700">
+                                  {c.percentage}%
+                                </div>
+                              </div>
+                              <div className="w-full bg-slate-200 h-2 rounded-full mt-2 overflow-hidden">
+                                <div
+                                  className="bg-gradient-to-r from-indigo-500 to-blue-600 h-2 rounded-full transition-all duration-500"
+                                  style={{ width: `${Math.min(100, Math.max(0, c.percentage))}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
 
-              <div className="p-4 bg-white rounded shadow">
-                <div className="text-sm text-gray-500">Skill Grade (latest avg)</div>
-                <div className="text-2xl font-bold text-yellow-600">{(() => {
-                  const subs = attempts.filter(a => a.status === 'submitted').slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                  if (!subs || subs.length === 0) return 'N/A';
-                  const latest = subs[0];
-                  const cgpas = extractCgpas(career, profileData);
-                  const academic = cgpas.length ? (cgpas.reduce((sum, item) => sum + (item.cgpa || 0), 0) / cgpas.length) * 10 : 0;
-                  const skill = latest ? (latest.obtainedMarks ?? latest.totalMarks ?? 0) : 0;
-                  const avg = Number(((academic + Number(skill)) / 2).toFixed(2));
-                  return avg;
-                })()}</div>
-              </div>
-            </div>
+                  {/* Latest quiz marks and grade boxes with corrected titles and values */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                    <div className="p-5 bg-white border border-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Quiz Score</div>
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                      </div>
+                      <div className="text-3xl font-black text-emerald-600 my-1">
+                        {quizScoreVal}%
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        Score from skill assessment quiz
+                      </div>
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                        <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.max(0, quizScoreVal))}%` }}></div>
+                      </div>
+                    </div>
 
-            <div className="mb-4">
-              <button onClick={submitResultReport} className="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-indigo-700 transition">Submit Result Report</button>
-            </div>
+                    <div className="p-5 bg-white border border-indigo-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-bold uppercase tracking-wider text-indigo-700">Academic Grade</div>
+                        <span className="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+                      </div>
+                      <div className="text-3xl font-black text-indigo-600 my-1">
+                        {computedAcademicGrade}%
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        Average of {cgpas.length} converted academic record{cgpas.length === 1 ? '' : 's'}
+                      </div>
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                        <div className="bg-indigo-600 h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.max(0, computedAcademicGrade))}%` }}></div>
+                      </div>
+                    </div>
 
-            {/* Results table built from submitted attempts with computed academic/avg grades */}
-            <div className="bg-white rounded-xl shadow p-4">
-              <div className="text-base font-semibold mb-3">Submitted Reports</div>
-              <div className="overflow-x-auto max-h-64 overflow-y-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left bg-gray-100">
-                      <th className="p-2">No</th>
-                      <th className="p-2">Date</th>
-                      <th className="p-2">Academic Grade</th>
-                      <th className="p-2">Skill Grade</th>
-                      <th className="p-2">Avg Grade</th>
-                      <th className="p-2">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attempts.filter(a => a.status === 'submitted').length === 0 && (
-                      <tr><td colSpan={6} className="p-4 text-center text-gray-500">No submitted reports yet</td></tr>
-                    )}
-                    {attempts.filter(a => a.status === 'submitted').map((a, idx) => {
-                      const cgpas = extractCgpas(career, profileData);
-                      const academic = cgpas.length ? (cgpas.reduce((sum, item) => sum + (item.cgpa || 0), 0) / cgpas.length) * 10 : 0;
-                      const skill = a.obtainedMarks ?? a.totalMarks ?? 0;
-                      const avg = Number(((academic + Number(skill)) / 2).toFixed(2));
-                      return (
-                        <tr key={a._id} className="border-t">
-                          <td className="p-2 align-top">{idx + 1}</td>
-                          <td className="p-2 align-top">{new Date(a.createdAt).toLocaleString()}</td>
-                          <td className="p-2 align-top">{Number(academic.toFixed ? academic.toFixed(2) : academic)}</td>
-                          <td className="p-2 align-top">{skill}</td>
-                          <td className="p-2 align-top">{avg}</td>
-                          <td className="p-2 align-top">{a.status}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                    <div className="p-5 bg-white border border-amber-100 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-bold uppercase tracking-wider text-amber-700">Overall Average Grade</div>
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                      </div>
+                      <div className="text-3xl font-black text-amber-600 my-1">
+                        {overallAvgVal}%
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        Combined Academic (50%) &amp; Quiz (50%)
+                      </div>
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                        <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.max(0, overallAvgVal))}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action button */}
+                  <div className="mb-6 flex items-center gap-3">
+                    <button
+                      onClick={submitResultReport}
+                      disabled={submittingReport || cgpas.length === 0}
+                      className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-md hover:bg-indigo-700 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    >
+                      {submittingReport ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Submitting Report...</span>
+                        </>
+                      ) : (
+                        <span>Submit Result Report</span>
+                      )}
+                    </button>
+                    <span className="text-xs text-slate-500">Submitting synchronizes your verified grades with recruiter profiles.</span>
+                  </div>
+
+                  {/* Results table built from submitted reports and attempts */}
+                  <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <div className="text-base font-bold text-slate-800">Submitted Reports</div>
+                        <div className="text-xs text-slate-500">Chronological history of your evaluated performance</div>
+                      </div>
+                      <div className="text-xs font-semibold px-2.5 py-1 bg-slate-100 rounded-full text-slate-600">
+                        {savedResults.length > 0 ? `${savedResults.length} Finalized` : `${subs.length} Quiz Attempt${subs.length === 1 ? '' : 's'}`}
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto max-h-72 overflow-y-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-left bg-slate-50 text-slate-700 border-b border-slate-100">
+                            <th className="p-3 font-bold">No</th>
+                            <th className="p-3 font-bold">Date</th>
+                            <th className="p-3 font-bold">Academic Grade</th>
+                            <th className="p-3 font-bold">Skill Grade</th>
+                            <th className="p-3 font-bold">Avg Grade</th>
+                            <th className="p-3 font-bold text-center">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {savedResults.length === 0 && subs.length === 0 && (
+                            <tr><td colSpan={6} className="p-6 text-center text-gray-400 font-medium">No submitted reports yet</td></tr>
+                          )}
+                          {/* Prefer displaying finalized saved career results if available */}
+                          {savedResults.length > 0 ? (
+                            savedResults.slice().reverse().map((r, idx) => {
+                              const rAcad = Number(r.academicGrade ?? r.academic_score ?? computedAcademicGrade).toFixed(2);
+                              const rSkill = Number(r.skillGrade ?? r.avg_skill_score ?? quizScoreVal).toFixed(2);
+                              const rAvg = Number(r.avgGrade ?? ((Number(rAcad) + Number(rSkill)) / 2)).toFixed(2);
+                              const rDate = r.submittedAt || r.created_at || new Date();
+                              return (
+                                <tr key={r._id || idx} className="border-t border-slate-100 hover:bg-slate-50/60 transition-colors">
+                                  <td className="p-3 font-semibold text-slate-600">{idx + 1}</td>
+                                  <td className="p-3 text-slate-700">{new Date(rDate).toLocaleString()}</td>
+                                  <td className="p-3 font-bold text-indigo-600">{rAcad}%</td>
+                                  <td className="p-3 font-bold text-emerald-600">{rSkill}%</td>
+                                  <td className="p-3 font-bold text-amber-600">{rAvg}%</td>
+                                  <td className="p-3 text-center">
+                                    <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                                      submitted
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            /* Fallback to submitted attempts with accurately normalized grades */
+                            subs.map((a, idx) => {
+                              const attSkill = a.percent !== undefined
+                                ? Number(a.percent)
+                                : (a.totalMarks ? Math.round((Number(a.obtainedMarks || 0) / Number(a.totalMarks)) * 100) : Number(a.obtainedMarks || 0));
+                              const attAvg = Number(((computedAcademicGrade + attSkill) / 2).toFixed(2));
+                              return (
+                                <tr key={a._id} className="border-t border-slate-100 hover:bg-slate-50/60 transition-colors">
+                                  <td className="p-3 font-semibold text-slate-600">{idx + 1}</td>
+                                  <td className="p-3 text-slate-700">{new Date(a.createdAt).toLocaleString()}</td>
+                                  <td className="p-3 font-bold text-indigo-600">{computedAcademicGrade}%</td>
+                                  <td className="p-3 font-bold text-emerald-600">{attSkill}%</td>
+                                  <td className="p-3 font-bold text-amber-600">{attAvg}%</td>
+                                  <td className="p-3 text-center">
+                                    <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                                      {a.status || 'submitted'}
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </Step>
 
           <Step idx={4} title="Career Recommendation" open={openStep === 4} onToggle={() => setOpenStep(openStep === 4 ? null : 4)} locked={step4Locked}>

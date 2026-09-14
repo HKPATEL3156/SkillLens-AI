@@ -175,3 +175,6 @@ export const applyToJob = (id, formData) =>
   api.post(`/jobs/${id}/apply`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+export const getMyApplications = () => api.get("/jobs/my/applications");
+export const getMyApplicationForJob = (id) => api.get(`/jobs/${id}/application`);
+

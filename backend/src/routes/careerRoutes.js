@@ -292,6 +292,40 @@ router.get("/skills", async (req, res) => {
 });
 
 // -----------------------------
+// Helper: compute academic percentage from user education entries
+// Normalizes 10-pt CGPAs to percentage (* 10) and handles raw percentages (> 10)
+// -----------------------------
+function computeAcademicScoreFromEducation(educationList) {
+  if (!Array.isArray(educationList) || !educationList.length) return null;
+  const pcts = [];
+  for (const ed of educationList) {
+    if (!ed || typeof ed !== "object") continue;
+    let val = null;
+    const direct = ed.cgpa ?? ed.CGPA ?? ed.gpa ?? ed.grade;
+    if (direct !== undefined && direct !== null && direct !== "") {
+      const n = parseFloat(String(direct).replace(/[^0-9.]/g, ""));
+      if (!Number.isNaN(n) && n > 0) val = n;
+    } else if (Array.isArray(ed.semesterWise) && ed.semesterWise.length) {
+      const svals = ed.semesterWise
+        .map(
+          (s) =>
+            (s && typeof s === "object" ? Number(s.sgpa) : parseFloat(s)) || 0,
+        )
+        .filter((n) => !Number.isNaN(n) && n > 0);
+      if (svals.length)
+        val = svals.reduce((a, b) => a + b, 0) / svals.length;
+    }
+    if (val !== null) {
+      const pct = val <= 10 ? val * 10 : val;
+      pcts.push(Math.min(100, Math.max(0, pct)));
+    }
+  }
+  if (!pcts.length) return null;
+  const avg = pcts.reduce((a, b) => a + b, 0) / pcts.length;
+  return Math.round((avg + Number.EPSILON) * 100) / 100;
+}
+
+// -----------------------------
 // GET Eligibility / Evaluated skills summary
 // Aggregates QuizAttempt (DB + local) to compute per-skill best scores
 // -----------------------------
@@ -329,30 +363,7 @@ router.get("/eligibility", async (req, res) => {
         try {
           const user = await User.findById(req.user.id).lean();
           if (user && Array.isArray(user.education) && user.education.length) {
-            const pcts = [];
-            for (const ed of user.education) {
-              if (ed && typeof ed === "object") {
-                if (ed.cgpa && typeof ed.cgpa === "number") {
-                  const pct = ed.cgpa <= 10 ? ed.cgpa * 10 : ed.cgpa;
-                  pcts.push(pct);
-                } else if (
-                  Array.isArray(ed.semesterWise) &&
-                  ed.semesterWise.length
-                ) {
-                  const avg =
-                    ed.semesterWise.reduce((s, ss) => s + (ss.sgpa || 0), 0) /
-                    ed.semesterWise.length;
-                  const pct = avg <= 10 ? avg * 10 : avg;
-                  pcts.push(pct);
-                }
-              }
-            }
-            if (pcts.length) {
-              const avgAll = pcts.reduce((a, b) => a + b, 0) / pcts.length;
-              academicScore = Math.round((avgAll + Number.EPSILON) * 100) / 100;
-            } else {
-              academicScore = null;
-            }
+            academicScore = computeAcademicScoreFromEducation(user.education);
           }
         } catch (e) {
           academicScore = null;
@@ -466,29 +477,12 @@ router.get("/eligibility", async (req, res) => {
         ) / 100
         : null;
 
-    // academic score: derive from User.education (best CGPA -> percentage)
+    // academic score: derive from User.education (average percentage across education entries)
     let academicScore = null;
     try {
       const user = await User.findById(req.user.id).lean();
       if (user && Array.isArray(user.education) && user.education.length) {
-        // pick highest cgpa or semester average
-        let bestPct = null;
-        for (const ed of user.education) {
-          if (ed.cgpa && typeof ed.cgpa === "number") {
-            const pct = ed.cgpa <= 10 ? ed.cgpa * 10 : ed.cgpa;
-            bestPct = bestPct === null ? pct : Math.max(bestPct, pct);
-          } else if (Array.isArray(ed.semesterWise) && ed.semesterWise.length) {
-            const avg =
-              ed.semesterWise.reduce((s, ss) => s + (ss.sgpa || 0), 0) /
-              ed.semesterWise.length;
-            const pct = avg <= 10 ? avg * 10 : avg;
-            bestPct = bestPct === null ? pct : Math.max(bestPct, pct);
-          }
-        }
-        academicScore =
-          bestPct !== null
-            ? Math.round((bestPct + Number.EPSILON) * 100) / 100
-            : null;
+        academicScore = computeAcademicScoreFromEducation(user.education);
       }
     } catch (e) {
       academicScore = null;
@@ -851,12 +845,19 @@ router.post("/submit-result", async (req, res) => {
         .json({ message: "academicGrade, skillGrade and avgGrade required" });
     }
 
+    const numAcademic = Number(Number(academicGrade).toFixed(2));
+    const numSkill = Number(Number(skillGrade).toFixed(2));
+    const numAvg = Number(Number(avgGrade).toFixed(2));
+
     const entry = {
-      academicGrade,
-      skillGrade,
-      avgGrade,
+      academicGrade: numAcademic,
+      skillGrade: numSkill,
+      avgGrade: numAvg,
+      academic_score: numAcademic,
+      avg_skill_score: numSkill,
       cgpas: Array.isArray(cgpas) ? cgpas : [],
       submittedAt: submittedAt ? new Date(submittedAt) : new Date(),
+      created_at: new Date(),
     };
 
     const data = await Career.findOneAndUpdate(

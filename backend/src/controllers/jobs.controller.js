@@ -296,16 +296,16 @@ exports.updateJob = async (req, res, next) => {
       job.required_skills = Array.isArray(body.required_skills)
         ? body.required_skills
         : String(body.required_skills)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean);
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
     if (body.preferred_skills)
       job.preferred_skills = Array.isArray(body.preferred_skills)
         ? body.preferred_skills
         : String(body.preferred_skills)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean);
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
     if (body.salary_min) job.salary_min = Number(body.salary_min);
     if (body.salary_max) job.salary_max = Number(body.salary_max);
     if (body.application_deadline)
@@ -317,9 +317,9 @@ exports.updateJob = async (req, res, next) => {
       job.benefits = Array.isArray(body.benefits)
         ? body.benefits
         : String(body.benefits)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean);
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
     if (body.job_status) job.job_status = body.job_status;
 
     if (!job.documents) job.documents = {};
@@ -400,7 +400,10 @@ exports.listPublicJobs = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate("companyId", "company_name documents.logo")
+      .populate(
+        "companyId",
+        "company_name documents.logo is_verified website city state country",
+      )
       .lean();
 
     // normalize document paths for web
@@ -433,7 +436,10 @@ exports.getPublicJob = async (req, res, next) => {
   try {
     const jobId = req.params.id;
     const job = await Job.findOne({ _id: jobId, visibility: "public" })
-      .populate("companyId", "company_name documents.logo")
+      .populate(
+        "companyId",
+        "company_name documents.logo website description established_year years_of_experience total_employees city state country address is_verified company_email phone socialLinks",
+      )
       .lean();
     if (!job) return res.status(404).json({ error: "Job not found" });
     // normalize document paths
@@ -462,15 +468,100 @@ exports.getPublicJob = async (req, res, next) => {
   }
 };
 
-// Apply to a job (authenticated users). Accepts optional resume upload (field 'resume').
+// GET /api/jobs/my/applications (authenticated applicant viewing all their applied jobs)
+exports.getMyApplications = async (req, res, next) => {
+  try {
+    const Application = require("../models/Application");
+    const userId = req.user._id;
+
+    const applications = await Application.find({ userId })
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "jobId",
+        populate: {
+          path: "companyId",
+          select: "company_name documents.logo location industry",
+        },
+      })
+      .lean();
+
+    // normalize paths
+    const normalized = applications.map((a) => {
+      if (a.resumePath) a.resumePath = normalizeDocumentPath(a.resumePath);
+      if (
+        a.jobId &&
+        a.jobId.companyId &&
+        a.jobId.companyId.documents &&
+        a.jobId.companyId.documents.logo
+      ) {
+        a.jobId.companyId.documents.logo = normalizeDocumentPath(
+          a.jobId.companyId.documents.logo,
+        );
+      }
+      return a;
+    });
+
+    res.json({ applications: normalized });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// GET /api/jobs/:id/application (authenticated applicant checking status of specific job)
+exports.getMyApplicationForJob = async (req, res, next) => {
+  try {
+    const Application = require("../models/Application");
+    const userId = req.user._id;
+    const jobId = req.params.id;
+
+    const application = await Application.findOne({ userId, jobId })
+      .populate({
+        path: "jobId",
+        select:
+          "title job_role job_type location companyId application_deadline salary_min salary_max currency",
+        populate: {
+          path: "companyId",
+          select: "company_name documents.logo",
+        },
+      })
+      .lean();
+
+    if (!application) {
+      return res.json({ applied: false, application: null });
+    }
+
+    if (application.resumePath) {
+      application.resumePath = normalizeDocumentPath(application.resumePath);
+    }
+    if (
+      application.jobId &&
+      application.jobId.companyId &&
+      application.jobId.companyId.documents &&
+      application.jobId.companyId.documents.logo
+    ) {
+      application.jobId.companyId.documents.logo = normalizeDocumentPath(
+        application.jobId.companyId.documents.logo,
+      );
+    }
+
+    res.json({ applied: true, application });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Apply to a job (authenticated users). Accepts optional resume upload (field 'resume') or existing resumePath.
 exports.applyToJob = async (req, res, next) => {
   try {
     const Application = require("../models/Application");
     const User = require("../models/User");
+    const Activity = require("../models/Activity");
     const jobId = req.params.id;
     const user = req.user;
 
-    const job = await Job.findById(jobId).lean();
+    const job = await Job.findById(jobId)
+      .populate("companyId", "company_name")
+      .lean();
     if (!job) return res.status(404).json({ error: "Job not found" });
 
     // check deadline
@@ -482,25 +573,32 @@ exports.applyToJob = async (req, res, next) => {
 
     // prevent duplicate applications
     const existing = await Application.findOne({ userId: user._id, jobId });
-    if (existing) return res.status(400).json({ error: "Already applied" });
+    if (existing) return res.status(400).json({ error: "Already applied to this job" });
 
-    // resume handling: prefer uploaded file, fallback to user's profile resume
+    // resume handling: prefer uploaded file, fallback to req.body.resumePath, fallback to user's profile resume
     let resumePath = null;
-    if (req.file && req.file.path)
+    if (req.file && req.file.path) {
       resumePath = req.file.path.replace(/\\/g, "/");
-    else if (user && (user.resumeFilePath || user.resumePath))
+    } else if (req.body.resumePath) {
+      resumePath = req.body.resumePath;
+    } else if (user && (user.resumeFilePath || user.resumePath)) {
       resumePath = user.resumeFilePath || user.resumePath;
+    }
+
+    if (!resumePath) {
+      return res.status(400).json({ error: "Please upload or select a resume to continue" });
+    }
 
     const skills = req.body.skills
       ? Array.isArray(req.body.skills)
         ? req.body.skills
         : String(req.body.skills)
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
       : (user && user.skills) || [];
 
-    const quizScore = (user && user.quizScore) || 0;
+    const quizScore = Number(req.body.quizScore) || (user && user.quizScore) || 0;
 
     const app = new Application({
       userId: user._id,
@@ -509,12 +607,31 @@ exports.applyToJob = async (req, res, next) => {
       resumePath,
       skills,
       quizScore,
+      status: "applied",
+      pipelineStage: "applied",
     });
 
     await app.save();
-    res
-      .status(201)
-      .json({ message: "Application submitted", application: app });
+
+    // Log user activity
+    try {
+      await Activity.create({
+        userId: user._id,
+        type: "job_application",
+        message: `Applied for ${job.title} at ${job.companyId?.company_name || "Company"}`,
+        meta: { jobId, applicationId: app._id },
+      });
+    } catch (e) { }
+
+    const normalizedApp = app.toObject();
+    if (normalizedApp.resumePath) {
+      normalizedApp.resumePath = normalizeDocumentPath(normalizedApp.resumePath);
+    }
+
+    res.status(201).json({
+      message: "Application submitted successfully",
+      application: normalizedApp,
+    });
   } catch (err) {
     next(err);
   }

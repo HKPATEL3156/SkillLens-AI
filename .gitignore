@@ -87,3 +87,5 @@ node_modules/
 
 # Local terminal history
 .terminal_history.json
+backend/scratch_check.js
+.gitignore
