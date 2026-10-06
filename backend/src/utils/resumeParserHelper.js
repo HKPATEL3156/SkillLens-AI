@@ -83,10 +83,10 @@ async function syncResumeDataToProfile(userId, resumeUrl, resumeData, skills) {
     userUpdates.achievements = normalized.achievements;
   }
 
-  const userQuery = { $set: userUpdates };
-  if (skills && skills.length) {
-    userQuery.$addToSet = { skills: { $each: skills } };
+  if (skills && Array.isArray(skills) && skills.length) {
+    userUpdates.skills = skills;
   }
+  const userQuery = { $set: userUpdates };
 
   await User.findByIdAndUpdate(userId, userQuery);
 
@@ -134,13 +134,11 @@ async function syncResumeDataToProfile(userId, resumeUrl, resumeData, skills) {
     }));
   }
 
-  const careerQuery = { $set: careerUpdates };
-  if (skills && skills.length) {
-    careerQuery.$addToSet = {
-      skills: { $each: skills },
-      extractedSkills: { $each: skills },
-    };
+  if (skills && Array.isArray(skills) && skills.length) {
+    careerUpdates.skills = skills;
+    careerUpdates.extractedSkills = skills;
   }
+  const careerQuery = { $set: careerUpdates };
 
   await Career.findOneAndUpdate(
     { userId },

@@ -1,14 +1,14 @@
 [
   {
     "id": 1,
-    "text": "Consider the following JavaScript code snippet. What will be the output printed to the console?",
-    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 100);\n}",
-    "type": "MSQ",
+    "text": "A junior developer wrote this Python code. What will be the output?",
+    "code": "data = [1, 2, 3]\ndef modify_list(lst):\n    lst.append(4)\n    lst = [5, 6]\nmodify_list(data)\nprint(data)",
+    "type": "MCQ",
     "options": {
-      "A": "0, 1, 2",
-      "B": "3, 3, 3",
-      "C": "undefined, undefined, undefined",
-      "D": "Error: i is not defined"
+      "A": "[1, 2, 3]",
+      "B": "[1, 2, 3, 4]",
+      "C": "[5, 6]",
+      "D": "[1, 2, 3, 4, 5, 6]"
     },
     "correct": [
       "B"
@@ -17,63 +17,51 @@
   },
   {
     "id": 2,
-    "text": "You are building a blog post page. Which HTML5 elements are most semantically appropriate for structuring the main content of a single post?",
+    "text": "You are given a dataset with a 'Price' column containing numerical values and some missing entries. Which of the following are valid strategies to handle these missing values for a regression model?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "<div>",
-      "B": "<section>",
-      "C": "<article>",
-      "D": "<main>"
+      "A": "Impute with the mean of the 'Price' column.",
+      "B": "Impute with the median of the 'Price' column.",
+      "C": "Drop all rows where 'Price' is missing.",
+      "D": "Impute with a constant value like 0, assuming 0 price means no value."
     },
     "correct": [
-      "C",
-      "D"
+      "A",
+      "B",
+      "C"
     ],
-    "difficulty": "easy"
+    "difficulty": "medium"
   },
   {
     "id": 3,
-    "text": "A developer wants to retrieve all products from a 'products' table where the price is greater than 50 and the category is 'Electronics'. Which SQL query is correct?",
-    "code": null,
-    "type": "MCQ",
-    "options": {
-      "A": "SELECT * FROM products WHERE price > 50 AND category = 'Electronics';",
-      "B": "SELECT * FROM products WHERE price > 50 OR category = 'Electronics';",
-      "C": "SELECT products WHERE price > 50 AND category = 'Electronics';",
-      "D": "SELECT FROM products WHERE price > 50 AND category = 'Electronics';"
-    },
-    "correct": [
-      "A"
-    ],
-    "difficulty": "easy"
-  },
-  {
-    "id": 4,
-    "text": "Which of the following Git commands are typically used to prepare changes in your working directory for the next commit?",
+    "text": "A developer needs to retrieve all customer names from the 'Customers' table who have placed an order in the 'Orders' table. Which SQL query correctly achieves this?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "git commit",
-      "B": "git add",
-      "C": "git push",
-      "D": "git status"
+      "A": "SELECT C.customer_name FROM Customers C JOIN Orders O ON C.customer_id = O.customer_id;",
+      "B": "SELECT customer_name FROM Customers WHERE customer_id IN (SELECT customer_id FROM Orders);",
+      "C": "SELECT C.customer_name FROM Customers C LEFT JOIN Orders O ON C.customer_id = O.customer_id WHERE O.order_id IS NOT NULL;",
+      "D": "SELECT C.customer_name FROM Customers C WHERE EXISTS (SELECT 1 FROM Orders O WHERE O.customer_id = C.customer_id);"
     },
     "correct": [
-      "B"
+      "A",
+      "B",
+      "C",
+      "D"
     ],
-    "difficulty": "easy"
+    "difficulty": "medium"
   },
   {
-    "id": 5,
-    "text": "In React, if you pass data from a parent component to a child component, what is the most common and direct mechanism used?",
-    "code": null,
+    "id": 4,
+    "text": "Consider the following Python code. What will be the final value of `count`?",
+    "code": "def process_items(items):\n    count = 0\n    for item in items:\n        if item % 2 == 0:\n            count += 1\n        else:\n            break\n    return count\n\nresult = process_items([2, 4, 1, 6, 8])\ncount = result\nprint(count)",
     "type": "MCQ",
     "options": {
-      "A": "State",
-      "B": "Context",
-      "C": "Props",
-      "D": "Refs"
+      "A": "0",
+      "B": "1",
+      "C": "2",
+      "D": "5"
     },
     "correct": [
       "C"
@@ -81,216 +69,229 @@
     "difficulty": "easy"
   },
   {
-    "id": 6,
-    "text": "Which HTTP methods are generally considered idempotent, meaning multiple identical requests have the same effect as a single one?",
+    "id": 5,
+    "text": "You've trained a classification model and observe that it performs very well on the training data but poorly on unseen test data. Which of the following are likely causes for this behavior?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "GET",
-      "B": "POST",
-      "C": "PUT",
-      "D": "DELETE"
+      "A": "The model is underfitting the training data.",
+      "B": "The model is overfitting the training data.",
+      "C": "There is a data leakage issue from the test set into the training process.",
+      "D": "The model's complexity is too low for the given problem."
     },
     "correct": [
-      "A",
-      "C",
-      "D"
+      "B",
+      "C"
     ],
-    "difficulty": "easy"
+    "difficulty": "medium"
+  },
+  {
+    "id": 6,
+    "text": "A team member pushed a large file (e.g., a dataset) directly to the Git repository, making it very slow to clone. What is the best immediate action to take?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Delete the file from the working directory and commit the change.",
+      "B": "Use `git revert` to undo the commit that added the large file.",
+      "C": "Use `git filter-branch` or `BFG Repo-Cleaner` to rewrite history and remove the file.",
+      "D": "Tell everyone to clone with `--depth 1` to avoid the large file."
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "hard"
   },
   {
     "id": 7,
-    "text": "You need to center a `div` element horizontally within its parent using CSS Flexbox. Which properties would you apply to the parent container?",
+    "text": "A Python script needs to read data from a CSV file, process it, and then store it in a database. Which of these are good practices for handling file and database connections?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "display: flex;",
-      "B": "justify-content: center;",
-      "C": "align-items: center;",
-      "D": "margin: auto;"
+      "A": "Use `with open(...)` for file operations to ensure files are closed.",
+      "B": "Close database connections manually at the end of the script.",
+      "C": "Wrap database operations in `try...finally` blocks to ensure connections are closed even if errors occur.",
+      "D": "Open database connection once at the start and keep it open for all operations to save overhead."
     },
     "correct": [
       "A",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 8,
+    "text": "You are asked to predict whether an email is spam or not. Which type of machine learning problem is this, and what kind of model would typically be used?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "Regression; Linear Regression",
+      "B": "Classification; Logistic Regression or SVM",
+      "C": "Clustering; K-Means",
+      "D": "Reinforcement Learning; Q-learning"
+    },
+    "correct": [
       "B"
     ],
     "difficulty": "easy"
   },
   {
-    "id": 8,
-    "text": "Examine the JavaScript snippet. Which statements accurately describe the behavior of `var` and `let`?",
-    "code": "function testScope() {\n  if (true) {\n    var a = 1;\n    let b = 2;\n  }\n  // console.log(a); // Line X\n  // console.log(b); // Line Y\n}",
-    "type": "MSQ",
-    "options": {
-      "A": "`a` would be accessible at Line X.",
-      "B": "`b` would be accessible at Line Y.",
-      "C": "`var` variables are function-scoped.",
-      "D": "`let` variables are block-scoped."
-    },
-    "correct": [
-      "A",
-      "C",
-      "D"
-    ],
-    "difficulty": "easy"
-  },
-  {
     "id": 9,
-    "text": "Consider the following JavaScript code. What will be logged to the console, and in what order?",
-    "code": "console.log('Start');\nsetTimeout(() => console.log('Timeout'), 0);\nPromise.resolve().then(() => console.log('Promise'));\nconsole.log('End');",
-    "type": "MSQ",
+    "text": "A database table `Products` has columns `product_id`, `product_name`, `category`, and `price`. You need to find the average price for each category, but only for categories with more than 10 products. Which SQL query is correct?",
+    "code": null,
+    "type": "MCQ",
     "options": {
-      "A": "Start, End, Promise, Timeout",
-      "B": "Start, Promise, End, Timeout",
-      "C": "Start, End, Timeout, Promise",
-      "D": "Start, Timeout, Promise, End"
+      "A": "SELECT category, AVG(price) FROM Products GROUP BY category WHERE COUNT(product_id) > 10;",
+      "B": "SELECT category, AVG(price) FROM Products HAVING COUNT(product_id) > 10 GROUP BY category;",
+      "C": "SELECT category, AVG(price) FROM Products GROUP BY category HAVING COUNT(product_id) > 10;",
+      "D": "SELECT category, AVG(price) FROM Products WHERE COUNT(product_id) > 10 GROUP BY category;"
     },
     "correct": [
-      "A"
+      "C"
     ],
     "difficulty": "medium"
   },
   {
     "id": 10,
-    "text": "You are building a React component that fetches data when it mounts. Which `useEffect` dependency array configuration is appropriate to ensure the fetch runs only once?",
-    "code": "function MyComponent() {\n  useEffect(() => {\n    // Fetch data here\n  }, [/* dependency array */]);\n}",
-    "type": "MCQ",
-    "options": {
-      "A": "[]",
-      "B": "[data]",
-      "C": "[null]",
-      "D": "No dependency array"
-    },
-    "correct": [
-      "A"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 11,
-    "text": "An Express.js application has the following middleware and route definitions. What will be the output when a GET request is made to `/api/data`?",
-    "code": "app.use((req, res, next) => { console.log('Middleware 1'); next(); });\napp.get('/api/data', (req, res, next) => { console.log('Route Handler'); res.send('Data'); });\napp.use((req, res, next) => { console.log('Middleware 2'); next(); });",
-    "type": "MCQ",
-    "options": {
-      "A": "Middleware 1, Route Handler, Data",
-      "B": "Middleware 1, Route Handler, Middleware 2, Data",
-      "C": "Route Handler, Middleware 1, Data",
-      "D": "Middleware 1, Middleware 2, Route Handler, Data"
-    },
-    "correct": [
-      "A"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 12,
-    "text": "You have two SQL tables: `Orders (order_id, customer_id)` and `Customers (customer_id, name)`. You want to list all customers and their orders, including customers who have not placed any orders. Which type of JOIN should you use?",
+    "text": "What is the primary purpose of `git pull` in a typical Git workflow?",
     "code": null,
     "type": "MCQ",
     "options": {
-      "A": "INNER JOIN",
-      "B": "LEFT JOIN",
-      "C": "RIGHT JOIN",
-      "D": "FULL OUTER JOIN"
+      "A": "To send local commits to the remote repository.",
+      "B": "To fetch changes from the remote and merge them into the current branch.",
+      "C": "To create a new branch from the remote repository.",
+      "D": "To discard local changes and revert to the remote state."
     },
     "correct": [
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 11,
+    "text": "You are building a model to classify customer reviews as positive or negative. The dataset is highly imbalanced (95% positive, 5% negative). Which evaluation metrics are most appropriate to assess the model's performance?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Accuracy",
+      "B": "Precision",
+      "C": "Recall",
+      "D": "F1-score"
+    },
+    "correct": [
+      "B",
+      "C",
+      "D"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 12,
+    "text": "A Python function is designed to calculate the sum of numbers. Identify potential issues or areas for improvement in this code snippet.",
+    "code": "def calculate_sum(numbers):\n    total = 0\n    for num in numbers:\n        total += num\n    return total\n\nmy_list = [1, '2', 3]\nresult = calculate_sum(my_list)\nprint(result)",
+    "type": "MSQ",
+    "options": {
+      "A": "The function does not handle non-numeric inputs, leading to a TypeError.",
+      "B": "Using a loop for summation is inefficient; `sum()` should be used.",
+      "C": "The variable `total` is not initialized correctly.",
+      "D": "The function name is not descriptive enough."
+    },
+    "correct": [
+      "A",
       "B"
     ],
     "difficulty": "medium"
   },
   {
     "id": 13,
-    "text": "A MongoDB collection `users` stores documents like `{ name: 'Alice', address: { city: 'NY', zip: '10001' } }`. Which query finds all users living in 'NY'?",
+    "text": "A data scientist is preparing text data for an NLP model. They decide to convert all text to lowercase and remove punctuation. Which of the following NLP concepts are they applying?",
     "code": null,
-    "type": "MCQ",
+    "type": "MSQ",
     "options": {
-      "A": "db.users.find({ city: 'NY' })",
-      "B": "db.users.find({ 'address.city': 'NY' })",
-      "C": "db.users.find({ address: { city: 'NY' } })",
-      "D": "db.users.find({ address.city: 'NY' })"
+      "A": "Tokenization",
+      "B": "Stemming",
+      "C": "Text Normalization",
+      "D": "Feature Engineering"
     },
     "correct": [
-      "B"
+      "C",
+      "D"
     ],
     "difficulty": "medium"
   },
   {
     "id": 14,
-    "text": "You are collaborating on a project using Git. Your colleague pushed changes to `main`, and you have local commits on your branch. What are common ways to incorporate their changes into your branch while preserving your work?",
+    "text": "You're debugging a Python script that occasionally fails with a `KeyError` when accessing a dictionary. Which approach is best for robust error handling?",
     "code": null,
-    "type": "MSQ",
+    "type": "MCQ",
     "options": {
-      "A": "git merge main",
-      "B": "git rebase main",
-      "C": "git reset --hard main",
-      "D": "git checkout main && git pull"
+      "A": "Use `dict.get(key, default_value)` instead of `dict[key]`.",
+      "B": "Always check `if key in dict:` before accessing `dict[key]`.",
+      "C": "Wrap the dictionary access in a `try-except KeyError` block.",
+      "D": "All of the above, depending on the specific scenario and desired behavior."
     },
     "correct": [
-      "A",
-      "B"
+      "D"
     ],
     "difficulty": "medium"
   },
   {
     "id": 15,
-    "text": "You're building a responsive navigation bar. On small screens, the menu items should stack vertically. Which CSS properties, applied to the menu container, would achieve this using Flexbox?",
+    "text": "A junior developer wrote a SQL query that runs very slowly. The query involves joining two large tables, `Orders` and `Customers`, on `customer_id`. What is a common way to improve its performance?",
     "code": null,
-    "type": "MSQ",
+    "type": "MCQ",
     "options": {
-      "A": "display: flex;",
-      "B": "flex-direction: column;",
-      "C": "justify-content: space-between;",
-      "D": "align-items: center;"
+      "A": "Increase the database server's RAM.",
+      "B": "Add an index on the `customer_id` columns in both `Orders` and `Customers` tables.",
+      "C": "Use `SELECT *` instead of specific columns to reduce query parsing time.",
+      "D": "Split the query into two separate queries and join results in the application layer."
     },
     "correct": [
-      "A",
       "B"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "id": 16,
-    "text": "You're debugging a React component where a button click should update a counter. Why might the counter not update as expected in the `handleClick` function?",
-    "code": "function Counter() {\n  const [count, setCount] = useState(0);\n  const handleClick = () => {\n    count++; // Problematic line\n    setCount(count);\n  };\n  return <button onClick={handleClick}>{count}</button>;\n}",
-    "type": "MSQ",
+    "text": "What does the following Python code print?",
+    "code": "def outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nclosure_instance = outer_func(10)\nresult = closure_instance(5)\nprint(result)",
+    "type": "MCQ",
     "options": {
-      "A": "Directly mutating state (`count++`) is not recommended in React.",
-      "B": "`setCount` should receive a new value, not the mutated old one.",
-      "C": "The `count` variable is read-only.",
-      "D": "The component needs to be wrapped in `React.memo`."
+      "A": "10",
+      "B": "5",
+      "C": "15",
+      "D": "Error"
     },
     "correct": [
-      "A",
-      "B"
+      "C"
     ],
     "difficulty": "medium"
   },
   {
     "id": 17,
-    "text": "An Express.js API receives a POST request with a JSON body. What's needed in the server setup to correctly access this data via `req.body`?",
-    "code": "const express = require('express');\nconst app = express();\n// Missing middleware here\napp.post('/data', (req, res) => {\n  console.log(req.body);\n  res.send('Received');\n});",
-    "type": "MSQ",
-    "options": {
-      "A": "The client must send `Content-Type: application/json` header.",
-      "B": "`app.use(express.json());` middleware must be added before the route.",
-      "C": "`req.body` is automatically populated by Express without any extra setup.",
-      "D": "The `body-parser` package is strictly required for JSON parsing."
-    },
-    "correct": [
-      "A",
-      "B"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 18,
-    "text": "You have a SQL table `users` with columns `id`, `name`, `email`. Queries frequently filter by `email`. What is the most effective way to improve the performance of these queries?",
+    "text": "You are tasked with building a recommendation system where you group similar users together based on their past behavior without any predefined labels. Which type of machine learning approach is most suitable?",
     "code": null,
     "type": "MCQ",
     "options": {
-      "A": "Add an index on the `name` column.",
-      "B": "Add an index on the `email` column.",
-      "C": "Increase the server's RAM.",
-      "D": "Use a `LIKE` operator for email filtering."
+      "A": "Supervised Learning (Classification)",
+      "B": "Supervised Learning (Regression)",
+      "C": "Unsupervised Learning (Clustering)",
+      "D": "Reinforcement Learning"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 18,
+    "text": "A developer is working on a new feature in a separate branch (`feature-X`). They need to incorporate the latest changes from the `main` branch into their `feature-X` branch without creating an extra merge commit. Which Git command should they use?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "`git merge main`",
+      "B": "`git rebase main`",
+      "C": "`git cherry-pick main`",
+      "D": "`git reset --hard main`"
     },
     "correct": [
       "B"
@@ -299,100 +300,82 @@
   },
   {
     "id": 19,
-    "text": "Consider the following JavaScript code. What will be the output when `createCounter()` is called and its returned functions are invoked?",
-    "code": "function createCounter() {\n  let count = 0;\n  return {\n    increment: () => count++,\n    getCount: () => count\n  };\n}\nconst counter = createCounter();\ncounter.increment();\nconsole.log(counter.getCount());",
+    "text": "Consider a scenario where you have a dataset with a categorical feature 'City' (e.g., 'New York', 'London', 'Paris'). For a machine learning model, how would you typically transform this feature?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "One-Hot Encoding",
+      "B": "Label Encoding",
+      "C": "Min-Max Scaling",
+      "D": "Standardization"
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 20,
+    "text": "What is the output of the following Python code snippet?",
+    "code": "my_dict = {'a': 1, 'b': 2, 'c': 3}\nnew_dict = {k: v*2 for k, v in my_dict.items() if v % 2 == 0}\nprint(new_dict)",
     "type": "MCQ",
     "options": {
-      "A": "0",
-      "B": "1",
-      "C": "undefined",
-      "D": "Error"
+      "A": "{'a': 2, 'b': 4, 'c': 6}",
+      "B": "{'b': 4}",
+      "C": "{'a': 1, 'b': 4, 'c': 3}",
+      "D": "{'b': 2}"
     },
     "correct": [
       "B"
     ],
-    "difficulty": "hard"
-  },
-  {
-    "id": 20,
-    "text": "You are building a React component that fetches user data from an API and displays it. How can you prevent unnecessary re-fetches or re-renders if the component's props change but the user ID (which triggers the fetch) remains the same?",
-    "code": null,
-    "type": "MSQ",
-    "options": {
-      "A": "Use `React.memo` for the component.",
-      "B": "Place the user ID in the `useEffect` dependency array.",
-      "C": "Wrap the fetch function in `useCallback` if it's passed down as a prop.",
-      "D": "Manually compare previous and current props in `shouldComponentUpdate` (class components)."
-    },
-    "correct": [
-      "A",
-      "B",
-      "C",
-      "D"
-    ],
-    "difficulty": "hard"
+    "difficulty": "easy"
   },
   {
     "id": 21,
-    "text": "An Express.js API route handles user registration, inserting data into MongoDB. Which practices are crucial for security and robustness in this scenario?",
+    "text": "A machine learning model is deployed, and users report that it frequently makes incorrect predictions for a specific subset of data. What are potential steps to diagnose and resolve this issue?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "Hashing user passwords before storing them.",
-      "B": "Validating user input on the server-side.",
-      "C": "Using environment variables for database connection strings.",
-      "D": "Returning detailed database error messages to the client."
+      "A": "Collect more data specifically for the problematic subset.",
+      "B": "Analyze the feature distributions of the problematic subset compared to the training data.",
+      "C": "Retrain the model with a different random seed without changing anything else.",
+      "D": "Examine the model's predictions and errors on the problematic subset to identify patterns."
     },
     "correct": [
       "A",
       "B",
-      "C"
+      "D"
     ],
     "difficulty": "hard"
   },
   {
     "id": 22,
-    "text": "You have a `products` table and a `categories` table. You need to retrieve product names along with their category names. Which approach is generally more performant for large datasets?",
+    "text": "You need to retrieve the top 3 highest-paid employees from an `Employees` table, which has `employee_id`, `name`, and `salary` columns. Which SQL query is the most efficient and correct?",
     "code": null,
     "type": "MCQ",
     "options": {
-      "A": "Using a subquery: `SELECT p.name, (SELECT c.name FROM categories c WHERE c.id = p.category_id) FROM products p;`",
-      "B": "Using an INNER JOIN: `SELECT p.name, c.name FROM products p INNER JOIN categories c ON p.category_id = c.id;`",
-      "C": "Fetching all products and categories separately, then joining in application code.",
-      "D": "There is no significant performance difference between A and B."
-    },
-    "correct": [
-      "B"
-    ],
-    "difficulty": "hard"
-  },
-  {
-    "id": 23,
-    "text": "You need to implement a search input that triggers an API call only after the user stops typing for 500ms. Which code pattern best describes this 'debouncing' technique?",
-    "code": "let timeoutId;\nfunction handleSearchInput(event) {\n  clearTimeout(timeoutId);\n  timeoutId = setTimeout(() => {\n    // Make API call with event.target.value\n    console.log('Fetching for:', event.target.value);\n  }, 500);\n}",
-    "type": "MSQ",
-    "options": {
-      "A": "This pattern prevents immediate API calls on every keystroke.",
-      "B": "It ensures the API is called only once after a pause in typing.",
-      "C": "This is an example of 'throttling', not 'debouncing'.",
-      "D": "The `clearTimeout` call is unnecessary here."
+      "A": "SELECT name, salary FROM Employees ORDER BY salary DESC LIMIT 3;",
+      "B": "SELECT name, salary FROM Employees WHERE salary IN (SELECT DISTINCT salary FROM Employees ORDER BY salary DESC LIMIT 3);",
+      "C": "SELECT name, salary FROM Employees ORDER BY salary DESC FETCH FIRST 3 ROWS ONLY;",
+      "D": "SELECT name, salary FROM Employees WHERE ROWNUM <= 3 ORDER BY salary DESC;"
     },
     "correct": [
       "A",
-      "B"
+      "C"
     ],
-    "difficulty": "hard"
+    "difficulty": "medium"
   },
   {
-    "id": 24,
-    "text": "Your team uses Git Flow. You've finished a feature on `feature/my-feature` and want to prepare it for release. Which Git commands/actions are typically involved in integrating it into the `develop` branch?",
+    "id": 23,
+    "text": "A Python script processes sensitive user data. Which of the following are important security considerations for a junior developer to be aware of?",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "git checkout develop",
-      "B": "git merge feature/my-feature",
-      "C": "git rebase develop",
-      "D": "Create a Pull Request from `feature/my-feature` to `develop` on GitHub."
+      "A": "Avoid hardcoding API keys or database credentials directly in the code.",
+      "B": "Sanitize user inputs to prevent SQL injection or cross-site scripting (XSS) if applicable.",
+      "C": "Use `print()` statements extensively for debugging sensitive data in production logs.",
+      "D": "Ensure proper access controls are in place for files storing sensitive data."
     },
     "correct": [
       "A",
@@ -402,15 +385,31 @@
     "difficulty": "hard"
   },
   {
+    "id": 24,
+    "text": "What is the output of this Python code, demonstrating common list manipulation?",
+    "code": "list1 = [1, 2, 3]\nlist2 = list1\nlist1.append(4)\nlist2.extend([5, 6])\nprint(list1)",
+    "type": "MCQ",
+    "options": {
+      "A": "[1, 2, 3]",
+      "B": "[1, 2, 3, 4]",
+      "C": "[1, 2, 3, 4, 5, 6]",
+      "D": "[1, 2, 3, 5, 6]"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
     "id": 25,
-    "text": "You're building a React component that fetches data from an API on mount. If the component unmounts before the fetch completes, what potential issue could arise, and how can it be mitigated?",
-    "code": "function DataFetcher() {\n  useEffect(() => {\n    fetch('/api/data').then(res => res.json()).then(data => {\n      // What if component unmounts here?\n      console.log(data);\n    });\n  }, []);\n  return <div>Loading...</div>;\n}",
+    "text": "You are building a deep learning model for image classification. Which of these are common components or techniques you would likely encounter?",
+    "code": null,
     "type": "MSQ",
     "options": {
-      "A": "Memory leak if state is updated on an unmounted component.",
-      "B": "No issue, JavaScript handles it automatically.",
-      "C": "Use a cleanup function in `useEffect` to cancel the fetch or ignore the result.",
-      "D": "Wrap the state update in an `if (mounted)` check."
+      "A": "Convolutional Layers",
+      "B": "Recurrent Neural Networks (RNNs)",
+      "C": "Activation Functions (e.g., ReLU, Softmax)",
+      "D": "Batch Normalization"
     },
     "correct": [
       "A",

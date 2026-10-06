@@ -6,6 +6,7 @@ import MyProfile from "../pages/Myprofile";
 import MyAcademics from "../pages/Myacademics";
 import MyCareer from "../pages/Mycareer";
 import SkillLensCoach from "../pages/Skilllenscoach";
+import ResumeATSReview from "../pages/ResumeATSReview";
 import Jobs from "../pages/Jobs";
 import JobDetail from "../pages/JobDetail";
 import MyApplications from "../pages/MyApplications";
@@ -23,6 +24,7 @@ const DashboardRoutes = () => {
         <Route path="career" element={<MyCareer />} />
         <Route path="coach" element={<SkillLensCoach />} />
         <Route path="coach/quiz" element={<QuizPage />} />
+        <Route path="resume-ats" element={<ResumeATSReview />} />
         <Route path="jobs" element={<Jobs />} />
         <Route path="jobs/:id" element={<JobDetail />} />
         <Route path="applications" element={<MyApplications />} />

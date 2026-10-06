@@ -121,6 +121,13 @@ router.post("/login", loginValidation, async (req, res, next) => {
         $or: [{ company_email: email }, { username: email }],
       }).select("+password");
       if (!company) return res.status(404).json({ error: "User not found" });
+      
+      if (company.is_blocked || company.status === "blocked") {
+        return res
+          .status(403)
+          .json({ error: "Your company account was blocked by administrator. Please contact support." });
+      }
+
       // Recruiter login rules
       if (company.status !== "approved" || !company.is_verified) {
         return res
@@ -140,6 +147,13 @@ router.post("/login", loginValidation, async (req, res, next) => {
         expiresIn: "1h",
       });
       return res.status(200).json({ token, role: "recruiter" });
+    }
+
+    // Check if user is blocked by admin
+    if (user.status === "blocked") {
+      return res
+        .status(403)
+        .json({ error: "Your account was blocked by administrator. Please contact support." });
     }
 
     // user account
@@ -240,6 +254,44 @@ router.post("/change-password", async (req, res, next) => {
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
     res.status(200).json({ message: "Password changed successfully" });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Delete Account (Candidate or Recruiter)
+router.delete("/delete-account", async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    if (req.isRecruiter) {
+      const Company = require("../models/Company");
+      const Job = require("../models/Job");
+      const Application = require("../models/Application");
+      await Company.findByIdAndDelete(userId);
+      await Job.deleteMany({ companyId: userId }).catch(() => {});
+      await Application.deleteMany({ companyId: userId }).catch(() => {});
+      return res.status(200).json({ message: "Company account deleted successfully" });
+    }
+
+    // Candidate Account deletion & cleanup
+    await User.findByIdAndDelete(userId);
+    const Activity = require("../models/Activity");
+    const Career = require("../models/Career");
+    const QuizAttempt = require("../models/QuizAttempt");
+    const SelectedSkills = require("../models/SelectedSkills");
+    const Application = require("../models/Application");
+    const Resume = require("../models/Resume");
+
+    await Promise.allSettled([
+      Activity.deleteMany({ userId }),
+      Career.deleteMany({ userId }),
+      QuizAttempt.deleteMany({ userId }),
+      SelectedSkills.deleteMany({ userId }),
+      Application.deleteMany({ applicantId: userId }),
+      Resume.deleteMany({ userId }),
+    ]);
+
+    res.status(200).json({ message: "Account deleted successfully" });
   } catch (err) {
     next(err);
   }

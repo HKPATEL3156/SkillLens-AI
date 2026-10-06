@@ -40,6 +40,9 @@ module.exports = async (req, res, next) => {
         console.warn(`Auth: company not found for id ${decoded.id}`);
         return res.status(401).json({ error: "Recruiter not found" });
       }
+      if (company.is_blocked || company.status === "blocked") {
+        return res.status(403).json({ error: "Your company account was blocked by administrator. Please contact support." });
+      }
       req.user = company;
       req.isRecruiter = true;
       next();
@@ -51,6 +54,9 @@ module.exports = async (req, res, next) => {
     if (!user) {
       console.warn(`Auth: user not found for id ${decoded.id}`);
       return res.status(401).json({ error: "User not found" });
+    }
+    if (user.status === "blocked") {
+      return res.status(403).json({ error: "Your account was blocked by administrator. Please contact support." });
     }
     req.user = user;
     req.isRecruiter = false;

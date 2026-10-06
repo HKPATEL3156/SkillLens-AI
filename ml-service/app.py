@@ -160,3 +160,30 @@ def extract_skill_endpoint(data: FileData):
         "success": result.get("success", True)
     }
 
+
+class ResumeATSRequest(BaseModel):
+    filepath: Optional[str] = None
+    resume_data: Optional[Dict[str, Any]] = None
+    resume_text: Optional[str] = None
+    target_job_role: Optional[str] = "Software Developer / Engineer"
+
+
+@app.post("/ml/resume-ats")
+def handle_resume_ats(req: ResumeATSRequest):
+    """
+    Analyzes candidate resume against ATS standards and returns comprehensive
+    scores, section completeness, skills gap, and improvement suggestions matching ats_result.json.
+    """
+    from resume_ats import analyze_resume_ats
+    result = analyze_resume_ats(
+        filepath=req.filepath,
+        resume_data=req.resume_data,
+        resume_text=req.resume_text,
+        target_job_role=req.target_job_role or "Software Developer / Engineer"
+    )
+    return {
+        "success": True,
+        "ats_result": result
+    }
+
+

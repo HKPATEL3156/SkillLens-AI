@@ -39,7 +39,7 @@ exports.updateProfile = async (req, res, next) => {
       "openToWork",
       "education",
       "experience",
-      "skills",
+      // skills are managed exclusively via resume upload / extraction to enforce verified credentials
       "resumeText",
       "username",
       "firstName",

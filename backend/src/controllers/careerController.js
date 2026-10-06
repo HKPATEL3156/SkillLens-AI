@@ -18,6 +18,8 @@ exports.saveCareer = async (req, res) => {
   try {
     const userId = req.user.id;
     const update = { ...req.body, userId };
+    // Skills are strictly verified and synchronized via resume upload
+    delete update.skills;
     const career = await Career.findOneAndUpdate({ userId }, update, {
       returnDocument: "after",
       upsert: true,

@@ -93,10 +93,16 @@ const MyCareer = () => {
   const handleResumeUpload = async () => {
     if (!resumeFile) return setError("Select a file first");
     try {
-      await uploadResume(resumeFile);
-      setSuccess("Resume processed");
+      const res = await uploadResume(resumeFile);
+      const newSkills = res?.data?.skills || [];
+      const newResumeUrl = res?.data?.resumeFilePath || "";
+      setForm(prev => ({
+        ...prev,
+        skills: newSkills.length > 0 ? newSkills : prev.skills,
+      }));
+      if (newResumeUrl) setResumeName(newResumeUrl.split("/").pop());
+      setSuccess(`Resume processed successfully! ${newSkills.length ? `${newSkills.length} skills synchronized.` : ''}`);
       setResumeFile(null);
-      fetchCareer();
     } catch { setError("Upload failed"); }
   };
 
@@ -212,32 +218,37 @@ const MyCareer = () => {
 
           {/* SKILLS */}
           <section className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center gap-3 mb-6">
-              <FiCpu className="text-indigo-600 text-2xl" />
-              <h2 className="text-xl font-black text-slate-900">Skill Ecosystem</h2>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <FiCpu className="text-indigo-600 text-2xl" />
+                <h2 className="text-xl font-black text-slate-900">Skill Ecosystem</h2>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                🛡️ Resume Verified ({form.skills?.length || 0})
+              </span>
             </div>
-            <div className="flex gap-3 mb-6">
-              <input 
-                value={skillInput} 
-                onChange={e => setSkillInput(e.target.value)} 
-                className="flex-1 bg-slate-50 border-none rounded-xl px-6 py-3 font-medium outline-none focus:ring-2 focus:ring-indigo-500/20" 
-                placeholder="Add a new skill (e.g. Docker)" 
-              />
-              <button onClick={() => {
-                if(skillInput.trim()){
-                  setForm({...form, skills: [...form.skills, skillInput.trim()]});
-                  setSkillInput("");
-                }
-              }} className="bg-indigo-600 text-white px-6 rounded-xl font-bold transition-transform active:scale-95">Add</button>
+
+            <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 mb-5 text-xs text-slate-600 flex items-start gap-2.5">
+              <span className="text-indigo-600 text-base flex-shrink-0">🔒</span>
+              <p className="leading-relaxed">
+                <strong className="text-slate-800">Verified Credentials:</strong> Skills are extracted and verified directly from your uploaded resume. To add, modify, or update skills, please upload your latest resume in the <em>Resume Sync</em> card.
+              </p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {form.skills.map((skill, i) => (
-                <div key={i} className="flex items-center gap-2 bg-indigo-50 text-indigo-700 px-4 py-2 rounded-xl text-sm font-bold border border-indigo-100 group">
-                  {skill}
-                  <button onClick={() => setForm({...form, skills: form.skills.filter((_, idx) => idx !== i)})} className="text-indigo-300 hover:text-rose-500"><FiX /></button>
-                </div>
-              ))}
-            </div>
+
+            {form.skills && form.skills.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {form.skills.map((skill, i) => (
+                  <div key={i} className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 px-4 py-2 rounded-xl text-sm font-bold border border-indigo-150/60 shadow-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                    {skill}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-slate-400 text-sm">
+                No skills detected yet. Upload your resume to extract skills automatically.
+              </div>
+            )}
           </section>
 
           {/* EXPERIENCE */}

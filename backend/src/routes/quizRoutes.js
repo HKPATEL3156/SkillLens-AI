@@ -407,13 +407,18 @@ router.post("/submit", async (req, res) => {
     } = req.body;
     if (!attemptId)
       return res.status(400).json({ error: "attemptId required" });
+    const percentVal = totalMarks > 0 ? Math.round((obtainedMarks / totalMarks) * 100) : 0;
+    const qualifiedVal = percentVal >= 70;
     const update = {
       obtainedMarks,
       totalMarks,
+      percent: percentVal,
+      qualified: qualifiedVal,
       status,
       answersSummary,
       submittedAt: status === "submitted" ? new Date() : undefined,
     };
+    const userId = req.user._id || req.user.id;
     if (String(attemptId).startsWith("local-")) {
       const attemptsDir = path.join(__dirname, "../../data/attempts");
       const file = path.join(attemptsDir, `${attemptId}.json`);
@@ -421,32 +426,34 @@ router.post("/submit", async (req, res) => {
         return res.status(404).json({ error: "Attempt not found" });
       const raw = fs.readFileSync(file, "utf8");
       const data = JSON.parse(raw);
-      if (String(data.userId) !== String(req.user.id))
+      if (String(data.userId) !== String(userId))
         return res.status(403).json({ error: "Forbidden" });
       data.obtainedMarks = obtainedMarks;
       data.totalMarks = totalMarks;
+      data.percent = percentVal;
+      data.qualified = qualifiedVal;
       data.status = status;
       data.answersSummary = answersSummary;
       data.submittedAt =
         status === "submitted" ? new Date().toISOString() : undefined;
       fs.writeFileSync(file, JSON.stringify(data, null, 2), "utf8");
       await Activity.create({
-        userId: req.user.id,
+        userId,
         type: status === "submitted" ? "quiz_submit" : "quiz_cancel",
-        message: `Quiz ${status}`,
+        message: `Quiz ${status} (Score: ${obtainedMarks}/${totalMarks}, ${percentVal}%)`,
       }).catch(() => { });
       return res.json({ message: "Quiz saved", attempt: data });
     }
     const attempt = await QuizAttempt.findOneAndUpdate(
-      { _id: attemptId, userId: req.user.id },
+      { _id: attemptId, userId },
       update,
       { returnDocument: "after" },
     );
     if (!attempt) return res.status(404).json({ error: "Attempt not found" });
     await Activity.create({
-      userId: req.user.id,
+      userId,
       type: status === "submitted" ? "quiz_submit" : "quiz_cancel",
-      message: `Quiz ${status}`,
+      message: `Quiz ${status} (Score: ${obtainedMarks}/${totalMarks}, ${percentVal}%)`,
     }).catch(() => { });
     res.json({ message: "Quiz saved", attempt });
   } catch (err) {
@@ -485,31 +492,45 @@ router.get("/attempts", async (req, res) => {
   }
 });
 
-// GET selected skills for current user (DB -> fallback file)
-router.get("/selected-skills", async (req, res) => {
+// GET single attempt details
+router.get("/attempts/:id", async (req, res) => {
   try {
-    // try DB first
-    try {
-      const doc = await SelectedSkills.findOne({ userId: req.user.id }).lean();
-      if (doc && Array.isArray(doc.skills))
-        return res.json({ skills: doc.skills });
-    } catch (dbErr) {
-      // ignore DB errors and fallback to file
+    const attemptId = req.params.id;
+    if (!attemptId) return res.status(400).json({ error: "attemptId required" });
+
+    if (String(attemptId).startsWith("local-")) {
+      const attemptsDir = path.join(__dirname, "../../data/attempts");
+      const file = path.join(attemptsDir, `${attemptId}.json`);
+      if (!fs.existsSync(file)) return res.status(404).json({ error: "Attempt not found" });
+      const raw = fs.readFileSync(file, "utf8");
+      const data = JSON.parse(raw);
+      if (String(data.userId) !== String(req.user._id || req.user.id)) {
+        return res.status(403).json({ error: "Forbidden: Access denied to this attempt" });
+      }
+      return res.json({ attempt: data });
     }
 
-    // fallback: read from data/selected_skills.json
-    if (fs.existsSync(SELECTED_SKILLS_FILE)) {
-      try {
-        const raw = fs.readFileSync(SELECTED_SKILLS_FILE, "utf8");
-        const data = JSON.parse(raw);
-        if (Array.isArray(data)) return res.json({ skills: data });
-        if (Array.isArray(data.skills))
-          return res.json({ skills: data.skills });
-      } catch (e) {
-        // fall through to empty
-      }
+    const attempt = await QuizAttempt.findOne({
+      _id: attemptId,
+      userId: req.user._id || req.user.id,
+    }).lean();
+
+    if (!attempt) return res.status(404).json({ error: "Quiz attempt not found" });
+    res.json({ attempt });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch attempt details", details: err.message });
+  }
+});
+
+// GET selected skills for current user (strictly from DB per candidate)
+router.get("/selected-skills", async (req, res) => {
+  try {
+    const userId = req.user._id || req.user.id;
+    const doc = await SelectedSkills.findOne({ userId }).lean();
+    if (doc && Array.isArray(doc.skills)) {
+      return res.json({ skills: doc.skills });
     }
-    res.json({ skills: [] });
+    return res.json({ skills: [] });
   } catch (err) {
     res
       .status(500)
@@ -517,49 +538,21 @@ router.get("/selected-skills", async (req, res) => {
   }
 });
 
-// POST save selected skills for current user (DB upsert + file fallback)
+// POST save selected skills for current user (strictly DB upsert per candidate)
 router.post("/selected-skills", async (req, res) => {
   try {
     const { skills } = req.body;
     if (!Array.isArray(skills))
       return res.status(400).json({ error: "skills must be an array" });
 
-    // try DB upsert
-    try {
-      const upd = await SelectedSkills.findOneAndUpdate(
-        { userId: req.user.id },
-        { $set: { skills } },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
-      );
-      // also write to fallback file for offline use
-      try {
-        if (!fs.existsSync(DATA_DIR))
-          fs.mkdirSync(DATA_DIR, { recursive: true });
-        fs.writeFileSync(
-          SELECTED_SKILLS_FILE,
-          JSON.stringify(skills, null, 2),
-          "utf8",
-        );
-      } catch (e) { }
-      return res.json({ skills: upd.skills });
-    } catch (dbErr) {
-      // DB failed, write to file and return
-      try {
-        if (!fs.existsSync(DATA_DIR))
-          fs.mkdirSync(DATA_DIR, { recursive: true });
-        fs.writeFileSync(
-          SELECTED_SKILLS_FILE,
-          JSON.stringify(skills, null, 2),
-          "utf8",
-        );
-        return res.json({ skills });
-      } catch (fileErr) {
-        return res.status(500).json({
-          error: "Failed to save selected skills",
-          details: fileErr.message,
-        });
-      }
-    }
+    const userId = req.user._id || req.user.id;
+    const upd = await SelectedSkills.findOneAndUpdate(
+      { userId },
+      { $set: { skills } },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+
+    return res.json({ skills: upd.skills });
   } catch (err) {
     res
       .status(500)

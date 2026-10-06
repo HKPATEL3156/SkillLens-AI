@@ -1,7 +1,9 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FiEye } from "react-icons/fi";
 import api, { getQuestions, startQuiz, submitQuiz, getQuizAttempts, saveQualifiedSkills } from "../services/api";
+import QuizAttemptDetailModal from "../components/QuizAttemptDetailModal";
 
 const Step = ({ idx, title, open, onToggle, locked, children }) => (
   <div className={`group rounded-3xl mb-6 transition-all duration-300 bg-white border border-slate-100 ${open ? 'ring-2 ring-blue-100 shadow-2xl scale-[1.01]' : 'hover:shadow-lg'}`} style={{ overflow: 'hidden' }}>
@@ -41,6 +43,7 @@ const SkillLensCoach = () => {
   const [career, setCareer] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [submittingReport, setSubmittingReport] = useState(false);
+  const [selectedAttemptForView, setSelectedAttemptForView] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -542,16 +545,17 @@ const SkillLensCoach = () => {
                       <th className="p-3 font-semibold">Obtained</th>
                       <th className="p-3 font-semibold">Qualified</th>
                       <th className="p-3 font-semibold">Status</th>
+                      <th className="p-3 font-semibold text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {attempts.length === 0 && (
-                      <tr><td colSpan={7} className="p-6 text-center text-gray-400">No quiz attempts yet</td></tr>
+                      <tr><td colSpan={9} className="p-6 text-center text-gray-400">No quiz attempts yet</td></tr>
                     )}
                     {attempts.map((a, idx) => (
                       <tr key={a._id} className="border-t hover:bg-blue-50 transition">
                         <td className="p-3 font-semibold text-center">{idx + 1}</td>
-                        <td className="p-3">{new Date(a.createdAt).toLocaleString()}</td>
+                        <td className="p-3">{new Date(a.createdAt || a.startedAt).toLocaleString()}</td>
                         <td className="p-3">{(a.skills || []).map((s, i) => (<span key={i} className="text-blue-700 font-semibold mr-1">{s}</span>))}</td>
                         <td className="p-3">{a.quizName}</td>
                         <td className="p-3 text-center">{a.totalMarks || 100}</td>
@@ -559,6 +563,15 @@ const SkillLensCoach = () => {
                         <td className="p-3 text-center">{(a.percent !== undefined ? (a.percent >= 70 ? 'Yes' : 'No') : ((a.totalMarks ? Math.round((Number(a.obtainedMarks || 0) / a.totalMarks) * 10000) / 100 : (a.obtainedMarks || 0)) >= 70 ? 'Yes' : 'No'))}</td>
                         <td className="p-3 text-center">
                           <span className={`px-2 py-1 rounded text-xs font-semibold ${a.status === 'submitted' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>{a.status}</span>
+                        </td>
+                        <td className="p-3 text-center">
+                          <button
+                            onClick={() => setSelectedAttemptForView(a)}
+                            title="View Full Attempt Breakdown (Score & All Questions)"
+                            className="p-2 bg-blue-100 hover:bg-blue-600 hover:text-white text-blue-700 rounded-xl transition-all shadow-sm flex items-center justify-center mx-auto group"
+                          >
+                            <FiEye size={16} className="group-hover:scale-110 transition-transform" />
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -1062,6 +1075,14 @@ const SkillLensCoach = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* DETAILED QUIZ ATTEMPT REVIEW MODAL */}
+      {selectedAttemptForView && (
+        <QuizAttemptDetailModal
+          attempt={selectedAttemptForView}
+          onClose={() => setSelectedAttemptForView(null)}
+        />
       )}
 
     </div>

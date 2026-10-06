@@ -89,3 +89,4 @@ node_modules/
 .terminal_history.json
 backend/scratch_check.js
 .gitignore
+start.ps1

@@ -76,12 +76,23 @@ export const startQuiz = (data) => api.post("/quiz/start", data);
 export const submitQuiz = (data) => api.post("/quiz/submit", data);
 export const saveQuizCheckpoint = (data) => api.post("/quiz/save", data);
 export const getQuizAttempts = () => api.get("/quiz/attempts");
+export const getQuizAttemptById = (id) => api.get(`/quiz/attempts/${id}`);
 export const generateQuiz = (data) => api.post("/quiz/generate", data);
 export const getGenerateStatus = (jobId) =>
   api.get(`/quiz/generate/status?jobId=${jobId}`);
 export const getGenerateLogs = (jobId) =>
   api.get(`/quiz/generate/logs?jobId=${jobId}`);
 export const getPaperStatus = () => api.get("/quiz/paper-status");
+
+// Resume ATS & Review endpoints
+export const getCurrentResumeATS = () => api.get("/ats/current");
+export const analyzeResumeATS = (data) => api.post("/ats/analyze", data);
+export const getATSHistory = () => api.get("/ats/history");
+export const getATSAnalysisById = (id) => api.get(`/ats/analysis/${id}`);
+export const uploadAndAnalyzeResumeATS = (formData) =>
+  api.post("/ats/upload-analyze", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
 export const changePassword = (data) => api.post("/auth/change-password", data);
 export const deleteAccount = () => api.delete("/auth/delete-account");
