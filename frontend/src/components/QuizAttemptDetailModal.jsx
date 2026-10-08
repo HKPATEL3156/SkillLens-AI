@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   FiX,
   FiCheckCircle,
@@ -9,13 +9,49 @@ import {
   FiSearch,
   FiCalendar,
   FiLayers,
-  FiPrinter,
+  FiDownload,
   FiCheck,
+  FiUser,
+  FiMail,
+  FiHash,
+  FiFileText,
+  FiClock,
+  FiShield
 } from "react-icons/fi";
+import { getProfile } from "../services/api";
+import { downloadPdfReport } from "../utils/pdfExport";
 
 const QuizAttemptDetailModal = ({ attempt, onClose }) => {
   const [filter, setFilter] = useState("all"); // 'all' | 'correct' | 'incorrect' | 'unattempted'
   const [searchTerm, setSearchTerm] = useState("");
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const reportRef = useRef(null);
+
+  const [candidateProfile, setCandidateProfile] = useState({
+    name: "Candidate",
+    email: "candidate@skilllens.ai",
+    role: "Software Developer"
+  });
+
+  // Fetch candidate profile for official scorecard headers
+  useEffect(() => {
+    let isMounted = true;
+    getProfile()
+      .then((res) => {
+        if (isMounted && res.data?.user) {
+          const u = res.data.user;
+          setCandidateProfile({
+            name: u.name || `${u.firstName || ''} ${u.lastName || ''}`.trim() || "Candidate",
+            email: u.email || "candidate@skilllens.ai",
+            role: u.role || u.preferredRole || "Candidate"
+          });
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   if (!attempt) return null;
 
@@ -76,10 +112,18 @@ const QuizAttemptDetailModal = ({ attempt, onClose }) => {
       }
 
       let status = "unattempted";
+      let awardedMarks = 0;
       if (isAttempted) {
-        if (isCorrect) status = "correct";
-        else if (isPartial) status = "partial";
-        else status = "incorrect";
+        if (isCorrect) {
+          status = "correct";
+          awardedMarks = q.marks ?? 4;
+        } else if (isPartial) {
+          status = "partial";
+          awardedMarks = userAns.obtainedMarks || 2;
+        } else {
+          status = "incorrect";
+          awardedMarks = 0;
+        }
       }
 
       return {
@@ -89,7 +133,8 @@ const QuizAttemptDetailModal = ({ attempt, onClose }) => {
         selected,
         correct,
         status,
-        obtainedMarks: userAns.obtainedMarks,
+        obtainedMarks: awardedMarks,
+        maxMarks: q.marks ?? 4
       };
     });
   }, [questionSet, userAnswersMap]);
@@ -100,9 +145,10 @@ const QuizAttemptDetailModal = ({ attempt, onClose }) => {
   const partialCount = analyzedQuestions.filter((q) => q.status === "partial").length;
   const incorrectCount = analyzedQuestions.filter((q) => q.status === "incorrect").length;
   const unattemptedCount = analyzedQuestions.filter((q) => q.status === "unattempted").length;
+  const attemptedCount = totalQuestions - unattemptedCount;
 
   const totalMarks = attempt.totalMarks || totalQuestions * 4 || 100;
-  const obtainedMarks = attempt.obtainedMarks ?? answersSummary.score ?? 0;
+  const obtainedMarks = attempt.obtainedMarks ?? answersSummary.score ?? (correctCount * 4);
   const percentage =
     attempt.percent !== undefined
       ? attempt.percent
@@ -111,7 +157,7 @@ const QuizAttemptDetailModal = ({ attempt, onClose }) => {
       : 0;
   const isQualified = percentage >= 70;
 
-  // Filtered questions
+  // Filtered questions for interactive screen browsing
   const filteredQuestions = useMemo(() => {
     return analyzedQuestions.filter((q) => {
       if (filter === "correct" && q.status !== "correct") return false;
@@ -131,353 +177,436 @@ const QuizAttemptDetailModal = ({ attempt, onClose }) => {
     });
   }, [analyzedQuestions, filter, searchTerm]);
 
+  const attemptDate = new Date(attempt.createdAt || attempt.startedAt || Date.now());
+  const attemptIdShort = String(attempt._id || attempt.id || 'N/A').slice(-8).toUpperCase();
+  const rollNumber = `SKL-${attemptIdShort}`;
+
+  // Direct PDF Download Handler (Contains ONLY the exact report, no background webpage)
+  const handleDownloadPdf = async () => {
+    if (!reportRef.current) return;
+    setIsDownloadingPdf(true);
+    const prevFilter = filter;
+    const prevSearch = searchTerm;
+    setFilter("all");
+    setSearchTerm("");
+
+    try {
+      // Allow React state update to render all questions before generating PDF
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      await downloadPdfReport(
+        reportRef.current,
+        `SkillLens_Quiz_Response_Sheet_${rollNumber}.pdf`
+      );
+    } catch (err) {
+      console.error("PDF download failed:", err);
+      alert("Failed to generate PDF. Please try again.");
+    } finally {
+      setIsDownloadingPdf(false);
+      setFilter(prevFilter);
+      setSearchTerm(prevSearch);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
-      <div className="bg-white border border-slate-200 rounded-3xl w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden font-sans">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6">
+      <div className="bg-white border border-slate-200 rounded-3xl w-full max-w-5xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden font-sans">
         
-        {/* MODAL HEADER (Clean White & Slate theme) */}
-        <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/80 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3.5">
-            <div className="p-3 bg-blue-100 text-blue-700 border border-blue-200 rounded-2xl shadow-sm">
-              <FiAward className="text-2xl" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2.5">
-                <h3 className="text-xl font-black text-slate-900 tracking-tight">
-                  {attempt.quizName || "Quiz Performance Review"}
-                </h3>
-                <span
-                  className={`text-xs px-3 py-1 rounded-full font-extrabold uppercase tracking-wider ${
-                    isQualified
-                      ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
-                      : "bg-amber-100 text-amber-800 border border-amber-300"
-                  }`}
-                >
-                  {isQualified ? "✓ Qualified (≥70%)" : "! Needs Improvement"}
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 mt-1">
-                <span className="flex items-center gap-1.5">
-                  <FiCalendar size={13} className="text-slate-400" />
-                  {new Date(attempt.createdAt || attempt.startedAt).toLocaleString()}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <FiLayers size={13} className="text-blue-500" />
-                  Skills: <strong className="text-slate-700">{(attempt.skills || []).join(", ") || "General Evaluation"}</strong>
-                </span>
-              </div>
-            </div>
+        {/* MODAL ACTION BAR - ONLY 1 SINGLE PRIMARY BUTTON */}
+        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+            <span>Official Candidate Response Sheet & Scorecard</span>
           </div>
 
           <div className="flex items-center gap-2">
+            {/* ONLY ONE PDF DOWNLOAD BUTTON */}
             <button
-              onClick={() => window.print()}
-              title="Print Quiz Report"
-              className="p-2.5 bg-white hover:bg-slate-100 text-slate-700 rounded-xl transition text-xs font-bold flex items-center gap-1.5 border border-slate-200 shadow-sm"
+              onClick={handleDownloadPdf}
+              disabled={isDownloadingPdf}
+              title="Download Official PDF Report"
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition text-xs font-black flex items-center gap-2 shadow-sm cursor-pointer disabled:opacity-60"
             >
-              <FiPrinter size={15} />
-              <span className="hidden sm:inline">Print</span>
+              {isDownloadingPdf ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Generating Official PDF...</span>
+                </>
+              ) : (
+                <>
+                  <FiDownload size={15} />
+                  <span>Download PDF Response Sheet</span>
+                </>
+              )}
             </button>
             <button
               onClick={onClose}
-              className="p-2.5 bg-white hover:bg-red-50 hover:text-red-600 text-slate-500 rounded-xl transition border border-slate-200 shadow-sm"
+              disabled={isDownloadingPdf}
+              className="p-2 bg-white hover:bg-rose-50 hover:text-rose-600 text-slate-500 rounded-xl transition border border-slate-200 shadow-sm cursor-pointer disabled:opacity-50"
             >
               <FiX size={18} />
             </button>
           </div>
         </div>
 
-        {/* OVERVIEW STATS BANNER */}
-        <div className="p-6 border-b border-slate-200 bg-white shrink-0">
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
-            {/* Score Card */}
-            <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-              <span className="text-[11px] font-black uppercase tracking-wider text-blue-700">
-                Score & Grade
-              </span>
-              <div className="flex items-baseline gap-1 mt-2">
-                <span className="text-3xl font-black text-blue-950">{obtainedMarks}</span>
-                <span className="text-blue-600/80 font-bold text-sm">/ {totalMarks}</span>
-              </div>
-              <div className="mt-2 text-xs font-extrabold text-blue-700">
-                {percentage}% Score
-              </div>
-            </div>
-
-            {/* Total Questions */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-              <span className="text-[11px] font-black uppercase tracking-wider text-slate-600">
-                Questions
-              </span>
-              <div className="text-3xl font-black text-slate-900 mt-2">
-                {totalQuestions}
-              </div>
-              <div className="mt-2 text-xs font-medium text-slate-500">
-                Attempted: {totalQuestions - unattemptedCount}
-              </div>
-            </div>
-
-            {/* Correct Answers */}
-            <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-              <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 flex items-center gap-1">
-                <FiCheckCircle size={13} /> Correct
-              </span>
-              <div className="text-3xl font-black text-emerald-800 mt-2">
-                {correctCount}
-              </div>
-              <div className="mt-2 text-xs font-bold text-emerald-700">
-                {totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0}% Accuracy
-              </div>
-            </div>
-
-            {/* Incorrect Answers */}
-            <div className="bg-rose-50/70 border border-rose-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-              <span className="text-[11px] font-black uppercase tracking-wider text-rose-700 flex items-center gap-1">
-                <FiXCircle size={13} /> Incorrect
-              </span>
-              <div className="text-3xl font-black text-rose-800 mt-2">
-                {incorrectCount + partialCount}
-              </div>
-              <div className="mt-2 text-xs font-bold text-rose-700">
-                {partialCount > 0 ? `${partialCount} Partial` : "Wrong Answers"}
-              </div>
-            </div>
-
-            {/* Skipped */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
-              <span className="text-[11px] font-black uppercase tracking-wider text-slate-600 flex items-center gap-1">
-                <FiHelpCircle size={13} /> Skipped
-              </span>
-              <div className="text-3xl font-black text-slate-700 mt-2">
-                {unattemptedCount}
-              </div>
-              <div className="mt-2 text-xs font-medium text-slate-500">
-                Unanswered
-              </div>
-            </div>
+        {/* SCREEN INTERACTIVE CONTROLS */}
+        <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+            <span className="text-xs font-bold text-slate-600 mr-1">Filter:</span>
+            {[
+              { id: "all", label: `All (${totalQuestions})` },
+              { id: "correct", label: `Correct (${correctCount})`, color: "text-emerald-700" },
+              { id: "incorrect", label: `Incorrect (${incorrectCount + partialCount})`, color: "text-rose-700" },
+              { id: "unattempted", label: `Skipped (${unattemptedCount})`, color: "text-slate-600" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setFilter(tab.id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap cursor-pointer ${
+                  filter === tab.id
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "bg-white text-slate-700 hover:bg-slate-200 border border-slate-200"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
 
-          {/* FILTER & SEARCH BAR */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-5 pt-5 border-t border-slate-100">
-            <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-              <button
-                onClick={() => setFilter("all")}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap ${
-                  filter === "all"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
-              >
-                All ({totalQuestions})
-              </button>
-              <button
-                onClick={() => setFilter("correct")}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap flex items-center gap-1.5 ${
-                  filter === "correct"
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
-                    : "bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200"
-                }`}
-              >
-                <FiCheckCircle size={13} /> Correct ({correctCount})
-              </button>
-              <button
-                onClick={() => setFilter("incorrect")}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap flex items-center gap-1.5 ${
-                  filter === "incorrect"
-                    ? "bg-rose-600 text-white shadow-md shadow-rose-600/20"
-                    : "bg-rose-50 text-rose-800 hover:bg-rose-100 border border-rose-200"
-                }`}
-              >
-                <FiXCircle size={13} /> Incorrect ({incorrectCount + partialCount})
-              </button>
-              <button
-                onClick={() => setFilter("unattempted")}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition whitespace-nowrap flex items-center gap-1.5 ${
-                  filter === "unattempted"
-                    ? "bg-slate-700 text-white shadow-md"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
-              >
-                <FiHelpCircle size={13} /> Skipped ({unattemptedCount})
-              </button>
-            </div>
-
-            <div className="relative w-full sm:w-72">
-              <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search in questions / answers..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium transition"
-              />
-            </div>
+          <div className="relative w-full sm:w-72">
+            <FiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search question text or options..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-9 pr-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium transition"
+            />
           </div>
         </div>
 
-        {/* QUESTIONS LIST (Clean Card Design with High Contrast) */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-5 bg-slate-50/50">
-          {filteredQuestions.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
-              <FiAlertCircle className="mx-auto text-4xl text-slate-400 mb-2" />
-              <p className="font-bold text-slate-700">No questions found matching this filter.</p>
+        {/* =========================================================================
+            OFFICIAL SCORECARD REPORT CONTAINER (Targeted by html2pdf for export)
+           ========================================================================= */}
+        <div ref={reportRef} className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 bg-white text-slate-900">
+          
+          {/* 1. OFFICIAL HEADER (JEE / NEET / NTA STANDARD) */}
+          <div className="border-2 border-slate-800 rounded-2xl p-5 bg-white space-y-4 print-break-inside-avoid">
+            
+            {/* National Exam Banner */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b-2 border-slate-800 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-black text-sm">
+                    SKL
+                  </div>
+                  <h1 className="text-xl font-black text-slate-950 tracking-tight uppercase">
+                    SkillLens-AI National Assessment & Evaluation
+                  </h1>
+                </div>
+                <p className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Official Candidate Response Sheet & Performance Scorecard
+                </p>
+              </div>
+
+              {/* Barcode / Verification Badge */}
+              <div className="flex flex-col items-end text-right">
+                <div className="px-3 py-1 bg-slate-100 border border-slate-400 rounded text-[10px] font-mono font-black text-slate-800 uppercase tracking-widest">
+                  SEC-ID: {rollNumber}
+                </div>
+                <span className="text-[10px] text-slate-500 font-bold mt-1">
+                  Verified Candidate Assessment Record
+                </span>
+              </div>
             </div>
-          ) : (
-            filteredQuestions.map((q) => {
+
+            {/* 2. CANDIDATE & EXAMINATION INFORMATION GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2.5 text-xs text-slate-900">
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Candidate Name:</span>
+                <span className="font-black text-slate-950 text-sm">{candidateProfile.name}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Roll No / Candidate ID:</span>
+                <span className="font-mono font-black text-slate-950">{rollNumber}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Registered Email:</span>
+                <span className="font-mono font-semibold text-slate-800">{candidateProfile.email}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Assessment / Subject:</span>
+                <span className="font-bold text-slate-950">
+                  {attempt.quizName || (attempt.skills || []).join(", ") || "Technical Assessment"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Assessment Attempt ID:</span>
+                <span className="font-mono font-bold text-slate-800 text-[11px]">{String(attempt._id || attempt.id || 'N/A')}</span>
+              </div>
+
+              <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                <span className="font-bold text-slate-600 uppercase tracking-wider">Test Date & Time:</span>
+                <span className="font-bold text-slate-900">
+                  {attemptDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}{' '}
+                  {attemptDate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+            </div>
+
+            {/* 3. PERFORMANCE & MARKS SUMMARY MATRIX (JEE / NEET STYLE TABLE) */}
+            <div className="pt-2">
+              <div className="text-[11px] font-black uppercase tracking-wider text-slate-800 mb-2 flex items-center justify-between">
+                <span>Performance & Scoring Summary</span>
+                <span
+                  className={`px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${
+                    isQualified
+                      ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                      : "bg-amber-100 text-amber-800 border border-amber-300"
+                  }`}
+                >
+                  Final Status: {isQualified ? "QUALIFIED (≥70%)" : "NOT QUALIFIED"}
+                </span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-center border-collapse border border-slate-800 text-xs">
+                  <thead className="bg-slate-100 text-slate-900 font-black border-b border-slate-800 uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="border border-slate-800 py-2 px-2">Total Questions</th>
+                      <th className="border border-slate-800 py-2 px-2">Attempted</th>
+                      <th className="border border-slate-800 py-2 px-2 bg-emerald-50 text-emerald-900">Correct (+4)</th>
+                      <th className="border border-slate-800 py-2 px-2 bg-rose-50 text-rose-900">Incorrect (0)</th>
+                      <th className="border border-slate-800 py-2 px-2">Skipped</th>
+                      <th className="border border-slate-800 py-2 px-2">Maximum Marks</th>
+                      <th className="border border-slate-800 py-2 px-2 bg-blue-50 text-blue-950 font-black">Marks Obtained</th>
+                      <th className="border border-slate-800 py-2 px-2 bg-blue-100 text-blue-950 font-black">Percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody className="font-bold text-slate-900 divide-y divide-slate-800">
+                    <tr>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm">{totalQuestions}</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm">{attemptedCount}</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm text-emerald-700 bg-emerald-50/50">{correctCount}</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm text-rose-700 bg-rose-50/50">{incorrectCount + partialCount}</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm text-slate-500">{unattemptedCount}</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-sm">{totalMarks}.00</td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-base font-black text-blue-700 bg-blue-50/70">
+                        {obtainedMarks}.00
+                      </td>
+                      <td className="border border-slate-800 py-2 px-2 font-mono text-base font-black text-blue-900 bg-blue-100/70">
+                        {percentage}%
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* =========================================================================
+              4. QUESTION-BY-QUESTION RESPONSE SHEET (JEE / NEET / NTA FORMAT)
+             ========================================================================= */}
+          <div className="space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+              <h2 className="text-sm font-black text-slate-900 uppercase tracking-wider">
+                Candidate Responses & Evaluation Key
+              </h2>
+              <span className="text-xs font-bold text-slate-500">
+                {totalQuestions} Questions Total
+              </span>
+            </div>
+
+            {filteredQuestions.map((q) => {
               const options = q.options || {};
               const optKeys = Object.keys(options).sort();
+              const chosenOptionKey = q.selected.length > 0 ? q.selected.join(", ") : null;
+              const correctOptionKey = q.correct.length > 0 ? q.correct.join(", ") : "N/A";
 
               return (
                 <div
                   key={q.qid}
-                  className={`bg-white border rounded-2xl p-5 sm:p-6 transition shadow-sm hover:shadow-md ${
-                    q.status === "correct"
-                      ? "border-emerald-200"
-                      : q.status === "incorrect"
-                      ? "border-rose-200"
-                      : "border-slate-200"
-                  }`}
+                  className="border border-slate-300 rounded-2xl bg-white overflow-hidden print-question-block print-break-inside-avoid shadow-sm"
                 >
-                  {/* QUESTION TOP BAR */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-3 border-b border-slate-100">
+                  {/* QUESTION HEADER BAR */}
+                  <div className="bg-slate-100 px-4 py-2.5 border-b border-slate-300 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-slate-800">
                     <div className="flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-lg bg-blue-100 text-blue-800 font-black text-xs flex items-center justify-center border border-blue-200">
-                        {q.index}
+                      <span className="px-2.5 py-0.5 rounded bg-slate-900 text-white font-mono text-xs font-black">
+                        Q.{q.index}
                       </span>
-                      <span className="text-xs font-extrabold text-slate-800">
-                        Question {q.index} of {totalQuestions}
-                      </span>
-                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
-                        {q.type || "MCQ"}
-                      </span>
+                      <span className="font-bold text-slate-900">Question ID: {q.qid}</span>
+                      {q.type && (
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-300 uppercase">
+                          {q.type}
+                        </span>
+                      )}
                       {q.difficulty && (
-                        <span
-                          className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md ${
-                            q.difficulty.toLowerCase() === "easy"
-                              ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                              : q.difficulty.toLowerCase() === "medium"
-                              ? "bg-amber-100 text-amber-800 border border-amber-200"
-                              : "bg-purple-100 text-purple-800 border border-purple-200"
-                          }`}
-                        >
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white text-slate-700 border border-slate-300 uppercase">
                           {q.difficulty}
                         </span>
                       )}
                     </div>
 
-                    {/* STATUS BADGE */}
-                    <div className="flex items-center gap-2">
-                      {q.status === "correct" && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold">
-                          <FiCheckCircle size={14} className="text-emerald-600" /> Correct (+4.00 Marks)
-                        </span>
-                      )}
-                      {q.status === "partial" && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold">
-                          <FiAlertCircle size={14} className="text-amber-600" /> Partially Correct (+{q.obtainedMarks} Marks)
-                        </span>
-                      )}
-                      {q.status === "incorrect" && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-rose-100 text-rose-800 border border-rose-200 text-xs font-bold">
-                          <FiXCircle size={14} className="text-rose-600" /> Incorrect (0.00 Marks)
-                        </span>
-                      )}
-                      {q.status === "unattempted" && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-600 border border-slate-200 text-xs font-bold">
-                          <FiHelpCircle size={14} className="text-slate-400" /> Skipped (0.00 Marks)
-                        </span>
-                      )}
+                    <div className="flex items-center gap-3">
+                      <span className="text-[11px] text-slate-600 font-semibold">
+                        Max Marks: <strong className="text-slate-900">+{q.maxMarks}.00</strong>
+                      </span>
+                      <span className="text-[11px] text-slate-600 font-semibold">
+                        Marks Awarded:{" "}
+                        <strong className={q.obtainedMarks > 0 ? "text-emerald-700 font-black" : "text-slate-900"}>
+                          +{q.obtainedMarks}.00
+                        </strong>
+                      </span>
                     </div>
                   </div>
 
-                  {/* QUESTION TEXT */}
-                  <p className="text-slate-900 font-semibold text-sm sm:text-base leading-relaxed mb-3">
-                    {q.text}
-                  </p>
+                  {/* QUESTION STATEMENT */}
+                  <div className="p-4 sm:p-5 space-y-3">
+                    <p className="text-slate-950 font-bold text-xs sm:text-sm leading-relaxed">
+                      {q.text}
+                    </p>
 
-                  {/* CODE BLOCK IF PRESENT */}
-                  {q.code && (
-                    <div className="mb-4 rounded-xl bg-slate-900 text-slate-100 p-3.5 overflow-x-auto font-mono text-xs shadow-inner">
-                      <pre>{q.code}</pre>
-                    </div>
-                  )}
+                    {q.code && (
+                      <div className="rounded-xl bg-slate-900 text-slate-100 p-3 overflow-x-auto font-mono text-xs shadow-inner">
+                        <pre>{q.code}</pre>
+                      </div>
+                    )}
 
-                  {/* OPTIONS LIST */}
-                  <div className="space-y-2 mt-4">
-                    {optKeys.map((key) => {
-                      const optText = options[key];
-                      const isUserSelected = q.selected.includes(key);
-                      const isOptionCorrect = q.correct.includes(key);
+                    {/* OPTIONS LIST */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+                      {optKeys.map((key) => {
+                        const optText = options[key];
+                        const isChosen = q.selected.includes(key);
+                        const isCorrect = q.correct.includes(key);
 
-                      let containerStyle = "bg-white border-slate-200 text-slate-700 hover:bg-slate-50";
-                      let badge = null;
-
-                      if (isUserSelected && isOptionCorrect) {
-                        // User chose the right answer
-                        containerStyle = "bg-emerald-50 border-emerald-400 text-emerald-950 font-bold shadow-sm";
-                        badge = (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md border border-emerald-300 shrink-0">
-                            <FiCheck size={13} className="text-emerald-700" /> Your Answer (Correct)
-                          </span>
-                        );
-                      } else if (isUserSelected && !isOptionCorrect) {
-                        // User chose wrong answer
-                        containerStyle = "bg-rose-50 border-rose-400 text-rose-950 font-bold shadow-sm";
-                        badge = (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-black text-rose-800 bg-rose-100 px-2.5 py-1 rounded-md border border-rose-300 shrink-0">
-                            <FiX size={13} className="text-rose-700" /> Your Answer (Wrong)
-                          </span>
-                        );
-                      } else if (!isUserSelected && isOptionCorrect) {
-                        // Correct answer (not chosen by user)
-                        containerStyle = "bg-emerald-50/60 border-emerald-300 text-emerald-900 font-semibold";
-                        badge = (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-1 rounded-md border border-emerald-300 shrink-0">
-                            <FiCheck size={13} className="text-emerald-700" /> Correct Answer
-                          </span>
-                        );
-                      }
-
-                      return (
-                        <div
-                          key={key}
-                          className={`flex items-center justify-between gap-3 p-3.5 rounded-xl border text-xs sm:text-sm transition ${containerStyle}`}
-                        >
-                          <div className="flex items-center gap-3">
+                        return (
+                          <div
+                            key={key}
+                            className={`p-2.5 rounded-xl border text-xs flex items-start gap-2.5 transition ${
+                              isCorrect
+                                ? "bg-emerald-50/80 border-emerald-400 font-bold text-emerald-950"
+                                : isChosen
+                                ? "bg-rose-50/80 border-rose-400 font-bold text-rose-950"
+                                : "bg-white border-slate-200 text-slate-800"
+                            }`}
+                          >
                             <span
-                              className={`w-6 h-6 rounded-lg flex items-center justify-center font-black text-xs shrink-0 ${
-                                isUserSelected
-                                  ? isOptionCorrect
-                                    ? "bg-emerald-600 text-white"
-                                    : "bg-rose-600 text-white"
-                                  : isOptionCorrect
+                              className={`w-5 h-5 rounded flex items-center justify-center font-black text-[11px] shrink-0 mt-0.5 ${
+                                isCorrect
                                   ? "bg-emerald-700 text-white"
-                                  : "bg-slate-100 text-slate-700 border border-slate-300"
+                                  : isChosen
+                                  ? "bg-rose-700 text-white"
+                                  : "bg-slate-200 text-slate-800"
                               }`}
                             >
                               {key}
                             </span>
-                            <span className="leading-snug">{optText}</span>
+                            <span className="leading-snug pt-0.5">{optText}</span>
                           </div>
-                          {badge}
+                        );
+                      })}
+                    </div>
+
+                    {/* =============================================================
+                        NTA / JEE STYLE CANDIDATE RESPONSE STATUS BOX
+                       ============================================================= */}
+                    <div className="mt-4 pt-3 border-t border-slate-200 bg-slate-50/80 p-3.5 rounded-xl">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                        
+                        {/* Response Status */}
+                        <div>
+                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Status</div>
+                          <div className="font-extrabold mt-0.5 text-slate-900">
+                            {chosenOptionKey ? "Answered" : "Not Answered"}
+                          </div>
                         </div>
-                      );
-                    })}
+
+                        {/* Candidate's Chosen Option */}
+                        <div>
+                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Chosen Option (Your Ans)</div>
+                          <div className="font-black mt-0.5">
+                            {chosenOptionKey ? (
+                              <span className={q.status === "correct" ? "text-emerald-700 font-mono" : "text-rose-700 font-mono"}>
+                                Option [{chosenOptionKey}]
+                              </span>
+                            ) : (
+                              <span className="text-slate-400 italic font-normal">--</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Correct Answer Key */}
+                        <div>
+                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Correct Option (Key)</div>
+                          <div className="font-black mt-0.5 text-emerald-800 font-mono">
+                            Option [{correctOptionKey}]
+                          </div>
+                        </div>
+
+                        {/* Marks Awarded & Outcome */}
+                        <div>
+                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Evaluation Outcome</div>
+                          <div className="font-black mt-0.5">
+                            {q.status === "correct" && (
+                              <span className="text-emerald-700 font-bold inline-flex items-center gap-1">
+                                <FiCheckCircle className="text-emerald-600" /> Correct (+{q.obtainedMarks}.00)
+                              </span>
+                            )}
+                            {q.status === "incorrect" && (
+                              <span className="text-rose-700 font-bold inline-flex items-center gap-1">
+                                <FiXCircle className="text-rose-600" /> Incorrect (0.00)
+                              </span>
+                            )}
+                            {q.status === "partial" && (
+                              <span className="text-amber-700 font-bold inline-flex items-center gap-1">
+                                <FiAlertCircle className="text-amber-600" /> Partial (+{q.obtainedMarks}.00)
+                              </span>
+                            )}
+                            {q.status === "unattempted" && (
+                              <span className="text-slate-500 font-bold inline-flex items-center gap-1">
+                                <FiHelpCircle className="text-slate-400" /> Skipped (0.00)
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Explanation / Solution Rationale if provided */}
+                      {q.explanation && (
+                        <div className="mt-3 pt-2.5 border-t border-slate-200 text-xs text-slate-700">
+                          <strong className="text-slate-900 font-bold">Solution Rationale: </strong>
+                          <span>{q.explanation}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
-            })
-          )}
+            })}
+          </div>
+
+          {/* OFFICIAL FOOTER */}
+          <div className="pt-6 border-t-2 border-slate-800 text-center space-y-1 print-break-inside-avoid">
+            <p className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+              SkillLens-AI Candidate Assessment System • Official Document
+            </p>
+            <p className="text-[10px] text-slate-500 font-medium">
+              Generated on {new Date().toLocaleString()} • Record Authentication Hash: {rollNumber}-{attemptIdShort}
+            </p>
+          </div>
         </div>
 
-        {/* MODAL FOOTER */}
+        {/* MODAL BOTTOM BAR */}
         <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between shrink-0">
           <div className="text-xs font-bold text-slate-600">
-            Showing <strong className="text-slate-900">{filteredQuestions.length}</strong> of {totalQuestions} questions
+            Total Questions: <strong className="text-slate-900">{totalQuestions}</strong> | Total Marks: <strong className="text-slate-900">{obtainedMarks}/{totalMarks} ({percentage}%)</strong>
           </div>
           <button
             onClick={onClose}
-            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl transition shadow-md shadow-blue-600/20 active:scale-98"
+            className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition shadow-md cursor-pointer"
           >
             Close Review
           </button>

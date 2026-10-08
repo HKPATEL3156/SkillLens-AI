@@ -1,14 +1,99 @@
 [
   {
     "id": 1,
-    "text": "A junior developer wrote this Python code. What will be the output?",
-    "code": "data = [1, 2, 3]\ndef modify_list(lst):\n    lst.append(4)\n    lst = [5, 6]\nmodify_list(data)\nprint(data)",
+    "text": "You need to host a simple static website securely and cost-effectively on AWS. Which combination of services would be most suitable?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "EC2 instance with Apache",
+      "B": "S3 bucket configured for static website hosting",
+      "C": "CloudFront distribution in front of S3",
+      "D": "RDS database with a web server"
+    },
+    "correct": [
+      "B",
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 2,
+    "text": "A junior developer pushed a change to a GitHub repository, but the CI/CD pipeline (GitHub Actions) failed. The error message indicates a missing dependency.",
+    "code": "name: CI Pipeline\non: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Install dependencies\n        run: npm install\n      - name: Run tests\n        run: npm test",
+    "type": "MSQ",
+    "options": {
+      "A": "The `npm install` command might have failed due to network issues.",
+      "B": "The `package.json` file might be missing or malformed.",
+      "C": "The `actions/checkout@v3` action is outdated.",
+      "D": "The `npm test` command is trying to run before dependencies are installed."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 3,
+    "text": "You're trying to list all running Docker containers. Which command would you use?",
+    "code": null,
     "type": "MCQ",
     "options": {
-      "A": "[1, 2, 3]",
-      "B": "[1, 2, 3, 4]",
-      "C": "[5, 6]",
-      "D": "[1, 2, 3, 4, 5, 6]"
+      "A": "docker ps -a",
+      "B": "docker images",
+      "C": "docker ps",
+      "D": "docker logs"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": 4,
+    "text": "A Linux server is running low on disk space. You need to identify the largest files or directories in the current path to free up space.",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "ls -lh",
+      "B": "du -sh *",
+      "C": "df -h",
+      "D": "find . -type f -size +1G -print0 | xargs -0 du -h | sort -rh | head -n 10"
+    },
+    "correct": [
+      "B",
+      "D"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 5,
+    "text": "Your application deployed on AWS ECS Fargate is experiencing intermittent 503 errors. You suspect the containers are crashing or unhealthy.",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Check the ECS service events for task stop reasons.",
+      "B": "Review CloudWatch logs for the ECS tasks.",
+      "C": "Inspect the ALB access logs for target group health checks.",
+      "D": "Increase the EC2 instance size for the ECS cluster."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 6,
+    "text": "You need to store Docker images for your application in a private repository on AWS. Which service is designed for this purpose?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "AWS S3",
+      "B": "AWS ECR",
+      "C": "AWS CodeCommit",
+      "D": "AWS EC2"
     },
     "correct": [
       "B"
@@ -16,184 +101,103 @@
     "difficulty": "easy"
   },
   {
-    "id": 2,
-    "text": "You are given a dataset with a 'Price' column containing numerical values and some missing entries. Which of the following are valid strategies to handle these missing values for a regression model?",
-    "code": null,
-    "type": "MSQ",
-    "options": {
-      "A": "Impute with the mean of the 'Price' column.",
-      "B": "Impute with the median of the 'Price' column.",
-      "C": "Drop all rows where 'Price' is missing.",
-      "D": "Impute with a constant value like 0, assuming 0 price means no value."
-    },
-    "correct": [
-      "A",
-      "B",
-      "C"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 3,
-    "text": "A developer needs to retrieve all customer names from the 'Customers' table who have placed an order in the 'Orders' table. Which SQL query correctly achieves this?",
-    "code": null,
-    "type": "MSQ",
-    "options": {
-      "A": "SELECT C.customer_name FROM Customers C JOIN Orders O ON C.customer_id = O.customer_id;",
-      "B": "SELECT customer_name FROM Customers WHERE customer_id IN (SELECT customer_id FROM Orders);",
-      "C": "SELECT C.customer_name FROM Customers C LEFT JOIN Orders O ON C.customer_id = O.customer_id WHERE O.order_id IS NOT NULL;",
-      "D": "SELECT C.customer_name FROM Customers C WHERE EXISTS (SELECT 1 FROM Orders O WHERE O.customer_id = C.customer_id);"
-    },
-    "correct": [
-      "A",
-      "B",
-      "C",
-      "D"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 4,
-    "text": "Consider the following Python code. What will be the final value of `count`?",
-    "code": "def process_items(items):\n    count = 0\n    for item in items:\n        if item % 2 == 0:\n            count += 1\n        else:\n            break\n    return count\n\nresult = process_items([2, 4, 1, 6, 8])\ncount = result\nprint(count)",
-    "type": "MCQ",
-    "options": {
-      "A": "0",
-      "B": "1",
-      "C": "2",
-      "D": "5"
-    },
-    "correct": [
-      "C"
-    ],
-    "difficulty": "easy"
-  },
-  {
-    "id": 5,
-    "text": "You've trained a classification model and observe that it performs very well on the training data but poorly on unseen test data. Which of the following are likely causes for this behavior?",
-    "code": null,
-    "type": "MSQ",
-    "options": {
-      "A": "The model is underfitting the training data.",
-      "B": "The model is overfitting the training data.",
-      "C": "There is a data leakage issue from the test set into the training process.",
-      "D": "The model's complexity is too low for the given problem."
-    },
-    "correct": [
-      "B",
-      "C"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 6,
-    "text": "A team member pushed a large file (e.g., a dataset) directly to the Git repository, making it very slow to clone. What is the best immediate action to take?",
-    "code": null,
-    "type": "MCQ",
-    "options": {
-      "A": "Delete the file from the working directory and commit the change.",
-      "B": "Use `git revert` to undo the commit that added the large file.",
-      "C": "Use `git filter-branch` or `BFG Repo-Cleaner` to rewrite history and remove the file.",
-      "D": "Tell everyone to clone with `--depth 1` to avoid the large file."
-    },
-    "correct": [
-      "C"
-    ],
-    "difficulty": "hard"
-  },
-  {
     "id": 7,
-    "text": "A Python script needs to read data from a CSV file, process it, and then store it in a database. Which of these are good practices for handling file and database connections?",
+    "text": "An application deployed on Elastic Beanstalk is failing to start. The logs show a database connection error.",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "Use `with open(...)` for file operations to ensure files are closed.",
-      "B": "Close database connections manually at the end of the script.",
-      "C": "Wrap database operations in `try...finally` blocks to ensure connections are closed even if errors occur.",
-      "D": "Open database connection once at the start and keep it open for all operations to save overhead."
+      "A": "Check the security group rules for the RDS instance to ensure Beanstalk can connect.",
+      "B": "Verify the database credentials in the Elastic Beanstalk environment properties.",
+      "C": "Ensure the RDS instance is running and accessible.",
+      "D": "Increase the instance count for the Elastic Beanstalk environment."
     },
     "correct": [
       "A",
+      "B",
       "C"
     ],
     "difficulty": "medium"
   },
   {
     "id": 8,
-    "text": "You are asked to predict whether an email is spam or not. Which type of machine learning problem is this, and what kind of model would typically be used?",
+    "text": "A user reports slow loading times for images on your website. The images are hosted in an S3 bucket.",
     "code": null,
-    "type": "MCQ",
+    "type": "MSQ",
     "options": {
-      "A": "Regression; Linear Regression",
-      "B": "Classification; Logistic Regression or SVM",
-      "C": "Clustering; K-Means",
-      "D": "Reinforcement Learning; Q-learning"
+      "A": "Configure CloudFront with the S3 bucket as an origin.",
+      "B": "Enable S3 Transfer Acceleration for the bucket.",
+      "C": "Move the S3 bucket to a region closer to the users.",
+      "D": "Increase the EC2 instance size."
     },
     "correct": [
-      "B"
+      "A",
+      "B",
+      "C"
     ],
-    "difficulty": "easy"
+    "difficulty": "medium"
   },
   {
     "id": 9,
-    "text": "A database table `Products` has columns `product_id`, `product_name`, `category`, and `price`. You need to find the average price for each category, but only for categories with more than 10 products. Which SQL query is correct?",
+    "text": "You're setting up an ALB to distribute traffic to multiple targets. Which of the following are valid target types for an ALB?",
     "code": null,
-    "type": "MCQ",
+    "type": "MSQ",
     "options": {
-      "A": "SELECT category, AVG(price) FROM Products GROUP BY category WHERE COUNT(product_id) > 10;",
-      "B": "SELECT category, AVG(price) FROM Products HAVING COUNT(product_id) > 10 GROUP BY category;",
-      "C": "SELECT category, AVG(price) FROM Products GROUP BY category HAVING COUNT(product_id) > 10;",
-      "D": "SELECT category, AVG(price) FROM Products WHERE COUNT(product_id) > 10 GROUP BY category;"
+      "A": "EC2 Instances",
+      "B": "IP Addresses",
+      "C": "Lambda Functions",
+      "D": "S3 Buckets"
     },
     "correct": [
+      "A",
+      "B",
       "C"
     ],
     "difficulty": "medium"
   },
   {
     "id": 10,
-    "text": "What is the primary purpose of `git pull` in a typical Git workflow?",
-    "code": null,
-    "type": "MCQ",
-    "options": {
-      "A": "To send local commits to the remote repository.",
-      "B": "To fetch changes from the remote and merge them into the current branch.",
-      "C": "To create a new branch from the remote repository.",
-      "D": "To discard local changes and revert to the remote state."
-    },
-    "correct": [
-      "B"
-    ],
-    "difficulty": "easy"
-  },
-  {
-    "id": 11,
-    "text": "You are building a model to classify customer reviews as positive or negative. The dataset is highly imbalanced (95% positive, 5% negative). Which evaluation metrics are most appropriate to assess the model's performance?",
-    "code": null,
+    "text": "An IAM user is unable to access an S3 bucket, despite having an S3 policy attached. What could be a reason for this access denied error?",
+    "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": \"s3:GetObject\",\n      \"Resource\": \"arn:aws:s3:::my-app-bucket/*\"\n    }\n  ]\n}",
     "type": "MSQ",
     "options": {
-      "A": "Accuracy",
-      "B": "Precision",
-      "C": "Recall",
-      "D": "F1-score"
+      "A": "The S3 bucket policy explicitly denies access to the user.",
+      "B": "The user's IAM policy is missing `s3:ListBucket` permission.",
+      "C": "The user is trying to perform an action not covered by `s3:GetObject`.",
+      "D": "The user's account is suspended."
     },
     "correct": [
+      "A",
       "B",
-      "C",
-      "D"
+      "C"
     ],
     "difficulty": "hard"
   },
   {
+    "id": 11,
+    "text": "You need to monitor the CPU utilization of your EC2 instances and receive an alert if it exceeds 80% for 5 minutes. Which AWS service would you use?",
+    "code": null,
+    "type": "MCQ",
+    "options": {
+      "A": "AWS Config",
+      "B": "AWS CloudTrail",
+      "C": "AWS CloudWatch",
+      "D": "AWS Systems Manager"
+    },
+    "correct": [
+      "C"
+    ],
+    "difficulty": "easy"
+  },
+  {
     "id": 12,
-    "text": "A Python function is designed to calculate the sum of numbers. Identify potential issues or areas for improvement in this code snippet.",
-    "code": "def calculate_sum(numbers):\n    total = 0\n    for num in numbers:\n        total += num\n    return total\n\nmy_list = [1, '2', 3]\nresult = calculate_sum(my_list)\nprint(result)",
+    "text": "A Node.js application is deployed on an EC2 instance and managed by PM2. You need to restart the application after a code update.",
+    "code": null,
     "type": "MSQ",
     "options": {
-      "A": "The function does not handle non-numeric inputs, leading to a TypeError.",
-      "B": "Using a loop for summation is inefficient; `sum()` should be used.",
-      "C": "The variable `total` is not initialized correctly.",
-      "D": "The function name is not descriptive enough."
+      "A": "pm2 stop <app_name> && pm2 start <app_name>",
+      "B": "pm2 restart <app_name>",
+      "C": "kill -9 <process_id> && pm2 start <app_name>",
+      "D": "sudo systemctl restart pm2"
     },
     "correct": [
       "A",
@@ -203,79 +207,81 @@
   },
   {
     "id": 13,
-    "text": "A data scientist is preparing text data for an NLP model. They decide to convert all text to lowercase and remove punctuation. Which of the following NLP concepts are they applying?",
-    "code": null,
+    "text": "Your Docker image build is taking too long. You notice that dependencies are re-downloaded every time. How can you optimize the Dockerfile?",
+    "code": "FROM node:18-alpine\nWORKDIR /app\nCOPY . .\nRUN npm install\nCMD [\"npm\", \"start\"]",
     "type": "MSQ",
     "options": {
-      "A": "Tokenization",
-      "B": "Stemming",
-      "C": "Text Normalization",
-      "D": "Feature Engineering"
+      "A": "Use a multi-stage build to separate build and runtime dependencies.",
+      "B": "Copy `package.json` and `package-lock.json` before `npm install`.",
+      "C": "Add `RUN npm cache clean --force` after `npm install`.",
+      "D": "Use `ADD . .` instead of `COPY . .`."
     },
     "correct": [
-      "C",
-      "D"
+      "A",
+      "B"
     ],
     "difficulty": "medium"
   },
   {
     "id": 14,
-    "text": "You're debugging a Python script that occasionally fails with a `KeyError` when accessing a dictionary. Which approach is best for robust error handling?",
+    "text": "You are debugging a `permission denied` error when trying to write to a file in Linux. What command would you use to check the file's permissions?",
     "code": null,
     "type": "MCQ",
     "options": {
-      "A": "Use `dict.get(key, default_value)` instead of `dict[key]`.",
-      "B": "Always check `if key in dict:` before accessing `dict[key]`.",
-      "C": "Wrap the dictionary access in a `try-except KeyError` block.",
-      "D": "All of the above, depending on the specific scenario and desired behavior."
-    },
-    "correct": [
-      "D"
-    ],
-    "difficulty": "medium"
-  },
-  {
-    "id": 15,
-    "text": "A junior developer wrote a SQL query that runs very slowly. The query involves joining two large tables, `Orders` and `Customers`, on `customer_id`. What is a common way to improve its performance?",
-    "code": null,
-    "type": "MCQ",
-    "options": {
-      "A": "Increase the database server's RAM.",
-      "B": "Add an index on the `customer_id` columns in both `Orders` and `Customers` tables.",
-      "C": "Use `SELECT *` instead of specific columns to reduce query parsing time.",
-      "D": "Split the query into two separate queries and join results in the application layer."
+      "A": "cat filename",
+      "B": "ls -l filename",
+      "C": "chmod filename",
+      "D": "chown filename"
     },
     "correct": [
       "B"
     ],
-    "difficulty": "hard"
+    "difficulty": "easy"
+  },
+  {
+    "id": 15,
+    "text": "A GitHub Actions workflow is failing during the 'build' step with an error message indicating a missing environment variable. What could be the issue?",
+    "code": "name: Deploy\non: [push]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Build and Push\n        run: docker build -t my-repo/my-app:latest . && docker push my-repo/my-app:latest\n        env:\n          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}\n          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}",
+    "type": "MSQ",
+    "options": {
+      "A": "The secrets `DOCKER_USERNAME` or `DOCKER_PASSWORD` are not defined in the GitHub repository settings.",
+      "B": "The `docker login` command is missing before `docker push`.",
+      "C": "The `env` block is incorrectly indented.",
+      "D": "The `docker build` command requires environment variables."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "medium"
   },
   {
     "id": 16,
-    "text": "What does the following Python code print?",
-    "code": "def outer_func(x):\n    def inner_func(y):\n        return x + y\n    return inner_func\n\nclosure_instance = outer_func(10)\nresult = closure_instance(5)\nprint(result)",
-    "type": "MCQ",
+    "text": "Your application uses an AWS RDS MySQL instance. You want to improve read performance and provide high availability. What AWS features would you consider?",
+    "code": null,
+    "type": "MSQ",
     "options": {
-      "A": "10",
-      "B": "5",
-      "C": "15",
-      "D": "Error"
+      "A": "Enable Multi-AZ deployment for the RDS instance.",
+      "B": "Create Read Replicas for the RDS instance.",
+      "C": "Migrate the database to an EC2 instance.",
+      "D": "Increase the storage size of the primary RDS instance."
     },
     "correct": [
-      "C"
+      "A",
+      "B"
     ],
     "difficulty": "medium"
   },
   {
     "id": 17,
-    "text": "You are tasked with building a recommendation system where you group similar users together based on their past behavior without any predefined labels. Which type of machine learning approach is most suitable?",
+    "text": "You're developing a full-stack web application and want to use a service that handles frontend hosting, backend APIs, and database provisioning with minimal setup.",
     "code": null,
     "type": "MCQ",
     "options": {
-      "A": "Supervised Learning (Classification)",
-      "B": "Supervised Learning (Regression)",
-      "C": "Unsupervised Learning (Clustering)",
-      "D": "Reinforcement Learning"
+      "A": "AWS EC2",
+      "B": "AWS S3 + Lambda + API Gateway",
+      "C": "AWS Amplify",
+      "D": "AWS ECS Fargate"
     },
     "correct": [
       "C"
@@ -284,47 +290,101 @@
   },
   {
     "id": 18,
-    "text": "A developer is working on a new feature in a separate branch (`feature-X`). They need to incorporate the latest changes from the `main` branch into their `feature-X` branch without creating an extra merge commit. Which Git command should they use?",
-    "code": null,
-    "type": "MCQ",
+    "text": "A developer reports that their local Docker container runs fine, but when deployed to ECS Fargate, it crashes immediately. What could be the reason?",
+    "code": "FROM node:18-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nEXPOSE 3000\nCMD [\"npm\", \"start\"]",
+    "type": "MSQ",
     "options": {
-      "A": "`git merge main`",
-      "B": "`git rebase main`",
-      "C": "`git cherry-pick main`",
-      "D": "`git reset --hard main`"
+      "A": "The container is trying to bind to a port that is not `EXPOSE`d in the Dockerfile.",
+      "B": "The ECS task definition has incorrect resource limits (CPU/Memory).",
+      "C": "The application inside the container is not listening on `0.0.0.0`.",
+      "D": "The ECR repository policy prevents Fargate from pulling the image."
     },
     "correct": [
-      "B"
+      "B",
+      "C",
+      "D"
     ],
-    "difficulty": "medium"
+    "difficulty": "hard"
   },
   {
     "id": 19,
-    "text": "Consider a scenario where you have a dataset with a categorical feature 'City' (e.g., 'New York', 'London', 'Paris'). For a machine learning model, how would you typically transform this feature?",
+    "text": "You want to ensure that your AWS spending does not exceed a certain limit each month. Which AWS service helps you track and set alerts for your budget?",
     "code": null,
-    "type": "MSQ",
+    "type": "MCQ",
     "options": {
-      "A": "One-Hot Encoding",
-      "B": "Label Encoding",
-      "C": "Min-Max Scaling",
-      "D": "Standardization"
+      "A": "AWS Cost Explorer",
+      "B": "AWS Budgets",
+      "C": "AWS Trusted Advisor",
+      "D": "AWS Organizations"
     },
     "correct": [
-      "A",
       "B"
     ],
     "difficulty": "easy"
   },
   {
     "id": 20,
-    "text": "What is the output of the following Python code snippet?",
-    "code": "my_dict = {'a': 1, 'b': 2, 'c': 3}\nnew_dict = {k: v*2 for k, v in my_dict.items() if v % 2 == 0}\nprint(new_dict)",
+    "text": "A critical application on an EC2 instance is consuming 95% CPU consistently. You need to identify the process causing this high load.",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "Use `top` command to view real-time process statistics.",
+      "B": "Use `ps aux --sort=-%cpu | head -n 10` to list top CPU-consuming processes.",
+      "C": "Check `dmesg` for kernel-related errors.",
+      "D": "Restart the EC2 instance immediately."
+    },
+    "correct": [
+      "A",
+      "B"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 21,
+    "text": "You are setting up an ALB listener for HTTPS traffic. Which of the following are required configurations?",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "A valid SSL/TLS certificate.",
+      "B": "A default target group.",
+      "C": "A security group allowing inbound HTTPS traffic to the ALB.",
+      "D": "An EC2 instance with a public IP address."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": 22,
+    "text": "Your CI/CD pipeline (GitHub Actions) is failing because it can't connect to an external API. The error message is `Connection refused`.",
+    "code": null,
+    "type": "MSQ",
+    "options": {
+      "A": "The external API might be down or unreachable from the GitHub Actions runner.",
+      "B": "A firewall or security group might be blocking outbound connections from the runner.",
+      "C": "The API endpoint URL in the workflow configuration might be incorrect.",
+      "D": "The GitHub Actions runner needs more memory."
+    },
+    "correct": [
+      "A",
+      "B",
+      "C"
+    ],
+    "difficulty": "hard"
+  },
+  {
+    "id": 23,
+    "text": "You need to create a new IAM user for a developer with programmatic access only. Which type of credentials should you provide?",
+    "code": null,
     "type": "MCQ",
     "options": {
-      "A": "{'a': 2, 'b': 4, 'c': 6}",
-      "B": "{'b': 4}",
-      "C": "{'a': 1, 'b': 4, 'c': 3}",
-      "D": "{'b': 2}"
+      "A": "Username and password",
+      "B": "Access key ID and secret access key",
+      "C": "MFA device",
+      "D": "SSH key pair"
     },
     "correct": [
       "B"
@@ -332,89 +392,37 @@
     "difficulty": "easy"
   },
   {
-    "id": 21,
-    "text": "A machine learning model is deployed, and users report that it frequently makes incorrect predictions for a specific subset of data. What are potential steps to diagnose and resolve this issue?",
-    "code": null,
+    "id": 24,
+    "text": "A Docker container running a Node.js application exits immediately after starting. You need to debug why it's not staying alive.",
+    "code": "FROM node:18-alpine\nWORKDIR /app\nCOPY . .\nCMD [\"node\", \"app.js\"]",
     "type": "MSQ",
     "options": {
-      "A": "Collect more data specifically for the problematic subset.",
-      "B": "Analyze the feature distributions of the problematic subset compared to the training data.",
-      "C": "Retrain the model with a different random seed without changing anything else.",
-      "D": "Examine the model's predictions and errors on the problematic subset to identify patterns."
+      "A": "The `app.js` file might have a syntax error or unhandled exception.",
+      "B": "The `CMD` instruction might be incorrect, not keeping the process in the foreground.",
+      "C": "The container might be running out of memory.",
+      "D": "The Docker daemon is not running on the host."
     },
     "correct": [
       "A",
       "B",
-      "D"
-    ],
-    "difficulty": "hard"
-  },
-  {
-    "id": 22,
-    "text": "You need to retrieve the top 3 highest-paid employees from an `Employees` table, which has `employee_id`, `name`, and `salary` columns. Which SQL query is the most efficient and correct?",
-    "code": null,
-    "type": "MCQ",
-    "options": {
-      "A": "SELECT name, salary FROM Employees ORDER BY salary DESC LIMIT 3;",
-      "B": "SELECT name, salary FROM Employees WHERE salary IN (SELECT DISTINCT salary FROM Employees ORDER BY salary DESC LIMIT 3);",
-      "C": "SELECT name, salary FROM Employees ORDER BY salary DESC FETCH FIRST 3 ROWS ONLY;",
-      "D": "SELECT name, salary FROM Employees WHERE ROWNUM <= 3 ORDER BY salary DESC;"
-    },
-    "correct": [
-      "A",
       "C"
     ],
     "difficulty": "medium"
   },
   {
-    "id": 23,
-    "text": "A Python script processes sensitive user data. Which of the following are important security considerations for a junior developer to be aware of?",
-    "code": null,
-    "type": "MSQ",
-    "options": {
-      "A": "Avoid hardcoding API keys or database credentials directly in the code.",
-      "B": "Sanitize user inputs to prevent SQL injection or cross-site scripting (XSS) if applicable.",
-      "C": "Use `print()` statements extensively for debugging sensitive data in production logs.",
-      "D": "Ensure proper access controls are in place for files storing sensitive data."
-    },
-    "correct": [
-      "A",
-      "B",
-      "D"
-    ],
-    "difficulty": "hard"
-  },
-  {
-    "id": 24,
-    "text": "What is the output of this Python code, demonstrating common list manipulation?",
-    "code": "list1 = [1, 2, 3]\nlist2 = list1\nlist1.append(4)\nlist2.extend([5, 6])\nprint(list1)",
-    "type": "MCQ",
-    "options": {
-      "A": "[1, 2, 3]",
-      "B": "[1, 2, 3, 4]",
-      "C": "[1, 2, 3, 4, 5, 6]",
-      "D": "[1, 2, 3, 5, 6]"
-    },
-    "correct": [
-      "C"
-    ],
-    "difficulty": "easy"
-  },
-  {
     "id": 25,
-    "text": "You are building a deep learning model for image classification. Which of these are common components or techniques you would likely encounter?",
+    "text": "You're managing multiple Node.js applications on a Linux server using PM2. One application is consuming excessive memory, affecting others.",
     "code": null,
     "type": "MSQ",
     "options": {
-      "A": "Convolutional Layers",
-      "B": "Recurrent Neural Networks (RNNs)",
-      "C": "Activation Functions (e.g., ReLU, Softmax)",
-      "D": "Batch Normalization"
+      "A": "Use `pm2 monit` to observe real-time resource usage of processes.",
+      "B": "Configure PM2 to restart the application if memory usage exceeds a threshold.",
+      "C": "Increase the server's RAM.",
+      "D": "Use `pm2 delete <app_name>` to remove the problematic application."
     },
     "correct": [
       "A",
-      "C",
-      "D"
+      "B"
     ],
     "difficulty": "hard"
   }
