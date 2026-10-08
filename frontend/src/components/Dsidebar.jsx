@@ -11,6 +11,7 @@ import {
   FaSearch,
   FaClipboardList,
   FaFileAlt,
+  FaUserGraduate,
 } from "react-icons/fa";
 
 const Dsidebar = ({ isOpen }) => {
@@ -84,6 +85,17 @@ const Dsidebar = ({ isOpen }) => {
         >
           <FaFileAlt className="text-xl" />
           {isOpen && <span className="ml-4">Resume ATS & Review</span>}
+        </NavLink>
+        <NavLink
+          to="/dashboard/mock-interview"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded hover:bg-blue-700 ${
+              isActive ? "bg-blue-700" : ""
+            }`
+          }
+        >
+          <FaUserGraduate className="text-xl" />
+          {isOpen && <span className="ml-4">AI Mock Interview</span>}
         </NavLink>
         <NavLink
           to="/dashboard/jobs"

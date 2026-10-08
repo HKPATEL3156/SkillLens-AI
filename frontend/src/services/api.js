@@ -94,6 +94,15 @@ export const uploadAndAnalyzeResumeATS = (formData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+// AI Mock Interview endpoints
+export const getMockInterviews = () => api.get("/interview/list");
+export const getInterviewStats = () => api.get("/interview/stats");
+export const getMockInterviewById = (id) => api.get(`/interview/${id}`);
+export const startMockInterview = (data) => api.post("/interview/start", data);
+export const saveInterviewAnswer = (id, data) => api.post(`/interview/${id}/answer`, data);
+export const finishMockInterview = (id, data) => api.post(`/interview/${id}/finish`, data);
+export const deleteMockInterview = (id) => api.delete(`/interview/${id}`);
+
 export const changePassword = (data) => api.post("/auth/change-password", data);
 export const deleteAccount = () => api.delete("/auth/delete-account");
 

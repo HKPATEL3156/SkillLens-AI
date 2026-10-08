@@ -187,3 +187,64 @@ def handle_resume_ats(req: ResumeATSRequest):
     }
 
 
+class GenerateInterviewRequest(BaseModel):
+    resume_data: Optional[Dict[str, Any]] = None
+    resume_text: Optional[str] = None
+    target_role: str = "Software Developer"
+    company_name: Optional[str] = ""
+    company_jd: Optional[str] = ""
+    interview_type: Optional[str] = "Comprehensive"
+    num_questions: Optional[int] = 6
+
+
+class EvaluateInterviewRequest(BaseModel):
+    questions_and_answers: List[Dict[str, Any]]
+    target_role: str = "Software Developer"
+    company_name: Optional[str] = ""
+    company_jd: Optional[str] = ""
+    resume_data: Optional[Dict[str, Any]] = None
+
+
+@app.post("/ml/interview/generate")
+def handle_generate_interview(req: GenerateInterviewRequest):
+    """
+    Generates customized mock interview questions tailored to candidate's resume,
+    target role, and optional company JD.
+    """
+    from mock_interview import generate_mock_interview
+    result = generate_mock_interview(
+        resume_data=req.resume_data,
+        resume_text=req.resume_text,
+        target_role=req.target_role,
+        company_name=req.company_name or "",
+        company_jd=req.company_jd or "",
+        interview_type=req.interview_type or "Comprehensive",
+        num_questions=req.num_questions or 6
+    )
+    return {
+        "success": True,
+        "interview_data": result
+    }
+
+
+@app.post("/ml/interview/evaluate")
+def handle_evaluate_interview(req: EvaluateInterviewRequest):
+    """
+    Evaluates candidate's answers for the mock interview and generates
+    detailed scores, strengths, weaknesses, and question-by-question feedback.
+    """
+    from mock_interview import evaluate_mock_interview
+    result = evaluate_mock_interview(
+        questions_and_answers=req.questions_and_answers,
+        target_role=req.target_role,
+        company_name=req.company_name or "",
+        company_jd=req.company_jd or "",
+        resume_data=req.resume_data
+    )
+    return {
+        "success": True,
+        "evaluation": result
+    }
+
+
+

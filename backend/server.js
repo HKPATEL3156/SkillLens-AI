@@ -35,6 +35,7 @@ const adminRoutes = require("./src/routes/admin.routes");
 const mlRoutes = require("./src/routes/ml.routes");
 const jobRoutes = require("./src/routes/job.routes");
 const atsRoutes = require("./src/routes/atsRoutes");
+const interviewRoutes = require("./src/routes/interviewRoutes");
 
 // Use routes
 app.use("/api/career", careerRoutes);
@@ -47,6 +48,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/ml", mlRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/ats", atsRoutes);
+app.use("/api/interview", interviewRoutes);
 
 // Swagger Documentation
 const swaggerUi = require("swagger-ui-express");
