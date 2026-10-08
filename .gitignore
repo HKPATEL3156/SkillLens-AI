@@ -90,3 +90,4 @@ node_modules/
 backend/scratch_check.js
 .gitignore
 start.ps1
+backend/data
